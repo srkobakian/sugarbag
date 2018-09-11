@@ -1,0 +1,26 @@
+Package: sugaRbag
+Title: Create Tessellated Hexagon Maps of Australia
+Version: 0.0.0.9000
+Authors@R: c(person("Stephanie", "Kobakian", email = "stephanie.kobakian@gmail.com", role = c("aut", "cre")),
+             person("Dianne", "Cook", email = "dicook@monash.edu", role = c("aut")))
+Description: From a set of polygons, a data set is created to plot spatial
+    distributions. Each polygon is represented by a hexagon tile, placed as
+    close to it's original centroid as possible with a focus on maintaining
+    spatial relationships with neighbours. Primarily used to allow analysis 
+    of spatial distributions within Australia, which can be difficult to
+    analyse using geographic maps.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Imports: 
+    dplyr,
+    geosphere,
+    ggthemes,
+    gridExtra,
+    hexbin,
+    sp,
+    tibble
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 6.1.0
+Suggests: 
+    testthat
