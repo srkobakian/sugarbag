@@ -7,7 +7,7 @@ This function takes the bounding box of a group of polygons, or a specific
 table of minimum and maximum longitudes and latitudes to create points
 for each polygon to be allocated to that will tesselate into hexagons.}
 \usage{
-create_grid(bbox, radius, expand_grid = 0.1)
+create_grid(bbox, radius, buffer)
 }
 \arguments{
 \item{bbox}{table with columns minimum and maximum and rows
