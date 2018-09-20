@@ -2,33 +2,34 @@
 % Please edit documentation in R/create_hexmap.R
 \name{create_hexmap}
 \alias{create_hexmap}
-\title{create_hexmap
-Allocates each polygon in a shape file to a grid point to create a map of
-tesselated hexagons. The spatial relationships of areas are preserved while
-the geographic chape of each area is lost.}
+\title{create_hexmap}
 \usage{
-create_hexmap(shp, bbox = NULL, radius = "auto", focal_points = NULL,
-  expand_grid = 0.1)
+create_hexmap(shp_path, buffer = NULL, radius = "auto",
+  focal_points = NULL, export_shp = FALSE)
 }
 \arguments{
-\item{shp}{a file containing polygons to allocate to a hexmap}
+\item{shp_path}{character vector location of shape file, extension .shp}
 
-\item{bbox}{table with columns minimum and maximum and rows
-containing longitude and latitude values}
+\item{buffer}{a float distance in degrees to exapnd hexagon grid}
 
 \item{radius}{a float value in degrees for the diameter of the hexagons}
 
-\item{expand_grida}{a float value to expand the grid beyond the minimum
-and maximum longitudes and latitudes}
+\item{focal_points}{a data frame of reference locations when allocating
+hexagons, capital cities of Australia are used in the example}
+
+\item{export_shp}{export the simple features set including centroids}
 }
 \description{
-create_hexmap
 Allocates each polygon in a shape file to a grid point to create a map of
 tesselated hexagons. The spatial relationships of areas are preserved while
 the geographic chape of each area is lost.
 }
 \examples{
-#shp <- "C:/Users/steff/Documents/atlas/hexmap/data/LGA_2011_AUST/LGA_2011_AUST.shp"
+\dontrun{
+shp <- "C:/Users/steff/Documents/atlas/hexmap/data/LGA_2011_AUST/LGA_2011_AUST.shp"
 
+create_hexmap(shp, buffer = NULL, radius = "auto", export_shp = FALSE,
+focal_points = system.file("data","capital_cities.Rda", package = "sugaRbag"))
+}
 
 }
