@@ -2,12 +2,15 @@
 % Please edit documentation in R/closest_focal_point.R
 \name{closest_focal_point}
 \alias{closest_focal_point}
-\title{closest_focal_point}
+\title{For the polygon provided, find the closest focal point in the set provided}
 \usage{
 closest_focal_point(polygon, focal_points)
 }
 \arguments{
 \item{focal_points}{}
+}
+\value{
+data frame containing the name and location of the closest focal
 }
 \description{
 For one row of an sf data frame, calculate the distance to the closest focal

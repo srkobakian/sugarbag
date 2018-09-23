@@ -10,4 +10,5 @@
 #'   \item{latitude}{latitude of city}
 #' }
 #'
-capital_cities
+#'
+"capital_cities"

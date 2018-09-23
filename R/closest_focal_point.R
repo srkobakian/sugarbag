@@ -1,4 +1,4 @@
-#' closest_focal_point
+#' For the polygon provided, find the closest focal point in the set provided
 #'
 #' For one row of an sf data frame, calculate the distance to the closest focal
 #' point. Return the name of the focal point, and the angle between focal point and centroid.
@@ -6,7 +6,7 @@
 #' @param polygon
 #' @param focal_points
 #'
-#' @return
+#' @return data frame containing the name and location of the closest focal
 #' @export
 #'
 #' @examples

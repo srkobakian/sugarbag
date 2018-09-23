@@ -1,4 +1,4 @@
-#' allocate
+#' Allocate polygon centroids to hexagons in a grid
 #'
 #' Chooses a hexagon centroid for each polygon in the shape file, from a grid
 #' spanning the longitudes and latitudes in the expanded bounding box.

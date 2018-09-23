@@ -2,9 +2,7 @@
 % Please edit documentation in R/filter_grid_points.R
 \name{filter_grid_points}
 \alias{filter_grid_points}
-\title{filter_grid_points
-Takes only the closest available gridpoints as possible hexagon centroids
-to allocate polygons.}
+\title{Filter full set of grid points for those within range of original point}
 \usage{
 filter_grid_points(fgrid, folong, folat, focal_distance = NULL,
   filter_distance)
@@ -30,7 +28,6 @@ as focal points.}
 a tibble of filtered grid points
 }
 \description{
-filter_grid_points
 Takes only the closest available gridpoints as possible hexagon centroids
 to allocate polygons.
 }

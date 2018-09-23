@@ -1,5 +1,5 @@
-
-#' filter_grid_points
+#' Filter full set of grid points for those within range of original point
+#'
 #' Takes only the closest available gridpoints as possible hexagon centroids
 #' to allocate polygons.
 #'

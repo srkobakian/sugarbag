@@ -2,18 +2,15 @@
 % Please edit documentation in R/create_grid.R
 \name{create_grid}
 \alias{create_grid}
-\title{create_grid
-This function takes the bounding box of a group of polygons, or a specific
-table of minimum and maximum longitudes and latitudes to create points
-for each polygon to be allocated to that will tesselate into hexagons.}
+\title{Create a grid of evenly spaced points to allow hexagons to tesselate}
 \usage{
-create_grid(bbox, radius, buffer)
+create_grid(centroids, hex_size, buffer_dist)
 }
 \arguments{
+\item{hex_size}{a float value in degrees for the diameter of the hexagons}
+
 \item{bbox}{table with columns minimum and maximum and rows
 containing longitude and latitude values}
-
-\item{radius}{a float value in degrees for the diameter of the hexagons}
 
 \item{expand_grid}{a float value to expand the grid beyond the minimum
 and maximum longitudes and latitudes}
@@ -22,7 +19,6 @@ and maximum longitudes and latitudes}
 grid
 }
 \description{
-create_grid
 This function takes the bounding box of a group of polygons, or a specific
 table of minimum and maximum longitudes and latitudes to create points
 for each polygon to be allocated to that will tesselate into hexagons.
