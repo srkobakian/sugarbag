@@ -21,22 +21,30 @@
 #' @examples
 #' \dontrun{
 #' # change to sa2_2011 on github\
-#' shp_path <- "C:/Users/steff/Documents/atlas/hexmap/data/LGA_2011_AUST/LGA_2011_AUST.shp"
+#' shp_path <- system.file("data","sa2_2011.Rda", package = "sugaRbag")
+#' focal_points <- system.file("data","capital_cities.Rda", package = "sugaRbag")
 #'
-#' create_hexmap(shp_path, buffer = NULL, hex_size = "auto", export_shp = FALSE,
-#' focal_points = system.file("data","capital_cities.Rda", package = "sugaRbag"))
+#' create_hexmap(shp_path = shp_path, buffer_dist = NULL, hex_size = "auto", export_shp = FALSE,
+#' focal_points = focal_points)
 #' }
 #'
-create_hexmap <- function(shp_path, buffer = NULL, hex_size = "auto", focal_points = NULL, export_shp = FALSE) {
+create_hexmap <- function(shp_path, buffer_dist = NULL, hex_size = "auto", focal_points = NULL, export_shp = FALSE) {
 
     # Read in ESRI shape file, remove null geometries, transform projection
     shp_sf <- read_shape(shp_path, simplify = TRUE)
 
-    # find the bbox
-    if (is.null(buffer)){
-        bounds <- sf::st_bbox(shp_sf, crs = 3112)
-        bbox <- tibble::tibble(min = c(bounds[1], bounds[2]),
-            max = c(bounds[3], bounds[4]))
+    ###########################################################################
+    # Derive centroids from geometry column, do something about warning message
+    centroids <- create_centroids(shp_sf)
+
+    # create a buffer distance if not supplied
+    if (is.null(buffer_dist)){
+        #bounds <- sf::st_bbox(shp_sf, crs = 3112) #unnecessry
+        bbox <- tibble::tibble(min = c(min(centroids$longitude),
+            min(centroids$latitude)),
+            max = c(max(centroids$longitude),
+                max(centroids$latitude)))
+        buffer_dist <- (bbox$max[1] - bbox$min[1]) / 10
     }
 
     # if matrix, convert to tibble
@@ -44,14 +52,14 @@ create_hexmap <- function(shp_path, buffer = NULL, hex_size = "auto", focal_poin
         bbox <- tibble::as.tibble(bbox)
     }
 
-    ###########################################################################
-    # Derive centroids from geometry column, do something about warning message
-    centroids <- create_centroids(shp_sf)
-
     # if hex_size TODO: tune this
     if (hex_size == "auto"){
-        hex_size <- (bbox$max[1] - bbox$min[1])/(bbox$max[2] - bbox$min[2])/5
+        hex_size <- (bbox$max[1] - bbox$min[1])/(bbox$max[2] - bbox$min[2]) / 10
     }
+
+    ###########################################################################
+    # Create grid for hexagons
+    hex_grid <- create_grid(centroids, bbox, hex_size, buffer_dist)
 
 
     if (export_shp) {
@@ -64,9 +72,6 @@ create_hexmap <- function(shp_path, buffer = NULL, hex_size = "auto", focal_poin
             plyr::adply(., .fun = closest_focal_point, focal_points, .margins = 1)
     }
 
-    ###########################################################################
-    # Create grid for hexagons
-    hex_grid <- create_grid(centroids, hex_size, buffer_dist)
 
     ###########################################################################
     # Allocate polygons to a hexagon
