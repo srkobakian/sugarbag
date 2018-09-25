@@ -4,15 +4,15 @@
 \alias{create_grid}
 \title{Create a grid of evenly spaced points to allow hexagons to tesselate}
 \usage{
-create_grid(centroids, hex_size, buffer_dist)
+create_grid(centroids, bbox, hex_size, buffer_dist)
 }
 \arguments{
+\item{centroids}{a data frame containing the longitude and latitude values
+of each polygon centroid}
+
 \item{hex_size}{a float value in degrees for the diameter of the hexagons}
 
-\item{bbox}{table with columns minimum and maximum and rows
-containing longitude and latitude values}
-
-\item{expand_grid}{a float value to expand the grid beyond the minimum
+\item{buffer_dist}{a float value to expand the grid beyond the minimum
 and maximum longitudes and latitudes}
 }
 \value{
