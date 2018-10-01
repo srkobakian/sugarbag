@@ -6,38 +6,50 @@
 #'
 #' @param centroids a data frame with centroids of non empty polygons
 #' @param grid a data frame containing points to allocate hexagons
-#' @param radius distance between each grid point
+#' @param hex_size distance between each grid point
 #'
 #' @return
 #' @export
 #'
 #' @examples
-allocate <- function(centroids, grid, radius) {
+allocate <- function(centroids, hex_grid, hex_size, filter_dist) {
     # consider whether people should be able to control distance of filter for speed
     ###########################################################################
+    # Indicate progression
+    suppressWarnings(centroids %>% select(sf_id) %>% pull(sf_id) %>% as.character() %>% print())
+
     # filter the grid for appropriate hex positions
 
-    ### create a triangle of points to form filtered area
+    # find appropriate filtering distance
+    if (filter_dist < 1000 | is.null(filter_dist)) {
+        # assume filter distance in degrees
+        filter_dist <- 1000
+    }
 
-    triangle <- rbind(
-        c(long = centroids$long_c, lat = centroids$lat_c),
-        geosphere::destPoint(c(centroids$long_c, centroids$lat_c),centroids$angle+30,5000),
-        geosphere::destPoint(c(centroids$long_c, centroids$lat_c),centroids$angle-30,5000),
-        c(long = centroids$long_c, lat = centroids$lat_c)) %>% as.tibble
-
-    grid <- grid %>% dplyr::filter(!assigned)
-
-    sf_triangle <- sf::st_polygon(list(as.matrix(triangle)))
-    ##
-    ##
-    #compare points using sf package
-    overlap = point.in.polygon(grid$hex_long, grid$hex_lat,
-        triangle$lon, triangle$lat)
-
-    grid <- cbind(grid, overlap) %>% filter(overlap==1)
+    # a possible expansion according to size of grid
+    #width = max(grid$hex_long)-min(grid$hex_long)
 
 
+    f_grid = NULL
 
+    # filter grid for avaiable points
+    while(NROW(f_grid) == 0) {
+         tryCatch({
+             f_grid <- filter_grid_points(f_grid = hex_grid,
+            f_centroid = centroids, f_dist = filter_dist)
+        }, interrupt = function(x) {
+            filter_dist <- filter_dist*1.5
+            print(paste("Filter Distance expanded 50% to ", filter_dist))
+        })
+    }
 
+    # Choose first avaiable point
 
+    cent <- centroids %>% select(sf_id, longitude, latitude, focal_point = points, focal_dist = focal_distance, focal_angle = angle)
+    hex <- f_grid %>% top_n(n=1, wt = hyp) %>% select(hex_long, hex_lat)
+
+    centroid_allocation <- dplyr::bind_cols(cent, hex)
+
+    # Return it to the data frame
+    return(centroid_allocation)
 }

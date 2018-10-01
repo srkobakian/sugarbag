@@ -4,14 +4,14 @@
 \alias{allocate}
 \title{Allocate polygon centroids to hexagons in a grid}
 \usage{
-allocate(centroids, grid, radius)
+allocate(centroids, hex_grid, hex_size, filter_dist)
 }
 \arguments{
 \item{centroids}{a data frame with centroids of non empty polygons}
 
-\item{grid}{a data frame containing points to allocate hexagons}
+\item{hex_size}{distance between each grid point}
 
-\item{radius}{distance between each grid point}
+\item{grid}{a data frame containing points to allocate hexagons}
 }
 \description{
 Chooses a hexagon centroid for each polygon in the shape file, from a grid
