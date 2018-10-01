@@ -4,11 +4,11 @@
 #' table of minimum and maximum longitudes and latitudes to create points
 #' for each polygon to be allocated to that will tesselate into hexagons.
 #'
+#' @param centroids data frame of centroids to be allocated
 #' @param bbox table with columns minimum and maximum and rows
 #' containing longitude and latitude values
+#' @param buffer_dist distance to extend beyond the geometry provided
 #' @param hex_size a float value in degrees for the diameter of the hexagons
-#' @param expand_grid a float value to expand the grid beyond the minimum
-#'  and maximum longitudes and latitudes
 #'
 #' @return grid
 #' @export

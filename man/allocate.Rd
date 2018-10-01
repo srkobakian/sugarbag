@@ -9,9 +9,14 @@ allocate(centroids, hex_grid, hex_size, filter_dist)
 \arguments{
 \item{centroids}{a data frame with centroids of non empty polygons}
 
+\item{hex_grid}{a data frame containing all possible hexagon points}
+
 \item{hex_size}{distance between each grid point}
 
-\item{grid}{a data frame containing points to allocate hexagons}
+\item{filter_dist}{distance around centroid to consider hex points}
+}
+\value{
+a data frame of one allocation
 }
 \description{
 Chooses a hexagon centroid for each polygon in the shape file, from a grid

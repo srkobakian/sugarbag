@@ -3,8 +3,8 @@
 #' For one row of an sf data frame, calculate the distance to the closest focal
 #' point. Return the name of the focal point, and the angle between focal point and centroid.
 #'
-#' @param centroid
-#' @param focal_points
+#' @param centroid a data frame describing one centroid
+#' @param focal_points a data frame of the longitude and latitude values
 #'
 #' @return data frame containing the name and location of the closest focal
 #' @export

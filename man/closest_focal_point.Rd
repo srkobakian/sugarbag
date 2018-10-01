@@ -7,7 +7,9 @@
 closest_focal_point(centroid, focal_points = as.matrix(focal_points))
 }
 \arguments{
-\item{focal_points}{}
+\item{centroid}{a data frame describing one centroid}
+
+\item{focal_points}{a data frame of the longitude and latitude values}
 }
 \value{
 data frame containing the name and location of the closest focal

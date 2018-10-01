@@ -7,13 +7,14 @@
 create_grid(centroids, bbox, hex_size, buffer_dist)
 }
 \arguments{
+\item{centroids}{data frame of centroids to be allocated}
+
 \item{bbox}{table with columns minimum and maximum and rows
 containing longitude and latitude values}
 
 \item{hex_size}{a float value in degrees for the diameter of the hexagons}
 
-\item{expand_grid}{a float value to expand the grid beyond the minimum
-and maximum longitudes and latitudes}
+\item{buffer_dist}{distance to extend beyond the geometry provided}
 }
 \value{
 grid

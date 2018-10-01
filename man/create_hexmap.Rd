@@ -5,19 +5,21 @@
 \title{Create a tesselated hexagon map from a set of polygons}
 \usage{
 create_hexmap(shp_path, buffer_dist = NULL, hex_size = "auto",
-  filter_dist = 1000, focal_points = NULL, export_shp = FALSE)
+  filter_dist = 5000, focal_points = NULL, export_shp = FALSE)
 }
 \arguments{
 \item{shp_path}{character vector location of shape file, extension .shp}
 
+\item{buffer_dist}{distance to extend beyond the geometry provided}
+
 \item{hex_size}{a float value in degrees for the diameter of the hexagons}
+
+\item{filter_dist}{distance around centroid to consider grid points}
 
 \item{focal_points}{a data frame of reference locations when allocating
 hexagons, capital cities of Australia are used in the example}
 
 \item{export_shp}{export the simple features set}
-
-\item{buffer}{a float distance in degrees to exapnd hexagon grid}
 }
 \value{
 a data set containing longitude and latitude of allocated hexagon

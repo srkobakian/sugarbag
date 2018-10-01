@@ -5,10 +5,11 @@
 #'
 #'
 #' @param centroids a data frame with centroids of non empty polygons
-#' @param grid a data frame containing points to allocate hexagons
 #' @param hex_size distance between each grid point
+#' @param hex_grid a data frame containing all possible hexagon points
+#' @param filter_dist distance around centroid to consider hex points
 #'
-#' @return
+#' @return a data frame of one allocation
 #' @export
 #'
 #' @examples

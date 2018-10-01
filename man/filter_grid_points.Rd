@@ -8,6 +8,10 @@ filter_grid_points(f_grid, f_centroid, focal_points = NULL,
   f_dist = filter_dist)
 }
 \arguments{
+\item{f_grid}{complete grid of hexagon centroids}
+
+\item{f_centroid}{longitude latitude of centroid of polygon}
+
 \item{focal_points}{a tibble of focal locations, an optional argument that
 allows allocation of polygons to hexagon centroids in ascending order of
 the distance to the closest focal point. It also filters the grid points to
@@ -15,13 +19,7 @@ those within a 30 degree range of the angle from focal point to centroid.
 The default "capitals" uses the locations of the Australian capital cities
 as focal points.}
 
-\item{fgrid}{complete grid of hexagon centroids}
-
-\item{folong}{longitude of centroid of polygon}
-
-\item{folat}{latitude of centroid of polygon}
-
-\item{filter_dist}{a distance in metres, used as a boundary to filter
+\item{f_dist}{a distance in metres, used as a boundary to filter
 the hexagon centroids considered for each polygon centroid to be allocated.}
 }
 \value{

@@ -3,16 +3,15 @@
 #' Takes only the closest available gridpoints as possible hexagon centroids
 #' to allocate polygons.
 #'
-#' @param fgrid complete grid of hexagon centroids
-#' @param folong longitude of centroid of polygon
-#' @param folat latitude of centroid of polygon
+#' @param f_grid complete grid of hexagon centroids
+#' @param f_centroid longitude latitude of centroid of polygon
 #' @param focal_points a tibble of focal locations, an optional argument that
 #' allows allocation of polygons to hexagon centroids in ascending order of
 #' the distance to the closest focal point. It also filters the grid points to
 #' those within a 30 degree range of the angle from focal point to centroid.
 #' The default "capitals" uses the locations of the Australian capital cities
 #' as focal points.
-#' @param filter_dist a distance in metres, used as a boundary to filter
+#' @param f_dist a distance in metres, used as a boundary to filter
 #' the hexagon centroids considered for each polygon centroid to be allocated.
 #'
 #' @return a tibble of filtered grid points
