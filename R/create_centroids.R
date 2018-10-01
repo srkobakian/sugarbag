@@ -13,7 +13,7 @@ create_centroids <- function(shp_sf) {
         sf::st_transform(., '+init=epsg:3112 +proj=longlat +ellps=GRS80') %>%
         sf::st_coordinates() %>%
         tibble::as.tibble() %>%
-        mutate(sf_id = dplyr::row_number()) %>%
+        mutate(sf_id = as.factor(dplyr::row_number())) %>%
         dplyr::select(sf_id, longitude = X, latitude = Y)
 
     return(centroids)
