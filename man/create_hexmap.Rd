@@ -5,7 +5,7 @@
 \title{Create a tesselated hexagon map from a set of polygons}
 \usage{
 create_hexmap(shp_path, buffer_dist = NULL, hex_size = "auto",
-  focal_points = NULL, export_shp = FALSE)
+  filter_dist = 1000, focal_points = NULL, export_shp = FALSE)
 }
 \arguments{
 \item{shp_path}{character vector location of shape file, extension .shp}
@@ -32,10 +32,10 @@ the geographic chape of each area is lost.
 \dontrun{
 # change to sa2_2011 on github\\
 shp_path <- system.file("data","sa2_2011.Rda", package = "sugaRbag")
-focal_points <- system.file("data","capital_cities.Rda", package = "sugaRbag")
+load(system.file("data","capital_cities.Rda", package = "sugaRbag"))
 
-create_hexmap(shp_path = shp_path, buffer_dist = NULL, hex_size = "auto", export_shp = FALSE,
-focal_points = focal_points)
+hexmap <- create_hexmap(shp_path = shp_path, buffer_dist = NULL, hex_size = "auto", export_shp = FALSE,
+focal_points = capital_cities)
 }
 
 }

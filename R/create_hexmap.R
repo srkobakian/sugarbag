@@ -16,19 +16,19 @@
 #' points for each non null geometry passed in the shape file
 #' @export
 #'
-#' @importFrom sf st_read
+#' @import sf
 #'
 #' @examples
 #' \dontrun{
 #' # change to sa2_2011 on github\
 #' shp_path <- system.file("data","sa2_2011.Rda", package = "sugaRbag")
-#' focal_points <- system.file("data","capital_cities.Rda", package = "sugaRbag")
+#' load(system.file("data","capital_cities.Rda", package = "sugaRbag"))
 #'
-#' create_hexmap(shp_path = shp_path, buffer_dist = NULL, hex_size = "auto", export_shp = FALSE,
-#' focal_points = focal_points)
+#' hexmap <- create_hexmap(shp_path = shp_path, buffer_dist = NULL, hex_size = "auto", export_shp = FALSE,
+#' focal_points = capital_cities)
 #' }
 #'
-create_hexmap <- function(shp_path, buffer_dist = NULL, hex_size = "auto", focal_points = NULL, export_shp = FALSE) {
+create_hexmap <- function(shp_path, buffer_dist = NULL, hex_size = "auto", filter_dist = 1000, focal_points = NULL, export_shp = FALSE) {
 
     # Read in ESRI shape file, remove null geometries, transform projection
     shp_sf <- read_shape(shp_path, simplify = TRUE)
@@ -66,17 +66,27 @@ create_hexmap <- function(shp_path, buffer_dist = NULL, hex_size = "auto", focal
         suppressWarnings(shp <<- shp_sf)
     }
 
+    # consider focal point distance if they were provided
     if (!is.null(focal_points)) {
-        # distance between centroids and all focal points
-        centroids <- shp_sf %>% rowwise %>%
-            plyr::adply(., .fun = closest_focal_point, focal_points, .margins = 1)
-    }
 
+        # distance between centroids and all focal points
+        message("Finding closest point in focal_points data set.")
+        s_centroids <- split(x = centroids, f = centroids$sf_id)
+
+        centroids <- bind_cols(centroids,
+            purrr::map_dfr(.x = s_centroids,
+                .f = closest_focal_point,
+                focal_points = focal_points))
+
+        message("Closest points found.")
+    }
 
     ###########################################################################
     # Allocate polygons to a hexagon
 
-    hexmap_allocation <- plyr::adply(centroids, .fun = allocate, .margins = 1, grid = hex_grid)
+    s_centroids <- centroids %>% split(.$sf_id)
+
+    hexmap_allocation <- purrr::map_dfr(.x = s_centroids, .f = allocate, hex_grid = hex_grid, hex_size = hex_size, filter_dist = filter_dist)
 
     return(hexmap_allocation)
 }
