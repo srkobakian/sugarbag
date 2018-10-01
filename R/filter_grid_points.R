@@ -12,7 +12,7 @@
 #' those within a 30 degree range of the angle from focal point to centroid.
 #' The default "capitals" uses the locations of the Australian capital cities
 #' as focal points.
-#' @param filter_distance a distance in metres, used as a boundary to filter
+#' @param filter_dist a distance in metres, used as a boundary to filter
 #' the hexagon centroids considered for each polygon centroid to be allocated.
 #'
 #' @return a tibble of filtered grid points
@@ -26,33 +26,45 @@
 #' @examples
 #'
 #'
+filter_grid_points <- function(f_grid, f_centroid, focal_points = NULL, f_dist = filter_dist){
 
-filter_grid_points <- function(fgrid, folong, folat, focal_distance = NULL, filter_distance){
+    # Filter distance in degrees for initial filter step
 
-    grid <- fgrid %>% filter(!assigned) %>%
-        filter(between(hex_lat, folat-filter_distance, folat+filter_distance)) %>%
-        filter(between(hex_long, folong-filter_distance, folong+filter_distance))
+    fdist_d <- f_dist/1000
+    flat <- f_centroid$latitude
+    flong <- f_centroid$longitude
 
-    if (!is.null(focal_distance)) {
+    grid <- f_grid %>% filter(!assigned) %>%
+        filter(between(hex_lat,
+            flat - fdist_d, flat + fdist_d)) %>%
+        filter(between(hex_long,
+            flong - fdist_d, flong + fdist_d))
 
+    # centre long lats
+    grid <- grid %>% mutate(
+        hex_lat_c = hex_lat - flat,
+        hex_long_c = hex_long - flong) %>%
+    # filter circle
+        mutate(hyp = ((hex_lat_c^2) + (hex_long_c^2))^(1/2),
+            angle = finalBearing(cbind(f_centroid$longitude1,f_centroid$latitude1),
+                c(flong, flat),
+                a=6378160, f=0)
+            )
 
-        # create filter shape using long lats
-        triangle <- rbind(c(folong, folat),
-            destPoint(c(folong, folat),angle-30,5000/(filter_distance)),
-            destPoint(c(folong, folat),angle+30,5000/(filter_distance)),
-            c(folong, folat)) %>% as.tibble()
+    # Filter for angle within circle
+    if ("focal_distance" %in% colnames(f_centroid)) {
 
-        fgrid <- fgrid %>% filter(!assigned) %>%
-            filter(dplyr::between(hex_lat, min(triangle$lat), max(triangle$lat))) %>%
-            filter(dplyr::between(hex_long, min(triangle$lon),  max(triangle$lon)))
+        grid <- grid %>% mutate(
+            angle_plus = angle + 30,
+            angle_minus = angle - 30,
+            atan = atan2(hex_lat_c, hex_long_c),
+            hex_angle = (atan*180/pi))
 
-        overlap = point.in.polygon(fgrid$hex_long, fgrid$hex_lat,
-            triangle$lon, triangle$lat)
-
-        fgrid <- cbind(fgrid, overlap) %>% filter(overlap==1)
-
+        grid <- grid %>%
+            filter(angle_minus < hex_angle & hex_angle < angle_plus)
     }
-    return(fgrid)
+
+    return(grid)
 }
 
 utils::globalVariables(c("hex_lat", "hex_long", ".", "assigned"))
