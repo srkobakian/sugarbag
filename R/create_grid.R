@@ -18,15 +18,15 @@
 #' @examples
 #'
 
-create_grid <- function(centroids, hex_size, buffer_dist) {
+create_grid <- function(centroids, bbox, hex_size, buffer_dist) {
 
-    # filter grid points to be within buffer
+    # filter grid points to be within buffer_dist
 
-    grid <- tibble::as.tibble(expand.grid(hex_long = seq(bbox$min[1] - buffer,
-                                                 bbox$max[1] + buffer,
+    grid <- tibble::as.tibble(expand.grid(hex_long = seq(bbox$min[1] - buffer_dist,
+                                                 bbox$max[1] + buffer_dist,
                                                  hex_size),
-                                  hex_lat = seq(bbox$min[2] - buffer,
-                                                bbox$max[2] + buffer,
+                                  hex_lat = seq(bbox$min[2] - buffer_dist,
+                                                bbox$max[2] + buffer_dist,
                                                 hex_size)))
 
     # Shift the longitude of every second latitude - to make hex structure
