@@ -32,12 +32,12 @@ the geographic chape of each area is lost.
 }
 \examples{
 \dontrun{
-# change to sa2_2011 on github\\
+
 shp_path <- system.file("data","sa2_2011.Rda", package = "sugaRbag")
 load(system.file("data","capital_cities.Rda", package = "sugaRbag"))
 
-hexmap <- create_hexmap(shp_path = shp_path, buffer_dist = NULL, hex_size = "auto", export_shp = FALSE,
-focal_points = capital_cities)
+hexmap <- create_hexmap(shp_path = shp_path, buffer_dist = NULL,
+hex_size = "auto", export_shp = FALSE, focal_points = capital_cities)
 }
 
 }

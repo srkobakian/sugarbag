@@ -19,12 +19,12 @@
 #'
 #' @examples
 #' \dontrun{
-#' # change to sa2_2011 on github\
+#'
 #' shp_path <- system.file("data","sa2_2011.Rda", package = "sugaRbag")
 #' load(system.file("data","capital_cities.Rda", package = "sugaRbag"))
 #'
-#' hexmap <- create_hexmap(shp_path = shp_path, buffer_dist = NULL, hex_size = "auto", export_shp = FALSE,
-#' focal_points = capital_cities)
+#' hexmap <- create_hexmap(shp_path = shp_path, buffer_dist = NULL,
+#' hex_size = "auto", export_shp = FALSE, focal_points = capital_cities)
 #' }
 #'
 create_hexmap <- function(shp_path, buffer_dist = NULL, hex_size = "auto", filter_dist = 5000, focal_points = NULL, export_shp = FALSE) {
