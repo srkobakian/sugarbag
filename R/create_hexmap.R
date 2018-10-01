@@ -17,8 +17,6 @@
 #' points for each non null geometry passed in the shape file
 #' @export
 #'
-#' @import sf
-#'
 #' @examples
 #' \dontrun{
 #' # change to sa2_2011 on github\

@@ -19,7 +19,6 @@
 #'
 #' @importFrom geosphere finalBearing destPoint
 #' @importFrom tibble tibble as.tibble
-#' @importFrom sp point.in.polygon
 #'
 #'
 #' @examples

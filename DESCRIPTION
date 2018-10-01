@@ -15,10 +15,8 @@ LazyData: true
 Imports: 
     dplyr,
     geosphere,
-    ggthemes,
     gridExtra,
     hexbin,
-    sp,
     tibble
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.1.0
