@@ -26,7 +26,7 @@ read_shape <- function(shp_path, simplify) {
         }
 
         # When it is a previously imported shape file
-        if  (extn == ".Rda") {
+        if  (extn == "Rda") {
             # When sa2 files were saved, they were named shp
             load(file = shp_path, verbose = TRUE)
         }
