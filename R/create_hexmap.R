@@ -6,12 +6,13 @@
 #'
 #'
 #' @param shp_path character vector location of shape file, extension .shp
-#' @param buffer_dist distance to extend beyond the geometry provided
+#' @param buffer_dist distance in degrees to extend beyond the geometry provided
 #' @param hex_size a float value in degrees for the diameter of the hexagons
 #' @param filter_dist distance around centroid to consider grid points
 #' @param focal_points a data frame of reference locations when allocating
 #' hexagons, capital cities of Australia are used in the example
 #' @param export_shp export the simple features set
+#' @param show_progress a boolean to indicate whether to show polygon id
 #'
 #' @return a data set containing longitude and latitude of allocated hexagon
 #' points for each non null geometry passed in the shape file
@@ -27,7 +28,7 @@
 #' hex_size = "auto", export_shp = FALSE, focal_points = capital_cities)
 #' }
 #'
-create_hexmap <- function(shp_path, buffer_dist = NULL, hex_size = "auto", filter_dist = 5000, focal_points = NULL, export_shp = FALSE) {
+create_hexmap <- function(shp_path, buffer_dist = NULL, hex_size = "auto", filter_dist = 5000, focal_points = NULL, export_shp = FALSE, show_progress = FALSE) {
 
     # Read in ESRI shape file, remove null geometries, transform projection
     shp_sf <- read_shape(shp_path, simplify = TRUE)
@@ -36,14 +37,22 @@ create_hexmap <- function(shp_path, buffer_dist = NULL, hex_size = "auto", filte
     # Derive centroids from geometry column, do something about warning message
     centroids <- create_centroids(shp_sf)
 
+    # Creating a bounding box around all centroids
+    bbox <- tibble::tibble(min = c(min(centroids$longitude),
+        min(centroids$latitude)),
+        max = c(max(centroids$longitude),
+            max(centroids$latitude)))
+
     # create a buffer distance if not supplied
     if (is.null(buffer_dist)){
-        #bounds <- sf::st_bbox(shp_sf, crs = 3112) #unnecessry
-        bbox <- tibble::tibble(min = c(min(centroids$longitude),
-            min(centroids$latitude)),
-            max = c(max(centroids$longitude),
-                max(centroids$latitude)))
         buffer_dist <- (bbox$max[1] - bbox$min[1]) / 10
+    }
+
+    # Consider a buffer distance above 5 to be a mistake
+    if (buffer_dist > 5) {
+        # convert metres to degrees
+        print("Check buffer distance is in degrees")
+        buffer_dist = buffer_dist/111139
     }
 
     # if matrix, convert to tibble
@@ -83,9 +92,12 @@ create_hexmap <- function(shp_path, buffer_dist = NULL, hex_size = "auto", filte
     ###########################################################################
     # Allocate polygons to a hexagon
 
-    s_centroids <- centroids %>% split(.$sf_id)
-
-    hexmap_allocation <- purrr::map_dfr(.x = s_centroids, .f = allocate, hex_grid = hex_grid, hex_size = hex_size, filter_dist = filter_dist)
+    hexmap_allocation <- allocate(centroids = centroids,
+        hex_grid = hex_grid,
+        hex_size = hex_size,
+        filter_dist = filter_dist,
+        focal_points = focal_points,
+        show_progress = show_progress)
 
     return(hexmap_allocation)
 }
