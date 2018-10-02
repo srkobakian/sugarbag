@@ -1,0 +1,64 @@
+---
+title: "Australia"
+author: "Stephanie Kobakian"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+library(sugaRbag)
+library(ggplot2)
+library(dplyr)
+```
+
+
+#Australia
+
+```{r map1}
+shp_path <- system.file("data","sa2_2011.Rda", package = "sugaRbag")
+load(system.file("data","capital_cities.Rda", package = "sugaRbag"))
+
+hexmap1 <- create_hexmap(shp_path = shp_path, buffer_dist = NULL,
+hex_size = .1, export_shp = FALSE, focal_points = capital_cities)
+```
+
+```{r}
+ggplot(hexmap1 %>% filter(focal_point=="Hobart")) + geom_hex(aes(x = hex_long, y = hex_lat), stat = "identity")
+```
+
+
+
+```{r}
+hexmap07 <- create_hexmap(shp_path = shp_path, buffer_dist = NULL,
+hex_size = .07, export_shp = FALSE, focal_points = capital_cities)
+
+ggplot(hexmap07 %>% filter(focal_point=="Hobart")) + geom_hex(aes(x = hex_long, y = hex_lat), stat = "identity")
+```
+
+
+
+
+```{r}
+hexmap15 <- create_hexmap(shp_path = shp_path, buffer_dist = NULL,
+hex_size = 0.15, export_shp = FALSE, focal_points = capital_cities)
+
+ggplot(hexmap15 %>% filter(focal_point=="Hobart")) + geom_hex(aes(x = hex_long, y = hex_lat), stat = "identity")
+```
+
+
+```{r}
+hexmap2 <- create_hexmap(shp_path = shp_path, buffer_dist = NULL,
+hex_size = 0.2, export_shp = FALSE, focal_points = capital_cities)
+
+ggplot(hexmap2 %>% filter(focal_point=="Hobart")) + geom_hex(aes(x = hex_long, y = hex_lat), stat = "identity")
+```
+```
+
