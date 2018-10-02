@@ -54,13 +54,11 @@ allocate <- function(centroids, hex_grid, hex_size, filter_dist, focal_points, s
 
     # filter grid for avaiable points
     while(NROW(f_grid) == 0) {
-         tryCatch({
-             f_grid <- filter_grid_points(f_grid = hex_grid,
-            f_centroid = centroid, f_dist = filter_dist)
-        }, interrupt = function(x) {
-            filter_dist <- filter_dist*1.5
-            print(paste("Filter Distance expanded 50% to ", filter_dist))
-        })
+        f_grid <- filter_grid_points(f_grid = hex_grid, f_centroid = centroid, f_dist = filter_dist)
+        if (NROW(f_grid) == 0) {
+        filter_dist <- filter_dist*1.5
+        print(paste("Filter Distance expanded 50% to ", filter_dist))
+        }
     }
 
     # Choose first avaiable point

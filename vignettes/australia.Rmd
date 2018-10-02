@@ -46,19 +46,12 @@ ggplot(hexmap07 %>% filter(focal_point=="Hobart")) + geom_hex(aes(x = hex_long, 
 
 
 
-```{r}
-hexmap15 <- create_hexmap(shp_path = shp_path, buffer_dist = NULL,
-hex_size = 0.15, export_shp = FALSE, focal_points = capital_cities)
-
-ggplot(hexmap15 %>% filter(focal_point=="Hobart")) + geom_hex(aes(x = hex_long, y = hex_lat), stat = "identity")
-```
-
 
 ```{r}
-hexmap2 <- create_hexmap(shp_path = shp_path, buffer_dist = NULL,
-hex_size = 0.2, export_shp = FALSE, focal_points = capital_cities)
+hexmap25 <- create_hexmap(shp_path = shp_path, buffer_dist = NULL,
+hex_size = 0.25, export_shp = FALSE, focal_points = capital_cities)
 
-ggplot(hexmap2 %>% filter(focal_point=="Hobart")) + geom_hex(aes(x = hex_long, y = hex_lat), stat = "identity")
+ggplot(hexmap25 %>% filter(focal_point=="Hobart")) + geom_hex(aes(x = hex_long, y = hex_lat), stat = "identity")
 ```
 ```
 
