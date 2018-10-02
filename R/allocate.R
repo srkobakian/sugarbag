@@ -13,11 +13,26 @@
 #' @export
 #'
 #' @examples
-allocate <- function(centroids, hex_grid, hex_size, filter_dist) {
-    # consider whether people should be able to control distance of filter for speed
+allocate <- function(centroids, hex_grid, hex_size, filter_dist, focal_points, show_progress) {
+
+    if (!is.null(focal_points)) {
+        s_centroids <- centroids %>% arrange(focal_distance) %>% split(.$sf_id)
+        print("Allocating centroids, in order of distance to closest focal point.")
+    } else {
+        s_centroids <- centroids %>% split(.$sf_id)
+    }
+
+    # Set up allocation data frame
+    centroid_allocation <- NULL
+
     ###########################################################################
+
+    for (centroid in s_centroids) {
+
     # Indicate progression
-    suppressWarnings(centroids %>% select(sf_id) %>% pull(sf_id) %>% as.character() %>% print())
+    if (show_progress) {
+    suppressWarnings(centroid %>% select(sf_id) %>% pull(sf_id) %>% as.character() %>% print())
+    }
 
     # filter the grid for appropriate hex positions
 
@@ -30,14 +45,18 @@ allocate <- function(centroids, hex_grid, hex_size, filter_dist) {
     # a possible expansion according to size of grid
     #width = max(grid$hex_long)-min(grid$hex_long)
 
-
     f_grid = NULL
+
+    # filter for only the available hex grid points
+    if (!is.null(centroid_allocation)) {
+        hex_grid <- hex_grid %>% filter(!(id %in% centroid_allocation$id))
+    }
 
     # filter grid for avaiable points
     while(NROW(f_grid) == 0) {
          tryCatch({
              f_grid <- filter_grid_points(f_grid = hex_grid,
-            f_centroid = centroids, f_dist = filter_dist)
+            f_centroid = centroid, f_dist = filter_dist)
         }, interrupt = function(x) {
             filter_dist <- filter_dist*1.5
             print(paste("Filter Distance expanded 50% to ", filter_dist))
@@ -46,11 +65,15 @@ allocate <- function(centroids, hex_grid, hex_size, filter_dist) {
 
     # Choose first avaiable point
 
-    cent <- centroids %>% select(sf_id, longitude, latitude, focal_point = points, focal_dist = focal_distance, focal_angle = angle)
-    hex <- f_grid %>% top_n(n=1, wt = hyp) %>% select(hex_long, hex_lat)
+    cent <- centroid %>% select(sf_id, longitude, latitude, focal_point = points, focal_dist = focal_distance, focal_angle = angle)
+    hex <- f_grid %>% top_n(n=-1, wt = hyp) %>% select(hex_long, hex_lat, id)
 
-    centroid_allocation <- dplyr::bind_cols(cent, hex)
+    centroid_allocation <- bind_rows(centroid_allocation, dplyr::bind_cols(cent, hex))
+    }
 
     # Return it to the data frame
     return(centroid_allocation)
 }
+
+
+utils::globalVariables(c("sf_id", "longitude", "latitude", "assigned"))
