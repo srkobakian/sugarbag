@@ -51,7 +51,7 @@ create_hexmap <- function(shp_path, buffer_dist = NULL, hex_size = "auto", filte
     # Consider a buffer distance above 5 to be a mistake
     if (buffer_dist > 5) {
         # convert metres to degrees
-        print("Check buffer distance is in degrees")
+        message("Check buffer distance is in degrees")
         buffer_dist = buffer_dist/111139
     }
 
@@ -98,6 +98,9 @@ create_hexmap <- function(shp_path, buffer_dist = NULL, hex_size = "auto", filte
         filter_dist = filter_dist,
         focal_points = focal_points,
         show_progress = show_progress)
+
+    # join original data to hex information
+    hexmap_allocation <- left_join(shp_sf, hexmap_allocation)
 
     return(hexmap_allocation)
 }

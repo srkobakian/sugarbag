@@ -64,7 +64,7 @@ allocate <- function(centroids, hex_grid, hex_size, filter_dist, focal_points, s
     # Choose first avaiable point
 
     cent <- centroid %>% select(sf_id, longitude, latitude, focal_point = points, focal_dist = focal_distance, focal_angle = angle)
-    hex <- f_grid %>% top_n(n=-1, wt = hyp) %>% select(hex_long, hex_lat, id)
+    hex <- f_grid %>% top_n(n=-1, wt = hyp) %>% select(hex_long, hex_lat, hex_id = id)
 
     centroid_allocation <- bind_rows(centroid_allocation, dplyr::bind_cols(cent, hex))
     }

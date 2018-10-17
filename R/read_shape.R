@@ -12,9 +12,18 @@
 #' @examples
 #'
 read_shape <- function(shp_path, simplify) {
-    if (file.exists(shp_path)) {
-        extn <- tools::file_ext(shp_path)
 
+    # Check if file or folder has been input
+    extn <- tools::file_ext(shp_path)
+
+    if (extn == ""){
+        shp_path <- paste0(file.path(shp_path), "/", basename(shp_path), ".", "shp")
+        extn <- tools::file_ext(shp_path)
+        }
+
+    if (!file.exists(shp_path)) {
+        message("The shape file provided cannot be found")
+    }    else {
         # When it is a shape file
         if (extn == "shp") {
             shp <- tryCatch(expr = sf::st_read(shp_path),

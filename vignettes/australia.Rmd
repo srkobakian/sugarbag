@@ -26,8 +26,9 @@ library(dplyr)
 shp_path <- system.file("data","sa2_2011.Rda", package = "sugaRbag")
 load(system.file("data","capital_cities.Rda", package = "sugaRbag"))
 
-hexmap1 <- create_hexmap(shp_path = shp_path, buffer_dist = NULL,
-hex_size = .1, export_shp = FALSE, focal_points = capital_cities)
+# debug(create_buffer)
+# debug(find_lat_group)
+hexmap1 <- create_hexmap(shp_path = shp_path, buffer_dist = NULL,hex_size = .1, export_shp = FALSE, focal_points = capital_cities)
 ```
 
 ```{r}
@@ -49,9 +50,10 @@ ggplot(hexmap07 %>% filter(focal_point=="Hobart")) + geom_hex(aes(x = hex_long, 
 
 ```{r}
 hexmap25 <- create_hexmap(shp_path = shp_path, buffer_dist = NULL,
-hex_size = 0.25, export_shp = FALSE, focal_points = capital_cities)
+    hex_size = 0.25, export_shp = FALSE, focal_points = capital_cities)
 
-ggplot(hexmap25 %>% filter(focal_point=="Hobart")) + geom_hex(aes(x = hex_long, y = hex_lat), stat = "identity")
+ggplot(hexmap25) + geom_hex(aes(x = hex_long, y = hex_lat), stat = "identity") + geom_point(aes(x=longitude, y=latitude), colour = "red", alpha = 0.2) 
+# add polygons to the map +geom_sf
 ```
 ```
 
