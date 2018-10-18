@@ -1,5 +1,6 @@
 # This is my test code
 library(tidyverse)
+library(sugaRbag)
 shp_path <- system.file("data","sa2_2011.Rda", package = "sugaRbag")
 load(system.file("data","capital_cities.Rda", package = "sugaRbag"))
 
@@ -62,7 +63,7 @@ lat_range <- function(...) {
 }
 
 # TODO issue with extremes, cannot use extreme range values
-slide_rows <- tsibble::pslide_dfr(range_rows, lat_mean_range, .size = 10, .partial = TRUE, .fill=NULL)
+slide_rows <- tsibble::pslide_dfr(range_rows, lat_range, .size = 10, .partial = TRUE, .fill=NULL)
 # fill ourselves?
 # boundary values?
 
