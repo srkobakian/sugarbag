@@ -48,7 +48,7 @@ ggplot(hex_grid, aes(x=hex_long_int, y=hex_lat_int)) +
 # LATITUDE ROWS FILTER
 # amount of latitude in sliding window
 
-size_lat = round(max(hex_grid$hex_lat_int)/10,0)
+size_lat = round(max(hex_grid$hex_lat_int)/20,0)
 
 # find the min and max longitude for each latitude
 range_rows <- centroids %>%
@@ -56,20 +56,38 @@ range_rows <- centroids %>%
     summarise(min = min(longitude), max = max(longitude))
 
 # rolling window to find min and max long for sets of lats
-lat_range <- function(...) {
+long_mean_range <- function(...) {
     data <- list(...)
     tibble(lat_int = data$lat_int[[1]], long_min = min(data$min), long_max = max(data$max))
 }
 
 # TODO issue with extremes, cannot use extreme range values
-slide_rows <- tsibble::pslide_dfr(range_rows, lat_mean_range, .size = 10, .partial = TRUE, .fill=NULL)
+slide_rows <- tsibble::pslide_dfr(range_rows, long_mean_range, .size = lat_size, .partial = TRUE)
 # fill ourselves?
 # boundary values?
+
+# LONGITUDE COLS FILTER
+size_long = round(max(hex_grid$hex_long_int)/20,0)
+
+# find the min and max longitude for each latitude
+range_cols <- centroids %>%
+    group_by(long_int) %>%
+    summarise(min = min(latitude), max = max(latitude))
+
+# rolling window to find min and max long for sets of lats
+lat_mean_range <- function(...) {
+    data <- list(...)
+    tibble(long_int = data$long_int[[1]], lat_min = min(data$min), lat_max = max(data$max))
+}
+
+# TODO issue with extremes, cannot use extreme range values
+slide_cols <- tsibble::pslide_dfr(range_cols, lat_mean_range, .size = size_long, .partial = TRUE)
 
 buff_grid <- # NA for values in buffer zone, not covered by rolling averaging
     left_join(hex_grid, slide_rows, by = c("hex_lat_int" = "lat_int")) %>%
     rowwise %>%
-    mutate(buffer = ifelse(between(hex_long,long_min, long_max), "in", "out")) %>% filter(buffer =="in")
+    mutate(long_buffer = ifelse(between(hex_long,long_min, long_max), "in", "out")) %>%
+    mutate(lat_buffer = ifelse(between(hex_lat,lat_min, lat_max), "in", "out")) %>% filter(lat_buffer =="in" | long_buffer == "in")
 
 ggplot(buff_grid, aes(x=hex_long_int, y=hex_lat_int)) +
     geom_point(size=0.02) +
