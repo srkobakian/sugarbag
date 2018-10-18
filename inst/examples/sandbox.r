@@ -83,8 +83,10 @@ lat_mean_range <- function(...) {
 # TODO issue with extremes, cannot use extreme range values
 slide_cols <- tsibble::pslide_dfr(range_cols, lat_mean_range, .size = size_long, .partial = TRUE)
 
-buff_grid <- # NA for values in buffer zone, not covered by rolling averaging
-    left_join(hex_grid, slide_rows, by = c("hex_lat_int" = "lat_int")) %>%
+buff_grid <- hex_grid %>%
+    # NA for values in buffer zone, not covered by rolling averaging
+    left_join(., slide_rows, by = c("hex_lat_int" = "lat_int")) %>%
+    left_join(., slide_cols, by = c("hex_long_int" = "long_int")) %>%
     rowwise %>%
     mutate(long_buffer = ifelse(between(hex_long,long_min, long_max), "in", "out")) %>%
     mutate(lat_buffer = ifelse(between(hex_lat,lat_min, lat_max), "in", "out")) %>% filter(lat_buffer =="in" | long_buffer == "in")
