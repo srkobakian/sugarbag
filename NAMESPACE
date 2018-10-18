@@ -2,6 +2,7 @@
 
 export(allocate)
 export(closest_focal_point)
+export(create_buffer)
 export(create_centroids)
 export(create_grid)
 export(create_hexmap)

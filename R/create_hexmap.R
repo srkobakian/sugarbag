@@ -56,9 +56,9 @@ create_hexmap <- function(shp_path, buffer_dist = NULL, hex_size = "auto", filte
     }
 
     # if matrix, convert to tibble
-    if (!("tbl" %in% class(bbox))){
-        bbox <- tibble::as.tibble(bbox)
-    }
+    #if (!("tbl" %in% class(bbox))){
+    #    bbox <- tibble::as.tibble(bbox)
+    #}
 
     # if hex_size TODO: tune this
     if (hex_size == "auto"){
