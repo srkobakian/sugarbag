@@ -12,10 +12,11 @@ bbox <- tibble::tibble(min = c(min(centroids$longitude),
                                max(centroids$latitude)))
 
 hex_size <- (bbox$max[1] - bbox$min[1])/(bbox$max[2] - bbox$min[2]) / 10
+buffer_dist <- (bbox$max[1] - bbox$min[1]) / 10
 
 hex_grid <- create_grid(centroids, bbox, hex_size, buffer_dist)
 
-ggplot(hex_grid, aes(x=hex_long, y=hex_lat)) + geom_point(size=0.1)
+#ggplot(hex_grid, aes(x=hex_long, y=hex_lat)) + geom_point(size=0.1)
 
 # Turn grid into integer grid
 nlong <- length(unique(hex_grid$hex_long))
@@ -44,3 +45,32 @@ ggplot(hex_grid, aes(x=hex_long_int, y=hex_lat_int)) +
     geom_point(size=0.02) +
     geom_point(data=centroids[cent_hull,], aes(x=long_int, y=lat_int), colour="red", size=1)
 
+# LATITUDE ROWS FILTER
+# amount of latitude in sliding window
+
+size_lat = round(max(hex_grid$hex_lat_int)/10,0)
+
+# find the min and max longitude for each latitude
+range_rows <- centroids %>%
+    group_by(lat_int) %>%
+    summarise(min = min(longitude), max = max(longitude))
+
+# rolling window to find min and max long for sets of lats
+lat_range <- function(...) {
+    data <- list(...)
+    tibble(lat_int = data$lat_int[[1]], long_min = min(data$min), long_max = max(data$max))
+}
+
+# TODO issue with extremes, cannot use extreme range values
+slide_rows <- tsibble::pslide_dfr(range_rows, lat_mean_range, .size = 10, .partial = TRUE, .fill=NULL)
+# fill ourselves?
+# boundary values?
+
+buff_grid <- # NA for values in buffer zone, not covered by rolling averaging
+    left_join(hex_grid, slide_rows, by = c("hex_lat_int" = "lat_int")) %>%
+    rowwise %>%
+    mutate(buffer = ifelse(between(hex_long,long_min, long_max), "in", "out")) %>% filter(buffer =="in")
+
+ggplot(buff_grid, aes(x=hex_long_int, y=hex_lat_int)) +
+    geom_point(size=0.02) +
+    geom_path(data=centroids[cent_hull,], aes(x=long_int, y=lat_int), colour="red", size=1)
