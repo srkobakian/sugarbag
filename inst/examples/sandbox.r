@@ -1,7 +1,7 @@
 # This is my test code
 library(tidyverse)
 library(purrr)
-devtools::load_all()
+library(sugaRbag)
 shp_path <- system.file("data","sa2_2011.Rda", package = "sugaRbag")
 load(system.file("data","capital_cities.Rda", package = "sugaRbag"))
 
@@ -90,7 +90,6 @@ long_windows <- map(.x = nlong_list, .f = long_window, centroids, nlong)
 range_cols <- map_dfr(.x = long_windows, .f = function(x) { x %>%
         dplyr::summarise(lat_min = min(x$lat_int), lat_max = max(x$lat_int))
 }) %>% bind_cols(long_id = seq(1:nlong), .)
-
 
 
 buff_grid <- hex_grid %>%
