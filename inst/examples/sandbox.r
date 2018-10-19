@@ -28,12 +28,12 @@ hex_grid <- hex_grid %>%
            hex_lat_int = dense_rank(hex_lat)-1)
 
 # Check bounds of hex grid are external to bounds of centroids
-summary(hex_grid$hex_long)
-summary(hex_grid$hex_lat)
-summary(centroids$longitude)
-summary(centroids$latitude)
+#summary(hex_grid$hex_long)
+#summary(hex_grid$hex_lat)
+#summary(centroids$longitude)
+#summary(centroids$latitude)
 
-# Round centroids to closest grid point
+# Round centroids to closest grid lines
 centroids <- centroids %>%
     mutate(long_int = round((longitude-min(hex_grid$hex_long))/(max(hex_grid$hex_long)-min(hex_grid$hex_long))*nlong, 0),
            lat_int = round((latitude-min(hex_grid$hex_lat))/(max(hex_grid$hex_lat)-min(hex_grid$hex_lat))*nlat, 0))
@@ -42,18 +42,14 @@ ggplot(hex_grid, aes(x=hex_long_int, y=hex_lat_int)) +
     geom_point(size=0.02) +
     geom_point(data=centroids, aes(x=long_int, y=lat_int), colour="red", size=0.1)
 
-cent_hull <- chull(centroids$long_int, centroids$lat_int)
-ggplot(hex_grid, aes(x=hex_long_int, y=hex_lat_int)) +
-    geom_point(size=0.02) +
-    geom_point(data=centroids[cent_hull,], aes(x=long_int, y=lat_int), colour="red", size=1)
 
+lat_size = round(nlat/20,0)
+long_size = round(nlong/20,0)
 
-    lat_size = 55 #round(nlat/20,0)
-    long_size = 55 #round(nlong/20,0)
+# make a list of groups, manual sliding windows
+nlat_list <-map2(seq(1:nlat), lat_size + seq(1:nlat), c)
+nlong_list <-map2(seq(1:nlong), long_size + seq(1:nlong), c)
 
-    # make a list of groups, manual sliding windows
-    nlat_list <-map2(seq(1:nlat), lat_size + seq(1:nlat), c)
-    nlong_list <-map2(seq(1:nlong), long_size + seq(1:nlong), c)
 
 lat_window <- function(x, cents = centroids, maximum = nlat){
     max_int = min(x[2],maximum)
@@ -83,8 +79,17 @@ range_rows <- map_dfr(.x = lat_windows,
             long_min = ifelse(is_empty(long_int), NA, min(x$long_int)),
             long_max = ifelse(is_empty(long_int), NA, max(x$long_int))
         )}
-    ) %>%
-    bind_cols(lat_id = c(seq(1:nlat) + round(lat_size/2)), .)
+    )
+
+# smooth the minimums
+av_range_rows <- map_dfr(.x = nlat_list, .f = function(x, rows = range_rows) {
+    rows[x[1]:min(x[2], NROW(rows)),] %>%
+        dplyr::summarise(mean_long_min = mean(long_min, na.rm=T), mean_long_max = mean(long_max, na.rm=T))
+}) %>%
+    bind_cols(lat_id = c(seq(1:nlat) +lat_size), .)
+
+
+
 
 # LONGITUDE COLS FILTER
 long_windows <- map(.x = nlong_list, .f = long_window, centroids, nlong)
@@ -92,22 +97,31 @@ long_windows <- map(.x = nlong_list, .f = long_window, centroids, nlong)
 # find the min and max longitude for each latitude
 range_cols <- map_dfr(.x = long_windows, .f = function(x) { x %>%
         dplyr::summarise(
-            lat_min = ifelse(is_empty(lat_int), NA, min(x$lat_int)),
+            lat_min = ifelse(is_empty(lat_int), NA, min(x$lat_int)-),
             lat_max = ifelse(is_empty(lat_int), NA, max(x$lat_int))
         )}
-) %>%
+)
+
+# smooth the minimums
+av_range_cols <- map_dfr(.x = nlong_list, .f = function(x, cols = range_cols) {
+    cols[x[1]:min(x[2], NROW(cols)),] %>%
+        dplyr::summarise(mean_lat_min = mean(lat_min, na.rm=T), mean_lat_max = mean(lat_max, na.rm=T))
+}) %>%
     bind_cols(long_id = c(seq(1:nlong) + round(long_size/2)), .)
 
 
+# APPLY A BUFFER
+# change buffer to amount of hexagons either side?
+hex_buffer <- floor(buffer_dist/hex_size)
+
 buff_grid <- hex_grid %>%
-    left_join(., range_rows, by = c("hex_lat_int" = "lat_id")) %>%
-    left_join(., range_cols, by = c("hex_long_int" = "long_id")) %>%
+    left_join(., av_range_rows, by = c("hex_lat_int" = "lat_id")) %>%
+    left_join(., av_range_cols, by = c("hex_long_int" = "long_id")) %>%
     rowwise %>%
-    mutate(long_buffer = ifelse(between(hex_long_int,long_min, long_max), "in", "out")) %>%
-    mutate(lat_buffer = ifelse(between(hex_lat_int,lat_min, lat_max), "in", "out")) %>%
+    mutate(long_buffer = ifelse(between(hex_long_int,mean_long_min, mean_long_max), "in", "out")) %>%
+    mutate(lat_buffer = ifelse(between(hex_lat_int,mean_lat_min, mean_lat_max), "in", "out"))
     filter(lat_buffer =="in" | long_buffer == "in")
 
 ggplot(buff_grid, aes(x=hex_long_int, y=hex_lat_int)) +
     geom_point(size=0.02) +
-    geom_path(data=centroids[cent_hull,], aes(x=long_int, y=lat_int), colour="red", size=1)
-
+    geom_point(data=centroids, aes(x=long_int, y=lat_int), colour="red", size=1)
