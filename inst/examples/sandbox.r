@@ -1,5 +1,6 @@
 # This is my test code
 library(tidyverse)
+library(purrr)
 devtools::load_all()
 shp_path <- system.file("data","sa2_2011.Rda", package = "sugaRbag")
 load(system.file("data","capital_cities.Rda", package = "sugaRbag"))
@@ -54,29 +55,40 @@ long_size = round(nlong/20,0)
 nlat_list <-map2(seq(1:nlat), lat_size + seq(1:nlat), c)
 nlong_list <-map2(seq(1:nlong), long_size + seq(1:nlong), c)
 
-window <- function(x, c = centroids, maximum){
-    max = x[2]
-    while (max > maximum){
-        max = max - 1
+lat_window <- function(x, cents = centroids, maximum = nlat){
+    max_int = x[2]
+    while (max_int > maximum){
+        max_int = max_int - 1
     }
-    return(c[x[1]:max,])
+
+    cents_in <- filter(cents, between(lat_int, x[1], max_int))
+    return(cents_in)
+}
+
+long_window <- function(x, cents = centroids, maximum = nlong){
+    max_int = x[2]
+    while (max_int > maximum){
+        max_int = max_int - 1
+    }
+
+    cents_in <- filter(cents, between(long_int, x[1], max_int))
+    return(cents_in)
 }
 
 # LATITUDE ROWS FILTER
 # amount of latitude in sliding window
-lat_windows <- map(.x = nlat_list, .f = window, centroids, nlat)
+lat_windows <- map(.x = nlat_list, .f = lat_window)
 
 # find the min and max longitude for each latitude
 range_rows <- map_dfr(.x = lat_windows, .f = function(x) { x %>%
-        summarise(long_min = min(x$long_int), long_max = max(x$long_int))
-}) %>% bind_cols(lat_id = seq(1:nlat), .)
+        dplyr::summarise(long_min = min(x$long_int), long_max = max(x$long_int)) }) %>% bind_cols(lat_id = seq(1:nlat), .)
 
 # LONGITUDE COLS FILTER
-long_windows <- map(.x = nlong_list, .f = window, centroids, nlong)
+long_windows <- map(.x = nlong_list, .f = long_window, centroids, nlong)
 
 # find the min and max longitude for each latitude
 range_cols <- map_dfr(.x = long_windows, .f = function(x) { x %>%
-        summarise(lat_min = min(x$lat_int), lat_max = max(x$lat_int))
+        dplyr::summarise(lat_min = min(x$lat_int), lat_max = max(x$lat_int))
 }) %>% bind_cols(long_id = seq(1:nlong), .)
 
 
