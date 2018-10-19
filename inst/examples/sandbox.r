@@ -48,18 +48,15 @@ ggplot(hex_grid, aes(x=hex_long_int, y=hex_lat_int)) +
     geom_point(data=centroids[cent_hull,], aes(x=long_int, y=lat_int), colour="red", size=1)
 
 
-lat_size = round(nlat/20,0)
-long_size = round(nlong/20,0)
+    lat_size = 55 #round(nlat/20,0)
+    long_size = 55 #round(nlong/20,0)
 
-# make a list of groups, manual sliding windows
-nlat_list <-map2(seq(1:nlat), lat_size + seq(1:nlat), c)
-nlong_list <-map2(seq(1:nlong), long_size + seq(1:nlong), c)
+    # make a list of groups, manual sliding windows
+    nlat_list <-map2(seq(1:nlat), lat_size + seq(1:nlat), c)
+    nlong_list <-map2(seq(1:nlong), long_size + seq(1:nlong), c)
 
 lat_window <- function(x, cents = centroids, maximum = nlat){
-    max_int = x[2]
-    while (max_int > maximum){
-        max_int = max_int - 1
-    }
+    max_int = min(x[2],maximum)
 
     cents_in <- filter(cents, between(lat_int, x[1], max_int))
     return(cents_in)
@@ -80,16 +77,26 @@ long_window <- function(x, cents = centroids, maximum = nlong){
 lat_windows <- map(.x = nlat_list, .f = lat_window)
 
 # find the min and max longitude for each latitude
-range_rows <- map_dfr(.x = lat_windows, .f = function(x) { x %>%
-        dplyr::summarise(long_min = min(x$long_int), long_max = max(x$long_int)) }) %>% bind_cols(lat_id = seq(1:nlat), .)
+range_rows <- map_dfr(.x = lat_windows,
+    .f = function(x) {x %>%
+        dplyr::summarise(
+            long_min = ifelse(is_empty(long_int), NA, min(x$long_int)),
+            long_max = ifelse(is_empty(long_int), NA, max(x$long_int))
+        )}
+    ) %>%
+    bind_cols(lat_id = seq(1:nlat), .)
 
 # LONGITUDE COLS FILTER
 long_windows <- map(.x = nlong_list, .f = long_window, centroids, nlong)
 
 # find the min and max longitude for each latitude
 range_cols <- map_dfr(.x = long_windows, .f = function(x) { x %>%
-        dplyr::summarise(lat_min = min(x$lat_int), lat_max = max(x$lat_int))
-}) %>% bind_cols(long_id = seq(1:nlong), .)
+        dplyr::summarise(
+            lat_min = ifelse(is_empty(lat_int), NA, min(x$lat_int)),
+            lat_max = ifelse(is_empty(lat_int), NA, max(x$lat_int))
+        )}
+) %>%
+    bind_cols(long_id = seq(1:nlong), .)
 
 
 buff_grid <- hex_grid %>%
