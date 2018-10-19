@@ -1,5 +1,6 @@
 # This is my test code
 library(tidyverse)
+devtools::load_all()
 shp_path <- system.file("data","sa2_2011.Rda", package = "sugaRbag")
 load(system.file("data","capital_cities.Rda", package = "sugaRbag"))
 
@@ -45,52 +46,50 @@ ggplot(hex_grid, aes(x=hex_long_int, y=hex_lat_int)) +
     geom_point(size=0.02) +
     geom_point(data=centroids[cent_hull,], aes(x=long_int, y=lat_int), colour="red", size=1)
 
+
+lat_size = round(nlat/20,0)
+long_size = round(nlong/20,0)
+
+# make a list of groups, manual sliding windows
+nlat_list <-map2(seq(1:nlat), lat_size + seq(1:nlat), c)
+nlong_list <-map2(seq(1:nlong), long_size + seq(1:nlong), c)
+
+window <- function(x, c = centroids, maximum){
+    max = x[2]
+    while (max > maximum){
+        max = max - 1
+    }
+    return(c[x[1]:max,])
+}
+
 # LATITUDE ROWS FILTER
 # amount of latitude in sliding window
-
-size_lat = round(max(hex_grid$hex_lat_int)/20,0)
+lat_windows <- map(.x = nlat_list, .f = window, centroids, nlat)
 
 # find the min and max longitude for each latitude
-range_rows <- centroids %>%
-    group_by(lat_int) %>%
-    summarise(min = min(longitude), max = max(longitude))
-
-# rolling window to find min and max long for sets of lats
-long_mean_range <- function(...) {
-    data <- list(...)
-    tibble(lat_int = data$lat_int[[1]], long_min = min(data$min), long_max = max(data$max))
-}
-
-# TODO issue with extremes, cannot use extreme range values
-slide_rows <- tsibble::pslide_dfr(range_rows, long_mean_range, .size = lat_size, .partial = TRUE)
-# fill ourselves?
-# boundary values?
+range_rows <- map_dfr(.x = lat_windows, .f = function(x) { x %>%
+        summarise(long_min = min(x$long_int), long_max = max(x$long_int))
+}) %>% bind_cols(lat_id = seq(1:nlat), .)
 
 # LONGITUDE COLS FILTER
-size_long = round(max(hex_grid$hex_long_int)/20,0)
+long_windows <- map(.x = nlong_list, .f = window, centroids, nlong)
 
 # find the min and max longitude for each latitude
-range_cols <- centroids %>%
-    group_by(long_int) %>%
-    summarise(min = min(latitude), max = max(latitude))
+range_cols <- map_dfr(.x = long_windows, .f = function(x) { x %>%
+        summarise(lat_min = min(x$lat_int), lat_max = max(x$lat_int))
+}) %>% bind_cols(long_id = seq(1:nlong), .)
 
-# rolling window to find min and max long for sets of lats
-lat_mean_range <- function(...) {
-    data <- list(...)
-    tibble(long_int = data$long_int[[1]], lat_min = min(data$min), lat_max = max(data$max))
-}
 
-# TODO issue with extremes, cannot use extreme range values
-slide_cols <- tsibble::pslide_dfr(range_cols, lat_mean_range, .size = size_long, .partial = TRUE)
 
 buff_grid <- hex_grid %>%
-    # NA for values in buffer zone, not covered by rolling averaging
-    left_join(., slide_rows, by = c("hex_lat_int" = "lat_int")) %>%
-    left_join(., slide_cols, by = c("hex_long_int" = "long_int")) %>%
+    left_join(., range_rows, by = c("hex_lat_int" = "lat_id")) %>%
+    left_join(., range_cols, by = c("hex_long_int" = "long_id")) %>%
     rowwise %>%
-    mutate(long_buffer = ifelse(between(hex_long,long_min, long_max), "in", "out")) %>%
-    mutate(lat_buffer = ifelse(between(hex_lat,lat_min, lat_max), "in", "out")) %>% filter(lat_buffer =="in" | long_buffer == "in")
+    mutate(long_buffer = ifelse(between(hex_long_int,long_min, long_max), "in", "out")) %>%
+    mutate(lat_buffer = ifelse(between(hex_lat_int,lat_min, lat_max), "in", "out")) %>%
+    filter(lat_buffer =="in" | long_buffer == "in")
 
 ggplot(buff_grid, aes(x=hex_long_int, y=hex_lat_int)) +
     geom_point(size=0.02) +
     geom_path(data=centroids[cent_hull,], aes(x=long_int, y=lat_int), colour="red", size=1)
+
