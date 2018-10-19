@@ -84,7 +84,7 @@ range_rows <- map_dfr(.x = lat_windows,
             long_max = ifelse(is_empty(long_int), NA, max(x$long_int))
         )}
     ) %>%
-    bind_cols(lat_id = seq(1:nlat), .)
+    bind_cols(lat_id = c(seq(1:nlat) + round(lat_size/2)), .)
 
 # LONGITUDE COLS FILTER
 long_windows <- map(.x = nlong_list, .f = long_window, centroids, nlong)
@@ -96,7 +96,7 @@ range_cols <- map_dfr(.x = long_windows, .f = function(x) { x %>%
             lat_max = ifelse(is_empty(lat_int), NA, max(x$lat_int))
         )}
 ) %>%
-    bind_cols(long_id = seq(1:nlong), .)
+    bind_cols(long_id = c(seq(1:nlong) + round(long_size/2)), .)
 
 
 buff_grid <- hex_grid %>%
