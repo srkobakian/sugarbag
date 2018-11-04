@@ -58,12 +58,25 @@ allocate <- function(centroids, hex_grid, hex_size, filter_dist, focal_points = 
         hex_grid <- hex_grid %>% filter(!assigned)
     }
 
-    # filter grid for avaiable points
-    while(NROW(f_grid) == 0) {
-        f_grid <- filter_grid_points(f_grid = hex_grid, f_centroid = centroid, f_dist = filter_dist)
-        if (NROW(f_grid) == 0) {
-        filter_dist <- filter_dist*1.5
-        print(paste("Filter Distance expanded 50% to ", filter_dist))
+        # filter for only the available hex grid points
+        if (!is.null(centroid_allocation)) {
+            hex_grid <- hex_grid %>% filter(!assigned)
+        }
+
+        # Make this find if the grid boundary point was reached, expand angle?
+        max_dist <- filter_dist*10
+
+        # filter grid for avaiable points
+        while(NROW(f_grid) == 0) {
+            if (filter_dist < max_dist) {
+                f_grid <- filter_grid_points(f_grid = hex_grid, f_centroid = centroid, f_dist = filter_dist)
+                if (NROW(f_grid) == 0) {
+                    filter_dist <- filter_dist + expand_dist
+                    print(paste("Filter Distance expanded by ", expand_dist, " to ", filter_dist))
+                }
+            }
+            # prevent endless loop
+            else break
         }
     }
 
