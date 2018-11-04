@@ -13,7 +13,7 @@
 #' @export
 #'
 #' @examples
-allocate <- function(centroids, hex_grid, hex_size, filter_dist, focal_points, show_progress, id) {
+allocate <- function(centroids, hex_grid, hex_size, filter_dist, focal_points=NULL, show_progress, id) {
 
     if (!is.null(focal_points)) {
         a_centroids <- centroids %>% arrange(focal_distance)
@@ -65,7 +65,6 @@ allocate <- function(centroids, hex_grid, hex_size, filter_dist, focal_points, s
     }
 
     # Choose first avaiable point
-
     cent <- centroid %>% select(sf_id, longitude, latitude, focal_point = points, focal_dist = focal_distance, focal_angle = angle)
 
     # Filter should give one hex point

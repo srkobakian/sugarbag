@@ -11,12 +11,13 @@ library(plotly)
 
 #shp_sf <- read_shape(shp_path, simplify = TRUE)
 shp_sf <- read_shape("data/sa2_2011.Rda", simplify = TRUE)
+load("data/capital_cities.Rda")
 
 ###############################################################################
 # consider only VIC
 vic_sf <- shp_sf %>% filter(STE_NAME11 == "Victoria")
 
-# Make a map
+# Make a basic map
 ggplot(vic_sf) +
     geom_sf(aes(fill = population, label = SA2_NAME11)) +
     scale_fill_viridis() +
@@ -28,15 +29,17 @@ centroids <- create_centroids(vic_sf, id = sf_id)
 
 # centroids <- create_centroids(shp_sf)
 
-
+# Set the bounding box
 bbox <- tibble::tibble(min = c(min(centroids$longitude),
                                min(centroids$latitude)),
                        max = c(max(centroids$longitude),
                                max(centroids$latitude)))
 
+# Set hexagon size and buffer
 hex_size <- (bbox$max[1] - bbox$min[1])/(bbox$max[2] - bbox$min[2]) / 10
-buffer_dist <- (bbox$max[1] - bbox$min[1]) / 10
+buffer_dist <- (bbox$max[1] - bbox$min[1]) / 5
 
+# Create a basic hexgrid
 hex_grid <- create_grid(centroids, bbox, hex_size, buffer_dist)
 
 #ggplot(hex_grid, aes(x=hex_long, y=hex_lat)) + geom_point(size=0.1)
@@ -109,9 +112,6 @@ av_range_rows <- map_dfr(.x = nlat_list, .f = function(x, rows = range_rows) {
 }) %>%
     bind_cols(lat_id = c(seq(1:nlat) +lat_size), .)
 
-
-
-
 # LONGITUDE COLS FILTER
 long_windows <- map(.x = nlong_list, .f = long_window, centroids, nlong)
 
@@ -146,10 +146,7 @@ buff_grid <- hex_grid %>%
     filter(lat_buffer =="in" | long_buffer == "in")
 
 
-#ggplot(buff_grid, aes(x=hex_long_int, y=hex_lat_int)) +
-#    geom_point(size=0.02) +
-#    geom_point(data=centroids, aes(x=long_int, y=lat_int), colour="red", size=1)
-
+#ggplot(buff_grid, aes(x=hex_long_int, y=hex_lat_int)) + geom_point(size=0.02) + geom_point(data=centroids, aes(x=long_int, y=lat_int), colour="red", size=1)
 
 # FIND CLOESEST FOCAL POINT,
 # provides columns "points", "longitude1", "latitude1", "focal_distance", "angle"
@@ -167,7 +164,7 @@ hexmap_allocation <- allocate(centroids = centroids,
     hex_grid = buff_grid,
     hex_size = 0.02,
     filter_dist = 5000,
-    focal_points = capital_cities,
+    focal_points = capital_cities[1],
     show_progress = TRUE,
     id = sf_id)
 
@@ -179,12 +176,23 @@ hexmap_df <- left_join(vic_sf, hexmap_allocation, by = c("SA2_NAME11"))
 
 # JOIN OTHER DATA HERE
 ###############################################################################
-# Maps
-library(ggthemes)
+# Hexmap
+#g_s <- ggplot(hexmap_df) + geom_sf(aes(fill=SA4_NAME11)) + guides(fill = FALSE)
 
-g_s <- ggplot(hexmap_df) + geom_sf(aes(fill=SA4_NAME11)) + guides(fill = FALSE)
+ggplot(vic_sf) +
+    geom_sf(aes(fill = population, label = SA2_NAME11)) +
+    scale_fill_viridis() +
+    theme_foundation()
+ggplotly()
 
-g_h <- ggplot(hexmap_df) + geom_hex(aes(x = hex_long, y = hex_lat, fill=SA4_NAME11, label = SA2_NAME11),position = "identity", stat = "identity") + guides(fill = FALSE)
+
+g_h <- ggplot() +
+    #geom_sf(data=vic_sf, position = "identity", stat = "identity") +
+    geom_hex(data=hexmap_df, aes(x = hex_long, y = hex_lat, fill=SA4_NAME11,
+            label = SA2_NAME11), position = "identity", stat = "identity") +
+    scale_fill_viridis_d() +
+    guides(fill = FALSE)
+g_h
 
 # Interctive MAP
 library(plotly)
