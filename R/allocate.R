@@ -30,33 +30,31 @@ allocate <- function(centroids, hex_grid, hex_size, filter_dist, focal_points = 
     centroid_allocation <- NULL
 
     ###########################################################################
+    p <- progress_estimated(NROW(centroids), min_time = 3)
 
     for (centroid in s_centroids) {
 
-    # Indicate progression
-    if (show_progress) {
-        if (id %in% colnames(centroid)){
-            message(paste0("Allocated ", centroid[[id]]))
+        # Indicate progression
+        if (show_progress) {
+
+            p$tick()$print()
         }
-    }
 
-    # filter the grid for appropriate hex positions
+        # filter the grid for appropriate hex positions
 
-    # find appropriate filtering distance
-    if (filter_dist < 1000 | is.null(filter_dist)) {
-        # assume filter distance in degrees
-        filter_dist <- 1000
-    }
+        # find appropriate filtering distance
+        if (filter_dist < 1000 | is.null(filter_dist)) {
+            # assume filter distance in degrees
+            filter_dist <- 1000
+        }
 
-    # a possible expansion according to size of grid
-    #width = max(grid$hex_long)-min(grid$hex_long)
+        # keep value to reset expanded distances
+        expand_dist <- filter_dist
 
-    f_grid = NULL
+        # a possible expansion according to size of grid
+        #width = max(grid$hex_long)-min(grid$hex_long)
 
-    # filter for only the available hex grid points
-    if (!is.null(centroid_allocation)) {
-        hex_grid <- hex_grid %>% filter(!assigned)
-    }
+        f_grid = NULL
 
         # filter for only the available hex grid points
         if (!is.null(centroid_allocation)) {
@@ -78,19 +76,18 @@ allocate <- function(centroids, hex_grid, hex_size, filter_dist, focal_points = 
             # prevent endless loop
             else break
         }
-    }
 
-    # Choose first avaiable point
-    cent <- centroid %>% select(sf_id, longitude, latitude, focal_point = points, focal_dist = focal_distance, focal_angle = angle)
+        # Choose first avaiable point
+        cent <- centroid %>% select(sf_id, longitude, latitude, focal_point = points, focal_dist = focal_distance, focal_angle = angle)
 
-    # Filter should give one hex point
-    hex <- f_grid %>% ungroup %>% filter(hyp == min(hyp)) %>%
-        select(hex_long, hex_lat, hex_id = id)
+        # Filter should give one hex point
+        hex <- f_grid %>% ungroup %>% filter(hyp == min(hyp)) %>%
+            select(hex_long, hex_lat, hex_id = id)
 
-    #update grid to show this centroid as assigned
-    hex_grid[which(hex_grid$id == hex$hex_id),]$assigned <- TRUE
+        #update grid to show this centroid as assigned
+        hex_grid[which(hex_grid$id == hex$hex_id),]$assigned <- TRUE
 
-    centroid_allocation <- bind_rows(centroid_allocation, dplyr::bind_cols(cent, hex)) %>% as.tibble()
+        centroid_allocation <- bind_rows(centroid_allocation, dplyr::bind_cols(cent, hex)) %>% as.tibble()
     }
 
     # Returnall allocations to the data frame
