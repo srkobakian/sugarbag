@@ -5,15 +5,18 @@
 #'
 #'
 #' @param centroids a data frame with centroids of non empty polygons
-#' @param hex_size distance between each grid point
 #' @param hex_grid a data frame containing all possible hexagon points
-#' @param filter_dist distance around centroid to consider hex points
+#' @param hex_size a float value in degrees for the diameter of the hexagons
+#' @param filter_dist distance around centroid to consider grid points
+#' @param focal_points a data frame of reference locations when allocating
+#' hexagons, capital cities of Australia are used in the example
+#' @param show_progress a boolean to indicate whether to show polygon id
+#' @param id a string to indicate the column to identify individual polygons
 #'
 #' @return a data frame of one allocation
-#' @export
 #'
-#' @examples
-allocate <- function(centroids, hex_grid, hex_size, filter_dist, focal_points=NULL, show_progress, id) {
+#'
+allocate <- function(centroids, hex_grid, hex_size, filter_dist, focal_points = NULL, show_progress, id) {
 
     if (!is.null(focal_points)) {
         a_centroids <- centroids %>% arrange(focal_distance)
