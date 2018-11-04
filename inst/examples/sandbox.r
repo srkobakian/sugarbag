@@ -161,13 +161,15 @@ centroids <- bind_cols(centroids,
 
 ###############################################################################
 # ALLOCATE POLYGON CENTROIDS TO A HEXMAP POINT
-hexmap_allocation <- allocate(centroids = centroids,
-    hex_grid = buff_grid,
-    hex_size = 0.02,
-    filter_dist = 5000,
-    focal_points = capital_cities[1],
-    show_progress = TRUE,
-    id = sf_id)
+system.time(
+    hexmap_allocation <- allocate(centroids = centroids,
+        hex_grid = buff_grid,
+        hex_size = 0.02,
+        filter_dist = 1000, # no issue with filtering when filter_dist is 1000
+        focal_points = capital_cities[1],
+        show_progress = TRUE,
+        id = sf_id)
+)
 
 # Join to the shape file data set
 # hexmap_allocation <- left_join(shp_sf, hexmap_allocation)
@@ -186,6 +188,13 @@ ggplot(vic_sf) +
     theme_foundation()
 ggplotly()
 
+# Facetted SA4
+ggplot(vic_sf) +
+    geom_sf(aes(fill = population, label = SA2_NAME11)) +
+    scale_fill_viridis() +
+    facet_wrap(~ SA4_NAME11) +
+    theme_foundation()
+
 
 g_h <- ggplot() +
     #geom_sf(data=vic_sf, position = "identity", stat = "identity") +
@@ -195,7 +204,14 @@ g_h <- ggplot() +
     guides(fill = FALSE)
 g_h
 
-grid.arrange(g_s, g_h, nrow=2)
+
+ggplot() +
+    geom_hex(data=hexmap_df,
+        aes(x = hex_long, y = hex_lat, fill=SA4_NAME11,
+        label = SA2_NAME11), position = "identity", stat = "identity") +
+    scale_fill_viridis_d() +
+    facet_wrap(~SA4_NAME11)
+    guides(fill = FALSE)
 
 # Interctive MAP
 library(plotly)
