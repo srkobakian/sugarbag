@@ -64,7 +64,7 @@ centroids <- centroids %>%
 
 #ggplot(hex_grid, aes(x=hex_long_int, y=hex_lat_int)) +
 #    geom_point(size=0.02) +
-#    geom_point(data=centroids, aes(x=long_int, y=lat_int), colour="red", size=0.1)
+#    geom_point(data=centroids, aes(x=long_int, y=lat_int), colour="red", size=0.5)
 
 
 lat_size = round(nlat/20,0)
@@ -132,7 +132,8 @@ av_range_cols <- map_dfr(.x = nlong_list, .f = function(x, cols = range_cols) {
 
 
 # APPLY A BUFFER
-# change buffer to amount of hexagons either side?
+# change buffer to amount of hexagons (ints) either side
+# will be called as create_buffer within create_grid function
 hex_buffer <- floor(buffer_dist/hex_size)
 
 buff_grid <- hex_grid %>%
@@ -193,6 +194,8 @@ g_h <- ggplot() +
     scale_fill_viridis_d() +
     guides(fill = FALSE)
 g_h
+
+grid.arrange(g_s, g_h, nrow=2)
 
 # Interctive MAP
 library(plotly)
