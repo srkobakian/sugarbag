@@ -4,7 +4,7 @@
 \alias{create_centroids}
 \title{Create a data frame of longitude and latitude centroids of each polygon}
 \usage{
-create_centroids(shp_sf)
+create_centroids(shp_sf, id = NULL)
 }
 \arguments{
 \item{shp_sf}{an sf object, a data set with a simple feature list column}

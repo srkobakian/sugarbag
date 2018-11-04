@@ -5,7 +5,7 @@
 \title{Allocate polygon centroids to hexagons in a grid}
 \usage{
 allocate(centroids, hex_grid, hex_size, filter_dist, focal_points,
-  show_progress)
+  show_progress, id)
 }
 \arguments{
 \item{centroids}{a data frame with centroids of non empty polygons}

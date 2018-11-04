@@ -13,13 +13,14 @@
 #' @export
 #'
 #' @examples
-allocate <- function(centroids, hex_grid, hex_size, filter_dist, focal_points, show_progress) {
+allocate <- function(centroids, hex_grid, hex_size, filter_dist, focal_points, show_progress, id) {
 
     if (!is.null(focal_points)) {
-        s_centroids <- centroids %>% arrange(focal_distance) %>% split(.$sf_id)
+        a_centroids <- centroids %>% arrange(focal_distance)
+        s_centroids <- split(a_centroids, a_centroids[["focal_distance"]])
         print("Allocating centroids, in order of distance to closest focal point.")
     } else {
-        s_centroids <- centroids %>% split(.$sf_id)
+        s_centroids <- split(centroids, centroids[[id]])
     }
 
     # Set up allocation data frame
@@ -31,7 +32,9 @@ allocate <- function(centroids, hex_grid, hex_size, filter_dist, focal_points, s
 
     # Indicate progression
     if (show_progress) {
-    suppressWarnings(centroid %>% select(sf_id) %>% pull(sf_id) %>% as.character() %>% print())
+        if (id %in% colnames(centroid)){
+            message(paste0("Allocated ", centroid[[id]]))
+        }
     }
 
     # filter the grid for appropriate hex positions
@@ -49,7 +52,7 @@ allocate <- function(centroids, hex_grid, hex_size, filter_dist, focal_points, s
 
     # filter for only the available hex grid points
     if (!is.null(centroid_allocation)) {
-        hex_grid <- hex_grid %>% filter(!(id %in% centroid_allocation$id))
+        hex_grid <- hex_grid %>% filter(!assigned)
     }
 
     # filter grid for avaiable points
@@ -64,12 +67,18 @@ allocate <- function(centroids, hex_grid, hex_size, filter_dist, focal_points, s
     # Choose first avaiable point
 
     cent <- centroid %>% select(sf_id, longitude, latitude, focal_point = points, focal_dist = focal_distance, focal_angle = angle)
-    hex <- f_grid %>% top_n(n=-1, wt = hyp) %>% select(hex_long, hex_lat, hex_id = id)
 
-    centroid_allocation <- bind_rows(centroid_allocation, dplyr::bind_cols(cent, hex))
+    # Filter should give one hex point
+    hex <- f_grid %>% ungroup %>% filter(hyp == min(hyp)) %>%
+        select(hex_long, hex_lat, hex_id = id)
+
+    #update grid to show this centroid as assigned
+    hex_grid[which(hex_grid$id == hex$hex_id),]$assigned <- TRUE
+
+    centroid_allocation <- bind_rows(centroid_allocation, dplyr::bind_cols(cent, hex)) %>% as.tibble()
     }
 
-    # Return it to the data frame
+    # Returnall allocations to the data frame
     return(centroid_allocation)
 }
 
