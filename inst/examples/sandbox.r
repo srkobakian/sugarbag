@@ -1,16 +1,27 @@
 # This is my test code
 library(tidyverse)
 library(purrr)
-#library(sugaRbag)
-shp_path <- system.file("data","sa2_2011.Rda", package = "sugaRbag")
-load(system.file("data","capital_cities.Rda", package = "sugaRbag"))
+library(sf)
+library(viridis)
+library(ggthemes)
+library(sugaRbag)
+library(plotly)
+#shp_path <- system.file("data","sa2_2011.Rda", package = "sugaRbag")
+#load(system.file("data","capital_cities.Rda", package = "sugaRbag"))
 
-shp_sf <- read_shape(shp_path, simplify = TRUE)
-
+#shp_sf <- read_shape(shp_path, simplify = TRUE)
+shp_sf <- read_shape("data/sa2_2011.Rda", simplify = TRUE)
 
 ###############################################################################
 # consider only VIC
 vic_sf <- shp_sf %>% filter(STE_NAME11 == "Victoria")
+
+# Make a map
+ggplot(vic_sf) +
+    geom_sf(aes(fill = population, label = SA2_NAME11)) +
+    scale_fill_viridis() +
+    theme_foundation()
+ggplotly()
 
 sf_id = "SA2_NAME11"
 centroids <- create_centroids(vic_sf, id = sf_id)
