@@ -19,9 +19,9 @@ vic_sf <- shp_sf %>% filter(STE_NAME11 == "Victoria")
 
 # Make a basic map
 ggplot(vic_sf) +
-    geom_sf(aes(fill = population, label = SA2_NAME11)) +
-    scale_fill_viridis() +
-    theme_foundation()
+    geom_sf(aes(fill = SA4_NAME11, label = SA2_NAME11)) +
+    scale_fill_viridis_d() +
+    guides(fill = FALSE)
 ggplotly()
 
 sf_id = "SA2_NAME11"
