@@ -28,11 +28,11 @@ filter_grid_points <- function(f_grid, f_centroid, focal_points = NULL, f_dist =
 
     # Filter distance in degrees for initial filter step
 
-    fdist_d <- f_dist/1000
+    fdist_d <- f_dist/10000
     flat <- f_centroid$latitude
     flong <- f_centroid$longitude
 
-    grid <- f_grid %>% filter(!assigned) %>%
+    grid <- f_grid %>%
         filter(between(hex_lat,
             flat - fdist_d, flat + fdist_d)) %>%
         filter(between(hex_long,
@@ -42,12 +42,11 @@ filter_grid_points <- function(f_grid, f_centroid, focal_points = NULL, f_dist =
     grid <- grid %>% mutate(
         hex_lat_c = hex_lat - flat,
         hex_long_c = hex_long - flong) %>%
-    # filter circle
         mutate(hyp = ((hex_lat_c^2) + (hex_long_c^2))^(1/2),
-            angle = finalBearing(cbind(f_centroid$longitude1,f_centroid$latitude1),
+            angle = geosphere::finalBearing(cbind(f_centroid$longitude1,f_centroid$latitude1),
                 c(flong, flat),
-                a=6378160, f=0)
-            )
+                a=6378160, f=0))
+
 
     # Filter for angle within circle
     if ("focal_distance" %in% colnames(f_centroid)) {
@@ -59,6 +58,9 @@ filter_grid_points <- function(f_grid, f_centroid, focal_points = NULL, f_dist =
             hex_angle = (atan*180/pi))
 
         grid <- grid %>%
+            # create circle of radius: fdist_d
+            filter(hyp < fdist_d/10) %>%
+            # create slice of 60 degrees from centroid
             filter(angle_minus < hex_angle & hex_angle < angle_plus)
     }
 
