@@ -29,6 +29,9 @@ allocate <- function(centroids, hex_grid, hex_size, filter_dist, focal_points = 
     # Set up allocation data frame
     centroid_allocation <- NULL
 
+    # keep value to reset expanded distances
+    expand_dist <- filter_dist
+
     ###########################################################################
     p <- progress_estimated(NROW(centroids), min_time = 3)
 
@@ -48,8 +51,6 @@ allocate <- function(centroids, hex_grid, hex_size, filter_dist, focal_points = 
             filter_dist <- 1000
         }
 
-        # keep value to reset expanded distances
-        expand_dist <- filter_dist
 
         # a possible expansion according to size of grid
         #width = max(grid$hex_long)-min(grid$hex_long)
