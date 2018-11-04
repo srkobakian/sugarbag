@@ -27,10 +27,10 @@
 filter_grid_points <- function(f_grid, f_centroid, focal_points = NULL, f_dist = filter_dist){
 
     # Filter distance in degrees for initial filter step
-
-    fdist_d <- f_dist/10000
+    fdist_d <- f_dist/1000
     flat <- f_centroid$latitude
     flong <- f_centroid$longitude
+
 
     grid <- f_grid %>%
         filter(between(hex_lat,
@@ -38,20 +38,26 @@ filter_grid_points <- function(f_grid, f_centroid, focal_points = NULL, f_dist =
         filter(between(hex_long,
             flong - fdist_d, flong + fdist_d))
 
-    # centre long lats
     grid <- grid %>% mutate(
         hex_lat_c = hex_lat - flat,
         hex_long_c = hex_long - flong) %>%
-        mutate(hyp = ((hex_lat_c^2) + (hex_long_c^2))^(1/2),
-            angle = geosphere::finalBearing(cbind(f_centroid$longitude1,f_centroid$latitude1),
-                c(flong, flat),
-                a=6378160, f=0))
+        mutate(hyp = ((hex_lat_c^2) + (hex_long_c^2))^(1/2))
 
 
     # Filter for angle within circle
     if ("focal_distance" %in% colnames(f_centroid)) {
 
+        #f_angle <- f_centroid %>%
+         #   mutate(angle = (atan2(sin(longitude1-longitude)*cos(latitude1),
+         #  cos(latitude)*sin(latitude1) - sin(latitude)*cos(latitude1)*cos(latitude-longitude))*180/pi)) %>%
+         #  pull(angle)
+        f_angle <- geosphere::finalBearing(
+            cbind(f_centroid$longitude1,f_centroid$latitude1), c(flong, flat), a=6378160, f=0)
+
+
         grid <- grid %>% mutate(
+            # geosphere takes a long time
+            angle = f_angle,
             angle_plus = angle + 30,
             angle_minus = angle - 30,
             atan = atan2(hex_lat_c, hex_long_c),
@@ -59,7 +65,7 @@ filter_grid_points <- function(f_grid, f_centroid, focal_points = NULL, f_dist =
 
         grid <- grid %>%
             # create circle of radius: fdist_d
-            filter(hyp < fdist_d/10) %>%
+            filter(hyp < fdist_d) %>%
             # create slice of 60 degrees from centroid
             filter(angle_minus < hex_angle & hex_angle < angle_plus)
     }
