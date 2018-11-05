@@ -29,7 +29,7 @@ ggplotly()
 ggplot(vic_sf) +
     geom_sf(aes(fill = SA4_NAME11, label = SA2_NAME11)) +
     scale_fill_viridis_d() +
-    facet_wrap(~SA4_NAME11) +
+    facet_geo(~SA4_NAME11, grid = facet_grid) +
     guides(fill = FALSE)
 
 # create centroids
@@ -201,7 +201,7 @@ ggplotly()
 ggplot(vic_sf) +
     geom_sf(aes(fill = population, label = SA2_NAME11)) +
     scale_fill_viridis() +
-    facet_wrap(~ SA4_NAME11) +
+    facet_geo(~ SA4_NAME11, grid = facet_grid, grid = facet_grid) +
     theme_foundation()
 
 
@@ -224,7 +224,7 @@ ggplot(data=hexmap2) +
     geom_hex(aes(x = hex_long, y = hex_lat, fill=SA4_NAME11,
         label = SA2_NAME11), position = "identity", stat = "identity") +
     scale_fill_viridis_d() +
-   # facet_wrap(~SA4_NAME11, scales = "free") +
+    facet_geo(~SA4_NAME11, scales = "free", grid = facet_grid) +
     guides(fill = FALSE)
 
 
@@ -235,14 +235,8 @@ ggplotly(g_h)
 #ggplot(hex_grid, aes(hex_long, hex_lat)) + geom_point() +geom_point(data = centroid_allocation, aes(hex_long, hex_lat), colour= "red") + geom_point(aes(x=longitude, y=latitude),centroid, colour="blue") + geom_point(data = centroid_allocation %>% filter(SA2_NAME11 == "Melbourne"), aes(hex_long, hex_lat), colour= "yellow")
 
 
-# axis labels correctly moved to the right
-ggplot(data = hexmap2) +
-    geom_polygon(aes(x=long,y=lat,group=group), colour = "grey", fill= "white") + coord_equal() +
-    geom_hex(aes(x = hex_long, y = hex_lat))+
-    guides(fill=FALSE)
-
 
 # Facet use geofacet
 ggplot(hexmap2, aes(hex_long, hex_lat)) +
-    geom_hex() +
+    geom_hex(position = "identity", stat = "identity") +
     facet_geo(~ SA4_NAME11, grid = facet_grid, scales = "free")
