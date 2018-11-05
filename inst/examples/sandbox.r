@@ -24,7 +24,16 @@ ggplot(vic_sf) +
     guides(fill = FALSE)
 ggplotly()
 
+
+# Facet by
+ggplot(vic_sf) +
+    geom_sf(aes(fill = SA4_NAME11, label = SA2_NAME11)) +
+    scale_fill_viridis_d() +
+    facet_wrap(~SA4_NAME11) +
+    guides(fill = FALSE)
+
 # create centroids
+
 sf_id = "SA2_NAME11"
 centroids <- create_centroids(vic_sf, id = sf_id)
 
@@ -211,11 +220,10 @@ ggplot() +
         aes(x = hex_long, y = hex_lat, fill=SA4_NAME11,
         label = SA2_NAME11), position = "identity", stat = "identity") +
     scale_fill_viridis_d() +
-    facet_wrap(~SA4_NAME11)
+    facet_wrap(~SA4_NAME11) +
     guides(fill = FALSE)
 
 # Interctive MAP
-library(plotly)
 ggplotly(g_h)
 
 # plot to check long lat against Melbourne
