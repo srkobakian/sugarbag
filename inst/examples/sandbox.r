@@ -189,8 +189,7 @@ hexmap_df <- left_join(vic_sf, hexmap_allocation, by = c("SA2_NAME11"))
 
 # JOIN OTHER DATA HERE
 ###############################################################################
-# Hexmap
-#g_s <- ggplot(hexmap_df) + geom_sf(aes(fill=SA4_NAME11)) + guides(fill = FALSE)
+
 
 ggplot(vic_sf) +
     geom_sf(aes(fill = population, label = SA2_NAME11)) +
@@ -206,22 +205,28 @@ ggplot(vic_sf) +
     theme_foundation()
 
 
-g_h <- ggplot() +
-    #geom_sf(data=vic_sf, position = "identity", stat = "identity") +
-    geom_hex(data=hexmap_df, aes(x = hex_long, y = hex_lat, fill=SA4_NAME11,
+
+
+# converting to fortified tibble
+
+hexmap2 <- sfc_to_tibble(hexmap_df)
+
+g_h <- ggplot(data=hexmap2) +
+    geom_polygon(aes(x=long,y=lat,order=order,group=group), fill= "white") +
+    geom_hex(aes(x = hex_long, y = hex_lat, fill=SA4_NAME11,
             label = SA2_NAME11), position = "identity", stat = "identity") +
     scale_fill_viridis_d() +
     guides(fill = FALSE)
-g_h
 
 
-ggplot() +
-    geom_hex(data=hexmap_df,
-        aes(x = hex_long, y = hex_lat, fill=SA4_NAME11,
+ggplot(data=hexmap2) +
+    geom_polygon(aes(x=long,y=lat,order=order,group=group), fill= "white") +
+    geom_hex(aes(x = hex_long, y = hex_lat, fill=SA4_NAME11,
         label = SA2_NAME11), position = "identity", stat = "identity") +
     scale_fill_viridis_d() +
-    facet_wrap(~SA4_NAME11) +
+   # facet_wrap(~SA4_NAME11, scales = "free") +
     guides(fill = FALSE)
+
 
 # Interctive MAP
 ggplotly(g_h)
@@ -229,11 +234,6 @@ ggplotly(g_h)
 # plot to check long lat against Melbourne
 #ggplot(hex_grid, aes(hex_long, hex_lat)) + geom_point() +geom_point(data = centroid_allocation, aes(hex_long, hex_lat), colour= "red") + geom_point(aes(x=longitude, y=latitude),centroid, colour="blue") + geom_point(data = centroid_allocation %>% filter(SA2_NAME11 == "Melbourne"), aes(hex_long, hex_lat), colour= "yellow")
 
-
-
-# converting to fortified tibble
-
-hexmap2 <- sfc_to_tibble(hexmap_df)
 
 # axis labels correctly moved to the right
 ggplot(data = hexmap2) +
