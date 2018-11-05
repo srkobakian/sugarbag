@@ -240,3 +240,9 @@ ggplot(data = hexmap2) +
     geom_polygon(aes(x=long,y=lat,group=group), colour = "grey", fill= "white") + coord_equal() +
     geom_hex(aes(x = hex_long, y = hex_lat))+
     guides(fill=FALSE)
+
+
+# Facet use geofacet
+ggplot(hexmap2, aes(hex_long, hex_lat)) +
+    geom_hex() +
+    facet_geo(~ SA4_NAME11, grid = facet_grid, scales = "free")
