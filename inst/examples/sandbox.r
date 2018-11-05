@@ -176,7 +176,7 @@ system.time(
 # hexmap_allocation <- left_join(shp_sf, hexmap_allocation)
 
 # for VIC
-hexmap_df <- left_join(vic_sf, hexmap_allocation, by = c("LGA_NAME11"))
+hexmap_df <- left_join(vic_sf, hexmap_allocation, by = c("SA2_NAME11"))
 
 # JOIN OTHER DATA HERE
 ###############################################################################
@@ -224,11 +224,6 @@ ggplotly(g_h)
 
 
 # converting to fortified tibble
-
-#hexmap2 = as(hexmap_df,'Spatial')
-#hexmap2@data[["row"]] = rownames(hexmap2@data)
-#hexmap2  = fortify(hexmap2) %>% left_join(hexmap2@data, by =c#("id" = "row"))
-#hexmap2 %>% dplyr::select(-id)
 
 hexmap2 <- sfc_to_tibble(hexmap_df)
 
