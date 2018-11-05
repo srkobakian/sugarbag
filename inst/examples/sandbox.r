@@ -24,6 +24,7 @@ ggplot(vic_sf) +
     guides(fill = FALSE)
 ggplotly()
 
+# create centroids
 sf_id = "SA2_NAME11"
 centroids <- create_centroids(vic_sf, id = sf_id)
 
@@ -175,7 +176,7 @@ system.time(
 # hexmap_allocation <- left_join(shp_sf, hexmap_allocation)
 
 # for VIC
-hexmap_df <- left_join(vic_sf, hexmap_allocation, by = c("SA2_NAME11"))
+hexmap_df <- left_join(vic_sf, hexmap_allocation, by = c("LGA_NAME11"))
 
 # JOIN OTHER DATA HERE
 ###############################################################################
@@ -219,3 +220,20 @@ ggplotly(g_h)
 
 # plot to check long lat against Melbourne
 #ggplot(hex_grid, aes(hex_long, hex_lat)) + geom_point() +geom_point(data = centroid_allocation, aes(hex_long, hex_lat), colour= "red") + geom_point(aes(x=longitude, y=latitude),centroid, colour="blue") + geom_point(data = centroid_allocation %>% filter(SA2_NAME11 == "Melbourne"), aes(hex_long, hex_lat), colour= "yellow")
+
+
+
+# converting to fortified tibble
+
+#hexmap2 = as(hexmap_df,'Spatial')
+#hexmap2@data[["row"]] = rownames(hexmap2@data)
+#hexmap2  = fortify(hexmap2) %>% left_join(hexmap2@data, by =c#("id" = "row"))
+#hexmap2 %>% dplyr::select(-id)
+
+hexmap2 <- sfc_to_tibble(hexmap_df)
+
+# axis labels correctly moved to the right
+ggplot(data = hexmap2) +
+    geom_polygon(aes(x=long,y=lat,group=group), colour = "grey", fill= "white") + coord_equal() +
+    geom_hex(aes(x = hex_long, y = hex_lat))+
+    guides(fill=FALSE)
