@@ -5,7 +5,7 @@
 #' the geographic chape of each area is lost.
 #'
 #'
-#' @param shp_path character vector location of shape file, extension .shp
+#' @param shp_path character string location of shape file
 #' @param buffer_dist distance in degrees to extend beyond the geometry provided
 #' @param hex_size a float value in degrees for the diameter of the hexagons
 #' @param filter_dist distance around centroid to consider grid points
@@ -28,14 +28,14 @@
 #' hex_size = "auto", export_shp = FALSE, focal_points = capital_cities)
 #' }
 #'
-create_hexmap <- function(shp_path, buffer_dist = NULL, hex_size = "auto", filter_dist = 5000, focal_points = NULL, export_shp = FALSE, show_progress = FALSE) {
+create_hexmap <- function(shp_path, sf_id = NULL, buffer_dist = NULL, hex_size = "auto", filter_dist = 5000, focal_points = NULL, export_shp = FALSE, show_progress = FALSE) {
 
     # Read in ESRI shape file, remove null geometries, transform projection
     shp_sf <- read_shape(shp_path, simplify = TRUE)
 
     ###########################################################################
     # Derive centroids from geometry column, do something about warning message
-    centroids <- create_centroids(shp_sf)
+    centroids <- create_centroids(shp_sf, id = sf_id)
 
     # Creating a bounding box around all centroids
     bbox <- tibble::tibble(min = c(min(centroids$longitude),
