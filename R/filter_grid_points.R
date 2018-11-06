@@ -21,8 +21,6 @@
 #' @importFrom tibble tibble as.tibble
 #'
 #'
-#' @examples
-#'
 #'
 filter_grid_points <- function(f_grid, f_centroid, focal_points = NULL, f_dist = filter_dist){
 
@@ -47,12 +45,12 @@ filter_grid_points <- function(f_grid, f_centroid, focal_points = NULL, f_dist =
     # Filter for angle within circle
     if ("focal_distance" %in% colnames(f_centroid)) {
 
-        #f_angle <- f_centroid %>%
-         #   mutate(angle = (atan2(sin(longitude1-longitude)*cos(latitude1),
-         #  cos(latitude)*sin(latitude1) - sin(latitude)*cos(latitude1)*cos(latitude-longitude))*180/pi)) %>%
-         #  pull(angle)
-        f_angle <- geosphere::finalBearing(
-            cbind(f_centroid$longitude1,f_centroid$latitude1), c(flong, flat), a=6378160, f=0)
+        f_angle <- f_centroid %>%
+           mutate(angle = (atan2(sin(longitude1-longitude)*cos(latitude1),
+           cos(latitude)*sin(latitude1) - sin(latitude)*cos(latitude1)*cos(latitude-longitude))*180/pi)) %>%
+           pull(angle)
+        #f_angle <- geosphere::finalBearing(
+        #   cbind(f_centroid$longitude1,f_centroid$latitude1), c(flong, flat), a=6378160, f=0)
 
 
         grid <- grid %>% mutate(

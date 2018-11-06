@@ -4,7 +4,7 @@
 \alias{allocate}
 \title{Allocate polygon centroids to hexagons in a grid}
 \usage{
-allocate(centroids, hex_grid, hex_size, filter_dist, focal_points,
+allocate(centroids, hex_grid, hex_size, filter_dist, focal_points = NULL,
   show_progress, id)
 }
 \arguments{
@@ -12,9 +12,16 @@ allocate(centroids, hex_grid, hex_size, filter_dist, focal_points,
 
 \item{hex_grid}{a data frame containing all possible hexagon points}
 
-\item{hex_size}{distance between each grid point}
+\item{hex_size}{a float value in degrees for the diameter of the hexagons}
 
-\item{filter_dist}{distance around centroid to consider hex points}
+\item{filter_dist}{distance around centroid to consider grid points}
+
+\item{focal_points}{a data frame of reference locations when allocating
+hexagons, capital cities of Australia are used in the example}
+
+\item{show_progress}{a boolean to indicate whether to show polygon id}
+
+\item{id}{a string to indicate the column to identify individual polygons}
 }
 \value{
 a data frame of one allocation

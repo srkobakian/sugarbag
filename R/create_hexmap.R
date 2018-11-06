@@ -35,7 +35,7 @@ create_hexmap <- function(shp_path, sf_id = NULL, buffer_dist = NULL, hex_size =
 
     ###########################################################################
     # Derive centroids from geometry column, do something about warning message
-    centroids <- create_centroids(shp_sf, id = sf_id)
+    centroids <- create_centroids(shp_sf, sf_id = sf_id)
 
     # Creating a bounding box around all centroids
     bbox <- tibble::tibble(min = c(min(centroids$longitude),
@@ -79,7 +79,7 @@ create_hexmap <- function(shp_path, sf_id = NULL, buffer_dist = NULL, hex_size =
 
         # distance between centroids and all focal points
         message("Finding closest point in focal_points data set.")
-        s_centroids <- split(x = centroids, f = centroids$sf_id)
+        s_centroids <- split(x = centroids, f = centroids[[sf_id]])
 
         centroids <- bind_cols(centroids,
             purrr::map_dfr(.x = s_centroids,

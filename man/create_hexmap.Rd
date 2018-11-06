@@ -4,12 +4,12 @@
 \alias{create_hexmap}
 \title{Create a tesselated hexagon map from a set of polygons}
 \usage{
-create_hexmap(shp_path, buffer_dist = NULL, hex_size = "auto",
-  filter_dist = 5000, focal_points = NULL, export_shp = FALSE,
-  show_progress = FALSE)
+create_hexmap(shp_path, sf_id = NULL, buffer_dist = NULL,
+  hex_size = "auto", filter_dist = 5000, focal_points = NULL,
+  export_shp = FALSE, show_progress = FALSE)
 }
 \arguments{
-\item{shp_path}{character vector location of shape file, extension .shp}
+\item{shp_path}{character string location of shape file}
 
 \item{buffer_dist}{distance in degrees to extend beyond the geometry provided}
 

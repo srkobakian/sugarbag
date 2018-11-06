@@ -5,11 +5,11 @@
 #' @return a tibble containing longitude and latitude
 #' @export
 #'
-#' @examples
-create_centroids <- function(shp_sf, id = NULL) {
+#'
+create_centroids <- function(shp_sf, sf_id = NULL) {
     # have an option to pass id column
 
-    ids <- shp_sf %>% sf::st_set_geometry(NULL) %>% dplyr::select(.data[[id]])
+    ids <- shp_sf %>% sf::st_set_geometry(NULL) %>% dplyr::select(.data[[sf_id]])
 
     centroids <- shp_sf %>% sf::st_centroid() %>%
         sf::st_transform(., '+init=epsg:3112 +proj=longlat +ellps=GRS80') %>%
@@ -17,7 +17,7 @@ create_centroids <- function(shp_sf, id = NULL) {
         tibble::as.tibble()
 
     # return with id column as specified
-    if (is.null(id)) {
+    if (is.null(sf_id)) {
 
         centroids <- centroids %>%
             mutate(sf_id = as.factor(dplyr::row_number())) %>%

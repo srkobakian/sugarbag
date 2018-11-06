@@ -9,7 +9,7 @@
 #' @return data frame containing the name and location of the closest focal
 #' @export
 #'
-#' @examples
+#'
 closest_focal_point <- function(centroid, focal_points = as.matrix(focal_points)) {
 
 

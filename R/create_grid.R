@@ -42,10 +42,6 @@ create_grid <- function(centroids, bbox, hex_size, buffer_dist) {
         dplyr::mutate(assigned=FALSE)
 
 
-
-
-    nlong <- length(unique(grid$hex_long))
-    nlat <- length(unique(grid$hex_lat))
     grid <- grid %>%
         mutate(hex_long_int = dense_rank(hex_long)-1,
             hex_lat_int = dense_rank(hex_lat)-1)

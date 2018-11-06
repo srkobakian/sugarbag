@@ -29,7 +29,3 @@ a tibble of filtered grid points
 Takes only the closest available gridpoints as possible hexagon centroids
 to allocate polygons.
 }
-\examples{
-
-
-}

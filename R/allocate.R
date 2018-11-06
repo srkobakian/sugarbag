@@ -79,7 +79,7 @@ allocate <- function(centroids, hex_grid, hex_size, filter_dist, focal_points = 
         }
 
         # Choose first avaiable point
-        cent <- centroid %>% select(sf_id, longitude, latitude, focal_point = points, focal_dist = focal_distance, focal_angle = angle)
+        cent <- centroid %>% dplyr::rename(focal_point = points, focal_dist = focal_distance, focal_angle = angle)
 
         # Filter should give one hex point
         hex <- f_grid %>% ungroup %>% filter(hyp == min(hyp)) %>%
