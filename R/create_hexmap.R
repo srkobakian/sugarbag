@@ -28,7 +28,7 @@
 #' hex_size = "auto", export_shp = FALSE, focal_points = capital_cities)
 #' }
 #'
-create_hexmap <- function(shp_path, sf_id = NULL, buffer_dist = NULL, hex_size = "auto", filter_dist = 5000, focal_points = NULL, export_shp = FALSE, show_progress = FALSE) {
+create_hexmap <- function(shp_path, sf_id = NULL, buffer_dist = NULL, hex_size = "auto", filter_dist = 1000, focal_points = NULL, export_shp = FALSE, show_progress = FALSE) {
 
     # Read in ESRI shape file, remove null geometries, transform projection
     shp_sf <- read_shape(shp_path, simplify = TRUE)
@@ -97,7 +97,8 @@ create_hexmap <- function(shp_path, sf_id = NULL, buffer_dist = NULL, hex_size =
         hex_size = hex_size,
         filter_dist = filter_dist,
         focal_points = focal_points,
-        show_progress = show_progress)
+        show_progress = show_progress,
+        id = sf_id)
 
     # join original data to hex information
     hexmap_allocation <- left_join(shp_sf, hexmap_allocation)
