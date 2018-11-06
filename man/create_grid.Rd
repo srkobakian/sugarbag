@@ -24,6 +24,3 @@ This function takes the bounding box of a group of polygons, or a specific
 table of minimum and maximum longitudes and latitudes to create points
 for each polygon to be allocated to that will tesselate into hexagons.
 }
-\examples{
-
-}
