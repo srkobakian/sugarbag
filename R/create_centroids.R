@@ -6,7 +6,12 @@
 #' @export
 #'
 #'
-create_centroids <- function(shp_sf, sf_id = NULL) {
+create_centroids <- function(shp_sf, sf_id = NULL, verbose = FALSE) {
+
+    if (verbose) {
+        message("Deriving polygon centroids")
+    }
+
     # have an option to pass id column
 
     ids <- shp_sf %>% sf::st_set_geometry(NULL) %>% dplyr::select(.data[[sf_id]])

@@ -8,6 +8,7 @@
 #' @param grid data frame of hexagon centroids
 #' @param buffer_dist distance to extend beyond the geometry provided
 #' @param hex_size a float value in degrees for the diameter of the hexagons
+#' @param verbose a boolean to indicate whether to show function progress
 #'
 #' @return data frame of hexagon centroids
 #' @export
@@ -17,7 +18,7 @@
 #'
 #'
 
-create_buffer <- function(centroids, grid, hex_size, buffer_dist) {
+create_buffer <- function(centroids, grid, hex_size, buffer_dist, verbose = FALSE) {
     ###########################################################################
     # filter grid points to be within buffer_dist
 
@@ -102,6 +103,10 @@ create_buffer <- function(centroids, grid, hex_size, buffer_dist) {
     # APPLY A BUFFER
     # change buffer to amount of hexagons (ints) either side
     hex_buffer <- floor(buffer_dist/hex_size)
+
+    if (verbose) {
+        message("Applying buffer zone to hexagon grid.")
+    }
 
     buff_grid <- grid %>%
         left_join(., av_range_rows, by = c("hex_lat_int" = "lat_id")) %>%

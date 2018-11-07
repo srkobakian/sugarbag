@@ -10,13 +10,13 @@
 #' @param filter_dist distance around centroid to consider grid points
 #' @param focal_points a data frame of reference locations when allocating
 #' hexagons, capital cities of Australia are used in the example
-#' @param show_progress a boolean to indicate whether to show polygon id
+#' @param verbose a boolean to indicate whether to show polygon id
 #' @param id a string to indicate the column to identify individual polygons
 #'
 #' @return a data frame of one allocation
 #'
 #'
-allocate <- function(centroids, hex_grid, hex_size, filter_dist, focal_points = NULL, show_progress, id) {
+allocate <- function(centroids, hex_grid, hex_size, filter_dist, focal_points = NULL, verbose, id) {
 
     if (!is.null(focal_points)) {
         a_centroids <- centroids %>% arrange(focal_distance)
@@ -38,7 +38,7 @@ allocate <- function(centroids, hex_grid, hex_size, filter_dist, focal_points = 
     for (centroid in s_centroids) {
 
         # Indicate progression
-        if (show_progress) {
+        if (verbose) {
 
             p$tick()$print()
         }

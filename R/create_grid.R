@@ -9,6 +9,7 @@
 #' containing longitude and latitude values
 #' @param buffer_dist distance to extend beyond the geometry provided
 #' @param hex_size a float value in degrees for the diameter of the hexagons
+#' @param verbose a boolean to indicate whether to show function progress
 #'
 #' @return grid
 #' @export
@@ -18,8 +19,11 @@
 #'
 #'
 
-create_grid <- function(centroids, bbox, hex_size, buffer_dist) {
+create_grid <- function(centroids, bbox, hex_size, buffer_dist, verbose = FALSE) {
 
+    if (verbose){
+        message("Creating hexagon grid.")
+    }
     # filter grid points to be within buffer_dist
 
     grid <- tibble::as.tibble(expand.grid(hex_long = seq(bbox$min[1] - buffer_dist,
