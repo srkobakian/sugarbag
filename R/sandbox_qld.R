@@ -22,18 +22,16 @@ hexmap <- create_hexmap(shp = qld_sfc,
     export_shp = FALSE,
     focal_points = capital_cities[5,], verbose = TRUE)
 
-# for VIC
-hexmap_df <- left_join(vic_sf, hexmap_allocation, by = c("SA2_NAME11"))
 
 # converting to fortified tibble
 
-hexmap2 <- sfc_to_tibble(hexmap_df)
+hexmap2 <- sfc_to_tibble(hexmap)
 
 # Facet by SA4
 ggplot(qld_sfc) +
     geom_sf(aes(fill = SA4_NAME11, label = SA2_NAME11)) +
     scale_fill_viridis_d() +
-    facet_geo(~SA4_NAME11, grid = facet_grid) +
+    facet_geo(~SA4_NAME11, grid = qld_grid) +
     guides(fill = FALSE)
 
 
