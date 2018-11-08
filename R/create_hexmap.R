@@ -43,15 +43,16 @@ create_hexmap <- function(shp = NULL, shp_path = NULL, sf_id = NULL, buffer_dist
             shp_sf <- read_shape(shp_path, simplify = TRUE)
         }
         else {
-            message(paste0(shp_path," cannot be found."))
-            break
+            return(message(paste0(shp_path," cannot be found.")))
+
         }
     }
 
+    st_agr(shp_sf) = "constant"
 
     ###########################################################################
     # Derive centroids from geometry column, do something about warning message
-    centroids <- create_centroids(shp_sf, sf_id = sf_id)
+    centroids <- create_centroids(shp_sf = shp_sf, sf_id = sf_id)
 
     # Creating a bounding box around all centroids
     bbox <- tibble::tibble(min = c(min(centroids$longitude),
@@ -103,7 +104,6 @@ create_hexmap <- function(shp = NULL, shp_path = NULL, sf_id = NULL, buffer_dist
 
     ###########################################################################
     # Allocate polygons to a hexagon
-
     hexmap_allocation <- allocate(centroids = centroids,
         hex_grid = hex_grid,
         hex_size = hex_size,

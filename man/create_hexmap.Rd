@@ -4,11 +4,13 @@
 \alias{create_hexmap}
 \title{Create a tesselated hexagon map from a set of polygons}
 \usage{
-create_hexmap(shp_path, sf_id = NULL, buffer_dist = NULL,
-  hex_size = "auto", filter_dist = 5000, focal_points = NULL,
-  export_shp = FALSE, show_progress = FALSE)
+create_hexmap(shp = NULL, shp_path = NULL, sf_id = NULL,
+  buffer_dist = NULL, hex_size = "auto", filter_dist = 1000,
+  focal_points = NULL, export_shp = FALSE, verbose = FALSE)
 }
 \arguments{
+\item{shp}{a shape file}
+
 \item{shp_path}{character string location of shape file}
 
 \item{buffer_dist}{distance in degrees to extend beyond the geometry provided}
@@ -22,7 +24,7 @@ hexagons, capital cities of Australia are used in the example}
 
 \item{export_shp}{export the simple features set}
 
-\item{show_progress}{a boolean to indicate whether to show polygon id}
+\item{verbose}{a boolean to indicate whether to show function progress}
 }
 \value{
 a data set containing longitude and latitude of allocated hexagon
@@ -39,8 +41,9 @@ the geographic chape of each area is lost.
 shp_path <- system.file("data","sa2_2011.Rda", package = "sugaRbag")
 load(system.file("data","capital_cities.Rda", package = "sugaRbag"))
 
-hexmap <- create_hexmap(shp_path = shp_path, buffer_dist = NULL,
-hex_size = "auto", export_shp = FALSE, focal_points = capital_cities)
+create_hexmap(shp_path = shp_path, sf_id = "SA2_NAME11", buffer_dist = NULL,
+filter_dist = 1000, hex_size = "auto", export_shp = FALSE,
+focal_points = capital_cities, verbose = TRUE)
 }
 
 }
