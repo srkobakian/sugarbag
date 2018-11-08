@@ -63,7 +63,7 @@ filter_grid_points <- function(f_grid, f_centroid, focal_points = NULL, f_dist =
                 hex_angle = (atan*360/pi))
 
 
-        if (grid$angle_minus[1]< grid$angle_plus[1]) {
+        if (grid$angle_minus[1] < grid$angle_plus[1]) {
             grid <- grid %>%
                 # create slice of 60 degrees from centroid
                 filter(angle_minus < hex_angle & hex_angle < angle_plus)

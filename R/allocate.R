@@ -19,9 +19,9 @@
 allocate <- function(centroids, hex_grid, hex_size, filter_dist, focal_points = NULL, verbose, id) {
 
     if (!is.null(focal_points)) {
-        a_centroids <- centroids %>% arrange(focal_distance)
-        s_centroids <- split(a_centroids, a_centroids[["focal_distance"]])
-        print("Allocating centroids, in order of distance to closest focal point.")
+        s_centroids <- centroids %>% arrange(focal_distance)
+        s_centroids <- split(s_centroids, s_centroids[["focal_distance"]])
+        message("Allocating centroids, in order of distance to closest focal point.")
     } else {
         s_centroids <- split(centroids, centroids[[id]])
     }
@@ -46,7 +46,7 @@ allocate <- function(centroids, hex_grid, hex_size, filter_dist, focal_points = 
         # filter the grid for appropriate hex positions
 
         # find appropriate filtering distance
-        if (filter_dist < 1000 | is.null(filter_dist)) {
+        if (filter_dist < 100 | is.null(filter_dist)) {
             # assume filter distance in degrees
             filter_dist <- 1000
         }
@@ -70,6 +70,7 @@ allocate <- function(centroids, hex_grid, hex_size, filter_dist, focal_points = 
             if (filter_dist < max_dist) {
                 f_grid <- filter_grid_points(f_grid = hex_grid, f_centroid = centroid, f_dist = filter_dist)
                 if (NROW(f_grid) == 0) {
+                    browser()
                     filter_dist <- filter_dist + expand_dist
                     print(paste("Filter Distance expanded by ", expand_dist, " to ", filter_dist))
                 }
