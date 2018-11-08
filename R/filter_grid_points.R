@@ -44,9 +44,9 @@ filter_grid_points <- function(f_grid, f_centroid, focal_points = NULL, f_dist =
     if ("focal_distance" %in% colnames(f_centroid)) {
 
         f_angle <- f_centroid %>%
-           mutate(angle = (atan2(sin(longitude1-longitude)*cos(latitude1),
-           cos(latitude)*sin(latitude1) - sin(latitude)*cos(latitude1)*cos(latitude-longitude))*360/pi)) %>%
-           pull(angle)
+            mutate(angle = (atan2(sin(longitude1-longitude)*cos(latitude1),
+                cos(latitude)*sin(latitude1) - sin(latitude)*cos(latitude1)*cos(latitude-longitude))*360/pi)) %>%
+            pull(angle)
         #f_angle <- geosphere::finalBearing(
         #   cbind(f_centroid$longitude1,f_centroid$latitude1), c(flong, flat), a=6378160, f=0)
 
@@ -55,18 +55,27 @@ filter_grid_points <- function(f_grid, f_centroid, focal_points = NULL, f_dist =
             # create circle of radius: fdist_d
             filter(hyp < fdist_d) %>%
             mutate(
-            # geosphere takes a long time
-            angle = f_angle,
-            angle_plus = angle + 40,
-            angle_minus = angle - 40,
-            atan = atan2(hex_lat_c, hex_long_c),
-            hex_angle = (atan*360/pi))
+                # geosphere takes a long time
+                angle = f_angle,
+                angle_plus = (angle + 40)%%360,
+                angle_minus = (angle - 40)%%360,
+                atan = atan2(hex_lat_c, hex_long_c),
+                hex_angle = (atan*360/pi))
 
-        grid <- grid %>%
-            # create slice of 60 degrees from centroid
-            filter(hex_angle < angle_plus) %>%
-            filter(angle_minus < hex_angle)
+
+        if (grid$angle_minus[1]< grid$angle_plus[1]) {
+            grid <- grid %>%
+                # create slice of 60 degrees from centroid
+                filter(angle_minus < hex_angle & hex_angle < angle_plus)
+        }
+        else {
+            grid <- grid %>%
+                # create slice of 60 degrees from centroid
+                filter(hex_angle < angle_plus | angle_minus > hex_angle)
+        }
+
     }
+
 
     return(grid)
 }
