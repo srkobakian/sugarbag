@@ -4,7 +4,7 @@
 \alias{create_grid}
 \title{Create a grid of evenly spaced points to allow hexagons to tesselate}
 \usage{
-create_grid(centroids, bbox, hex_size, buffer_dist)
+create_grid(centroids, bbox, hex_size, buffer_dist, verbose = FALSE)
 }
 \arguments{
 \item{centroids}{data frame of centroids to be allocated}
@@ -15,6 +15,8 @@ containing longitude and latitude values}
 \item{hex_size}{a float value in degrees for the diameter of the hexagons}
 
 \item{buffer_dist}{distance to extend beyond the geometry provided}
+
+\item{verbose}{a boolean to indicate whether to show function progress}
 }
 \value{
 grid

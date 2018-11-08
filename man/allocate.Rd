@@ -5,7 +5,7 @@
 \title{Allocate polygon centroids to hexagons in a grid}
 \usage{
 allocate(centroids, hex_grid, hex_size, filter_dist, focal_points = NULL,
-  show_progress, id)
+  verbose, id)
 }
 \arguments{
 \item{centroids}{a data frame with centroids of non empty polygons}
@@ -19,7 +19,7 @@ allocate(centroids, hex_grid, hex_size, filter_dist, focal_points = NULL,
 \item{focal_points}{a data frame of reference locations when allocating
 hexagons, capital cities of Australia are used in the example}
 
-\item{show_progress}{a boolean to indicate whether to show polygon id}
+\item{verbose}{a boolean to indicate whether to show polygon id}
 
 \item{id}{a string to indicate the column to identify individual polygons}
 }

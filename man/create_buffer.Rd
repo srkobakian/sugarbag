@@ -4,7 +4,7 @@
 \alias{create_buffer}
 \title{Expand points to extend beyond the outermost centroids}
 \usage{
-create_buffer(centroids, grid, hex_size, buffer_dist)
+create_buffer(centroids, grid, hex_size, buffer_dist, verbose = FALSE)
 }
 \arguments{
 \item{centroids}{data frame of centroids to be allocated}
@@ -14,6 +14,8 @@ create_buffer(centroids, grid, hex_size, buffer_dist)
 \item{hex_size}{a float value in degrees for the diameter of the hexagons}
 
 \item{buffer_dist}{distance to extend beyond the geometry provided}
+
+\item{verbose}{a boolean to indicate whether to show function progress}
 }
 \value{
 data frame of hexagon centroids
