@@ -14,17 +14,13 @@ library(geofacet)
 load(system.file("data","sa2_2011.Rda", package = "sugaRbag"))
 load("data/capital_cities.Rda")
 
-sf::st_as_sf(shp) ->shp_sfc
-shp_sfc %>% dplyr::filter(STE_NAME11=="Queensland")->qld_sfc
+shp_sfc <- sf::st_as_sf(shp)
+qld_sfc <- shp_sfc %>% dplyr::filter(STE_NAME11=="Queensland")
 
 hexmap <- create_hexmap(shp = qld_sfc,
     sf_id = "SA2_NAME11",
-    buffer_dist = NULL,
-    filter_dist = 500,
-    hex_size = 1,
     export_shp = FALSE,
-    focal_points = capital_cities, verbose = TRUE)
-
+    focal_points = capital_cities[5,], verbose = TRUE)
 
 # for VIC
 hexmap_df <- left_join(vic_sf, hexmap_allocation, by = c("SA2_NAME11"))
