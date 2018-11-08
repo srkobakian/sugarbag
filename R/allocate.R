@@ -70,7 +70,6 @@ allocate <- function(centroids, hex_grid, hex_size, filter_dist, focal_points = 
             if (filter_dist < max_dist) {
                 f_grid <- filter_grid_points(f_grid = hex_grid, f_centroid = centroid, f_dist = filter_dist)
                 if (NROW(f_grid) == 0) {
-                    browser()
                     filter_dist <- filter_dist + expand_dist
                     print(paste("Filter Distance expanded by ", expand_dist, " to ", filter_dist))
                 }
