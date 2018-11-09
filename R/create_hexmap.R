@@ -70,7 +70,7 @@ create_hexmap <- function(shp = NULL, shp_path = NULL, sf_id = NULL, buffer_dist
     if (buffer_dist > 5) {
         # convert metres to degrees
         buffer_dist = buffer_dist/111139
-        message(paste0("Converted buffer distance to ", buffer_dist, "metres"))
+        message(paste0("Converted buffer distance to ", round(buffer_dist, 4), "metres"))
     }
 
     # if matrix, convert to tibble
@@ -81,7 +81,7 @@ create_hexmap <- function(shp = NULL, shp_path = NULL, sf_id = NULL, buffer_dist
     # if hex_size TODO: tune this
     if (hex_size == "auto"){
         hex_size <- (bbox$max[1] - bbox$min[1])/(bbox$max[2] - bbox$min[2]) / 10
-        message(paste0("Converted hexagon size to ", hex_size, "degrees."))
+        message(paste0("Converted hexagon size to ", round(hex_size, 4), " degrees."))
     }
 
     ###########################################################################
