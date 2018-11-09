@@ -42,14 +42,17 @@ ggplot(data=hexmap2) +
     scale_fill_viridis_d() +
     facet_geo(~SA4_NAME11, scales = "free", grid = qld_grid) +
     guides(fill = FALSE) +
-    theme_minimal()
+    theme(strip.text.x = element_text(size = 5),
+        strip.background = element_rect(fill = NA, size = 1),
+        axis.text = element_blank(),
+        aspect.ratio = 1)
 
-# Full Vic map
+# Full Qld map
 ggplot(data=hexmap2) +
     geom_hex(aes(x = hex_long, y = hex_lat, fill=SA4_NAME11,
         label = SA2_NAME11), position = "identity", stat = "identity") +
     geom_polygon(aes(x=long,y=lat,order=order,group=group), colour = "grey", fill = NA) +
     scale_fill_viridis_d() +
     guides(fill = FALSE) +
-    theme_minimal()
+    theme(aspect.ratio = 1)
 
