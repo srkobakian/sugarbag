@@ -19,6 +19,7 @@ qld_sfc <- shp_sfc %>% dplyr::filter(STE_NAME11=="Queensland")
 
 hexmap <- create_hexmap(shp = qld_sfc,
     sf_id = "SA2_NAME11",
+    hex_size = 0.3,
     export_shp = FALSE,
     focal_points = capital_cities[5,], verbose = TRUE)
 
@@ -28,6 +29,7 @@ hexmap <- create_hexmap(shp = qld_sfc,
 hexmap2 <- sfc_to_tibble(hexmap)
 
 # Facet by SA4
+load("data/qld_grid.rda")
 ggplot(qld_sfc) +
     geom_sf(aes(fill = SA4_NAME11, label = SA2_NAME11)) +
     scale_fill_viridis_d() +
