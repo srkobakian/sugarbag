@@ -63,7 +63,6 @@ create_hexmap <- function(shp = NULL, shp_path = NULL, sf_id = NULL, buffer_dist
 
     # create a buffer distance if not supplied
     if (is.null(buffer_dist)){
-        browser()
         buffer_dist <- max((bbox$max[1] - bbox$min[1]), (bbox$max[2] - bbox$min[2]))*0.3
         message(paste0("Buffer set to ", round(buffer_dist,4), " degrees."))
     }
