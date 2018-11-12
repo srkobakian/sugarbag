@@ -54,10 +54,17 @@ fortified_SIR <- left_join(fortified_qld_3, qld_lung, by = c("SA2_NAME11"="SA2_n
 ggplot(data=fortified_SIR) +
     geom_hex(aes(x = hex_long, y = hex_lat, fill=p50,
         label = SA2_NAME11), position = "identity", stat = "identity") +
-    geom_polygon(aes(x=long,y=lat,order=order,group=group), colour = "grey", fill = NA) +
     scale_fill_viridis_c() +
     guides(fill = FALSE) +
     theme(aspect.ratio = 1)
-
-
 ```
+
+```{r}
+ggplot(data=fortified_SIR) +
+    scale_fill_viridis_c() +
+    guides(fill = FALSE) +
+    theme(aspect.ratio = 1) +
+    geom_polygon(aes(x=long,y=lat,group=group, fill =p50))
+    
+```
+
