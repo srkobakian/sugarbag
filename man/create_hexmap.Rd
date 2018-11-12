@@ -5,8 +5,9 @@
 \title{Create a tesselated hexagon map from a set of polygons}
 \usage{
 create_hexmap(shp = NULL, shp_path = NULL, sf_id = NULL,
-  buffer_dist = NULL, hex_size = "auto", filter_dist = 1000,
-  focal_points = NULL, export_shp = FALSE, verbose = FALSE)
+  buffer_dist = NULL, hex_size = NULL, filter_dist = NULL,
+  width = 30, focal_points = NULL, export_shp = FALSE,
+  verbose = FALSE)
 }
 \arguments{
 \item{shp}{a shape file}
@@ -17,7 +18,7 @@ create_hexmap(shp = NULL, shp_path = NULL, sf_id = NULL,
 
 \item{hex_size}{a float value in degrees for the diameter of the hexagons}
 
-\item{filter_dist}{distance around centroid to consider grid points}
+\item{filter_dist}{amount of hexagons around centroid to consider for allocation}
 
 \item{focal_points}{a data frame of reference locations when allocating
 hexagons, capital cities of Australia are used in the example}
@@ -42,7 +43,7 @@ shp_path <- system.file("data","sa2_2011.Rda", package = "sugaRbag")
 load(system.file("data","capital_cities.Rda", package = "sugaRbag"))
 
 create_hexmap(shp_path = shp_path, sf_id = "SA2_NAME11", buffer_dist = NULL,
-filter_dist = 1000, hex_size = "auto", export_shp = FALSE,
+filter_dist = 10, hex_size = "auto", export_shp = FALSE,
 focal_points = capital_cities, verbose = TRUE)
 }
 

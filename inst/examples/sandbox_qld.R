@@ -1,11 +1,11 @@
 # using create_hexmap only for VIC
+library(sugaRbag)
 
 library(tidyverse)
 library(purrr)
 library(sf)
 library(viridis)
 library(ggthemes)
-#library(sugaRbag)
 library(plotly)
 library(geofacet)
 
@@ -37,7 +37,7 @@ ggplot(qld_sfc) +
     guides(fill = FALSE)
 
 
-ggplot(data=hexmap_qld_3) +
+ggplot(data=fortified_qld_3) +
     geom_hex(aes(x = hex_long, y = hex_lat, fill=SA4_NAME11,
         label = SA2_NAME11), position = "identity", stat = "identity") +
     geom_polygon(aes(x=long,y=lat,order=order,group=group), colour = "grey", fill = NA) +
@@ -50,7 +50,7 @@ ggplot(data=hexmap_qld_3) +
         aspect.ratio = 1)
 
 # Full Qld map
-ggplot(data=hexmap_qld_3) +
+ggplot(data=fortified_qld_3) +
     geom_hex(aes(x = hex_long, y = hex_lat, fill=SA4_NAME11,
         label = SA2_NAME11), position = "identity", stat = "identity") +
     geom_polygon(aes(x=long,y=lat,order=order,group=group), colour = "grey", fill = NA) +

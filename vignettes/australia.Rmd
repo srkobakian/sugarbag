@@ -1,5 +1,5 @@
 ---
-title: "Australia"
+title: "Queensland"
 author: "Stephanie Kobakian"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
@@ -14,46 +14,85 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+
 library(sugaRbag)
-library(ggplot2)
-library(dplyr)
+
+library(tidyverse)
+library(purrr)
+library(sf)
+library(viridis)
+library(ggthemes)
+library(plotly)
+library(geofacet)
 ```
 
 
-#Australia
+# Queensland
 
 ```{r map1}
-shp_path <- system.file("data","sa2_2011.Rda", package = "sugaRbag")
-load(system.file("data","capital_cities.Rda", package = "sugaRbag"))
+load(system.file("data","sa2_2011.Rda", package = "sugaRbag"))
+load("data/capital_cities.Rda")
 
-# debug(create_buffer)
-# debug(find_lat_group)
-hexmap1 <- create_hexmap(shp_path = shp_path, buffer_dist = NULL,hex_size = .1, export_shp = FALSE, focal_points = capital_cities)
+shp_sfc <- sf::st_as_sf(shp)
+qld_sfc <- shp_sfc %>% dplyr::filter(STE_NAME11=="Queensland")
+
+hexmap <- create_hexmap(shp = qld_sfc,
+    sf_id = "SA2_NAME11",
+    hex_size = 0.3,
+    export_shp = FALSE,
+    focal_points = capital_cities[5,], verbose = TRUE)
+
 ```
-
-```{r}
-ggplot(hexmap1 %>% filter(focal_point=="Hobart")) + geom_hex(aes(x = hex_long, y = hex_lat), stat = "identity")
-```
-
-
-
-```{r}
-hexmap07 <- create_hexmap(shp_path = shp_path, buffer_dist = NULL,
-hex_size = .07, export_shp = FALSE, focal_points = capital_cities)
-
-ggplot(hexmap07 %>% filter(focal_point=="Hobart")) + geom_hex(aes(x = hex_long, y = hex_lat), stat = "identity")
-```
-
-
-
 
 
 ```{r}
-hexmap25 <- create_hexmap(shp_path = shp_path, buffer_dist = NULL,
-    hex_size = 0.25, export_shp = FALSE, focal_points = capital_cities)
 
-ggplot(hexmap25) + geom_hex(aes(x = hex_long, y = hex_lat), stat = "identity") + geom_point(aes(x=longitude, y=latitude), colour = "red", alpha = 0.2) 
-# add polygons to the map +geom_sf
+# join to geometry data
+hexmap_qld_3 <- left_join(hexmap, qld_sfc)
+
+# converting to fortified tibble
+fortified_qld_3<- sfc_to_tibble(hexmap_qld_3)
+
 ```
+
+
+
+```{r}
+
+# Facet by SA4
+load("data/qld_grid.rda")
+ggplot(qld_sfc) +
+    geom_sf(aes(fill = SA4_NAME11, label = SA2_NAME11)) +
+    scale_fill_viridis_d() +
+    facet_geo(~SA4_NAME11, grid = qld_grid) +
+    guides(fill = FALSE)
+
+
+ggplot(data=fortified_qld_3) +
+    geom_hex(aes(x = hex_long, y = hex_lat, fill=SA4_NAME11,
+        label = SA2_NAME11), position = "identity", stat = "identity") +
+    geom_polygon(aes(x=long,y=lat,order=order,group=group), colour = "grey", fill = NA) +
+    scale_fill_viridis_d() +
+    facet_geo(~SA4_NAME11, scales = "free", grid = qld_grid) +
+    guides(fill = FALSE) +
+    theme(strip.text.x = element_text(size = 5),
+        strip.background = element_rect(fill = NA, size = 1),
+        axis.text = element_blank(),
+        aspect.ratio = 1)
+
+```
+
+
+```{r}
+
+# Full Qld map
+ggplot(data=fortified_qld_3) +
+    geom_hex(aes(x = hex_long, y = hex_lat, fill=SA4_NAME11,
+        label = SA2_NAME11), position = "identity", stat = "identity") +
+    geom_polygon(aes(x=long,y=lat,order=order,group=group), colour = "grey", fill = NA) +
+    scale_fill_viridis_d() +
+    guides(fill = FALSE) +
+    theme(aspect.ratio = 1)
+
 ```
 

@@ -5,7 +5,7 @@
 \title{Filter full set of grid points for those within range of original point}
 \usage{
 filter_grid_points(f_grid, f_centroid, focal_points = NULL,
-  f_dist = filter_dist)
+  f_dist = filter_dist, angle_width = width)
 }
 \arguments{
 \item{f_grid}{complete grid of hexagon centroids}
@@ -19,7 +19,7 @@ those within a 30 degree range of the angle from focal point to centroid.
 The default "capitals" uses the locations of the Australian capital cities
 as focal points.}
 
-\item{f_dist}{a distance in metres, used as a boundary to filter
+\item{f_dist}{a distance in degrees, used as a boundary to filter
 the hexagon centroids considered for each polygon centroid to be allocated.}
 }
 \value{
