@@ -11,7 +11,7 @@
 #' those within a 30 degree range of the angle from focal point to centroid.
 #' The default "capitals" uses the locations of the Australian capital cities
 #' as focal points.
-#' @param f_dist a distance in metres, used as a boundary to filter
+#' @param f_dist a distance in degrees, used as a boundary to filter
 #' the hexagon centroids considered for each polygon centroid to be allocated.
 #'
 #' @return a tibble of filtered grid points
@@ -25,14 +25,13 @@
 filter_grid_points <- function(f_grid, f_centroid, focal_points = NULL, f_dist = filter_dist){
 
     # Filter distance in degrees for initial filter step
-    fdist_d <- f_dist/1000
     flat <- f_centroid$latitude
     flong <- f_centroid$longitude
 
 
     grid <- f_grid %>% ungroup() %>%
-        filter(flat - fdist_d < hex_lat & hex_lat < flat + fdist_d) %>%
-        filter(flong - fdist_d < hex_long & hex_long < flong + fdist_d)
+        filter(flat - f_dist < hex_lat & hex_lat < flat + f_dist) %>%
+        filter(flong - f_dist < hex_long & hex_long < flong + f_dist)
 
     grid <- grid %>% mutate(
         hex_lat_c = hex_lat - flat,
@@ -44,23 +43,22 @@ filter_grid_points <- function(f_grid, f_centroid, focal_points = NULL, f_dist =
     if ("focal_distance" %in% colnames(f_centroid)) {
 
         f_angle <- f_centroid %>%
-            mutate(angle = (atan2(sin(longitude1-longitude)*cos(latitude1),
-                cos(latitude)*sin(latitude1) - sin(latitude)*cos(latitude1)*cos(latitude-longitude))*360/pi)) %>%
-            pull(angle)
-        #f_angle <- geosphere::finalBearing(
-        #   cbind(f_centroid$longitude1,f_centroid$latitude1), c(flong, flat), a=6378160, f=0)
+            mutate(atan = atan2(latitude-latitude1,longitude-longitude1),
+                angle = (atan*180/pi),
+                pangle = ifelse(angle<0, angle +360, angle)) %>% pull()
 
 
         grid <- grid %>%
-            # create circle of radius: fdist_d
-            filter(hyp < fdist_d) %>%
+            # create circle of radius: f_dist
+            filter(hyp < f_dist) %>%
             mutate(
                 # geosphere takes a long time
                 angle = f_angle,
-                angle_plus = (angle + 40)%%360,
-                angle_minus = (angle - 40)%%360,
+                angle_plus = (angle + 25)%%360,
+                angle_minus = (angle - 25)%%360,
                 atan = atan2(hex_lat_c, hex_long_c),
-                hex_angle = (atan*360/pi))
+                hex_angle = (atan*180/pi),
+                hex_angle = ifelse(hex_angle<0, hex_angle +360, hex_angle))
 
 
         if (grid$angle_minus[1] < grid$angle_plus[1]) {

@@ -8,7 +8,7 @@
 #' @param shp_path character string location of shape file
 #' @param buffer_dist distance in degrees to extend beyond the geometry provided
 #' @param hex_size a float value in degrees for the diameter of the hexagons
-#' @param filter_dist distance around centroid to consider grid points
+#' @param filter_dist amount of hexagons around centroid to consider for allocation
 #' @param focal_points a data frame of reference locations when allocating
 #' hexagons, capital cities of Australia are used in the example
 #' @param export_shp export the simple features set
@@ -25,11 +25,12 @@
 #' load(system.file("data","capital_cities.Rda", package = "sugaRbag"))
 #'
 #' create_hexmap(shp_path = shp_path, sf_id = "SA2_NAME11", buffer_dist = NULL,
-#' filter_dist = 1000, hex_size = "auto", export_shp = FALSE,
+#' filter_dist = 10, hex_size = "auto", export_shp = FALSE,
 #' focal_points = capital_cities, verbose = TRUE)
 #' }
 #'
-create_hexmap <- function(shp = NULL, shp_path = NULL, sf_id = NULL, buffer_dist = NULL, hex_size = "auto", filter_dist = 1000, focal_points = NULL, export_shp = FALSE, verbose = FALSE) {
+create_hexmap <- function(shp = NULL, shp_path = NULL, sf_id = NULL, buffer_dist = NULL, hex_size = NULL, filter_dist = NULL, width = 30, focal_points = NULL, export_shp = FALSE, verbose = FALSE) {
+
 
     if (!is.null(shp)){
         if ("SpatialPolygonsDataFrame" %in% class(shp)){
@@ -62,8 +63,8 @@ create_hexmap <- function(shp = NULL, shp_path = NULL, sf_id = NULL, buffer_dist
 
     # create a buffer distance if not supplied
     if (is.null(buffer_dist)){
-        buffer_dist <- (bbox$max[1] - bbox$min[1]) / 10
-        message(paste0("Buffer set to ", buffer_dist, " degrees."))
+        buffer_dist <- max((bbox$max[1] - bbox$min[1]), (bbox$max[2] - bbox$min[2])) / 5
+        message(paste0("Buffer set to ", round(buffer_dist,4), " degrees."))
     }
 
     # Consider a buffer distance above 5 to be a mistake
@@ -73,13 +74,27 @@ create_hexmap <- function(shp = NULL, shp_path = NULL, sf_id = NULL, buffer_dist
         message(paste0("Converted buffer distance to ", round(buffer_dist, 4), "metres"))
     }
 
+
+    # filter according to amount of hexagons
+    if (is.null(filter_dist)){
+        filter_dist <- (hex_size)*10
+    }
+    else {
+        if (filter_dist < 10){
+        filter_dist <- (hex_size)*10
+        }
+        else {filter_dist <- (hex_size)*filter_dist}
+    }
+
+    message(paste0("Filter set to ", round(filter_dist,4), " degrees."))
+
     # if matrix, convert to tibble
     #if (!("tbl" %in% class(bbox))){
     #    bbox <- tibble::as.tibble(bbox)
     #}
 
     # if hex_size TODO: tune this
-    if (hex_size == "auto"){
+    if (is.null(hex_size)){
         hex_size <- (bbox$max[1] - bbox$min[1])/(bbox$max[2] - bbox$min[2]) / 10
         message(paste0("Converted hexagon size to ", round(hex_size, 4), " degrees."))
     }
@@ -114,11 +129,8 @@ create_hexmap <- function(shp = NULL, shp_path = NULL, sf_id = NULL, buffer_dist
         verbose = verbose,
         id = sf_id)
 
-    # join original data to hex information
-    hexmap_allocation <- left_join(shp_sf, hexmap_allocation)
-
     if (export_shp) {
-        return(c(hexmap_allocation, shp_sf))
+        return(list(hexmap_allocation, shp_sf))
     } else {
         return(hexmap_allocation)
 

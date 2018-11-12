@@ -1,12 +1,11 @@
 # using create_hexmap only for VIC
 
-
 library(tidyverse)
 library(purrr)
 library(sf)
 library(viridis)
 library(ggthemes)
-library(sugaRbag)
+#library(sugaRbag)
 library(plotly)
 library(geofacet)
 

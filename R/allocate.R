@@ -16,7 +16,7 @@
 #' @return a data frame of one allocation
 #'
 #'
-allocate <- function(centroids, hex_grid, hex_size, filter_dist, focal_points = NULL, verbose, id) {
+allocate <- function(centroids, hex_grid, hex_size, filter_dist, focal_points = NULL, width, verbose, id) {
 
     if (!is.null(focal_points)) {
         s_centroids <- centroids %>% arrange(focal_distance)
@@ -44,17 +44,6 @@ allocate <- function(centroids, hex_grid, hex_size, filter_dist, focal_points = 
         }
 
         # filter the grid for appropriate hex positions
-
-        # find appropriate filtering distance
-        if (filter_dist < 100 | is.null(filter_dist)) {
-            # assume filter distance in degrees
-            filter_dist <- 1000
-        }
-
-
-        # a possible expansion according to size of grid
-        #width = max(grid$hex_long)-min(grid$hex_long)
-
         f_grid = NULL
 
         # filter for only the available hex grid points
@@ -68,14 +57,22 @@ allocate <- function(centroids, hex_grid, hex_size, filter_dist, focal_points = 
         # filter grid for avaiable points
         while(NROW(f_grid) == 0) {
             if (filter_dist < max_dist) {
-                f_grid <- filter_grid_points(f_grid = hex_grid, f_centroid = centroid, f_dist = filter_dist)
+                f_grid <- filter_grid_points(f_grid = hex_grid, f_centroid = centroid, f_dist = filter_dist, angle_width = width)
                 if (NROW(f_grid) == 0) {
                     filter_dist <- filter_dist + expand_dist
                     print(paste("Filter Distance expanded by ", expand_dist, " to ", filter_dist))
                 }
             }
             # prevent endless loop
-            else break
+            else {
+                message("Cannot expand further, trying a wider angle.")
+                filter_dist <- max_dist/10
+                angle_width <- angle_width + 0.5*(angle_width)
+
+                browser()
+                #break
+            }
+
         }
 
         # Choose first avaiable point
