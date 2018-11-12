@@ -32,25 +32,30 @@ library(geofacet)
 
 
 ```{r}
-
 load(system.file("data","sa2_2011.Rda", package = "sugaRbag"))
 load(system.file("data","capital_cities.Rda", package = "sugaRbag"))
 load(system.file("data","fortified_qld_3.Rda", package = "sugaRbag"))
+load(system.file("data","SIR_Downloadable_Data.Rda", package = "sugaRbag"))
 
-SIR_Downloadable_Data <- read_csv("data/atlas-data/SIR Downloadable Data.csv")
 
-fortified_SIR <- left_join(fortified_qld_3, qld_sfc)
+
+qld_lung <- SIR_Downloadable_Data %>%
+    filter(Cancer_name=="Lung") %>%
+    filter(Sex_name == "Persons") %>%
+    filter(SA2_name %in% fortified_qld_3$SA2_NAME11)
+
+fortified_SIR <- left_join(fortified_qld_3, qld_lung, by = c("SA2_NAME11"="SA2_name"))
 
 ```
 
 
 
 ```{r}
-ggplot(data=fortified_qld_3) +
-    geom_hex(aes(x = hex_long, y = hex_lat, fill=SA4_NAME11,
+ggplot(data=fortified_SIR) +
+    geom_hex(aes(x = hex_long, y = hex_lat, fill=p50,
         label = SA2_NAME11), position = "identity", stat = "identity") +
     geom_polygon(aes(x=long,y=lat,order=order,group=group), colour = "grey", fill = NA) +
-    scale_fill_viridis_d() +
+    scale_fill_viridis_c() +
     guides(fill = FALSE) +
     theme(aspect.ratio = 1)
 
