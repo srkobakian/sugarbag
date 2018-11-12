@@ -1,0 +1,58 @@
+---
+title: "Vignette Title"
+author: "Vignette Author"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+```{r}
+
+library(sugaRbag)
+
+library(tidyverse)
+library(purrr)
+library(sf)
+library(viridis)
+library(ggthemes)
+library(plotly)
+library(geofacet)
+```
+
+
+```{r}
+
+load(system.file("data","sa2_2011.Rda", package = "sugaRbag"))
+load(system.file("data","capital_cities.Rda", package = "sugaRbag"))
+load(system.file("data","fortified_qld_3.Rda", package = "sugaRbag"))
+
+SIR_Downloadable_Data <- read_csv("data/atlas-data/SIR Downloadable Data.csv")
+
+fortified_SIR <- left_join(fortified_qld_3, qld_sfc)
+
+```
+
+
+
+```{r}
+ggplot(data=fortified_qld_3) +
+    geom_hex(aes(x = hex_long, y = hex_lat, fill=SA4_NAME11,
+        label = SA2_NAME11), position = "identity", stat = "identity") +
+    geom_polygon(aes(x=long,y=lat,order=order,group=group), colour = "grey", fill = NA) +
+    scale_fill_viridis_d() +
+    guides(fill = FALSE) +
+    theme(aspect.ratio = 1)
+
+
+```
