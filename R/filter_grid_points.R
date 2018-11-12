@@ -22,7 +22,7 @@
 #'
 #'
 #'
-filter_grid_points <- function(f_grid, f_centroid, focal_points = NULL, f_dist = filter_dist){
+filter_grid_points <- function(f_grid, f_centroid, focal_points = NULL, f_dist = filter_dist, angle_width = width){
 
     # Filter distance in degrees for initial filter step
     flat <- f_centroid$latitude
@@ -54,8 +54,8 @@ filter_grid_points <- function(f_grid, f_centroid, focal_points = NULL, f_dist =
             mutate(
                 # geosphere takes a long time
                 angle = f_angle,
-                angle_plus = (angle + 25)%%360,
-                angle_minus = (angle - 25)%%360,
+                angle_plus = (angle + angle_width)%%360,
+                angle_minus = (angle - angle_width)%%360,
                 atan = atan2(hex_lat_c, hex_long_c),
                 hex_angle = (atan*180/pi),
                 hex_angle = ifelse(hex_angle<0, hex_angle +360, hex_angle))
