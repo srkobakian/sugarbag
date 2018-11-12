@@ -9,6 +9,7 @@
 #'
 sfc_to_tibble <- function(sfc_df) {
 
+    sfc_df <- sf::st_as_sf(sfc_df)
     sf_tbl = as(sfc_df,'Spatial')
     sf_tbl@data[["row"]] <- rownames(sf_tbl@data)
     # Australian Projection for Long Lat

@@ -22,10 +22,11 @@ hexmap <- create_hexmap(shp = qld_sfc,
     export_shp = FALSE,
     focal_points = capital_cities[5,], verbose = TRUE)
 
+# join to geometry data
+hexmap_qld_3 <- left_join(hexmap, qld_sfc)
 
 # converting to fortified tibble
-
-hexmap2 <- sfc_to_tibble(hexmap)
+fortified_qld_3<- sfc_to_tibble(hexmap_qld_3)
 
 # Facet by SA4
 load("data/qld_grid.rda")
@@ -36,7 +37,7 @@ ggplot(qld_sfc) +
     guides(fill = FALSE)
 
 
-ggplot(data=hexmap2) +
+ggplot(data=hexmap_qld_3) +
     geom_hex(aes(x = hex_long, y = hex_lat, fill=SA4_NAME11,
         label = SA2_NAME11), position = "identity", stat = "identity") +
     geom_polygon(aes(x=long,y=lat,order=order,group=group), colour = "grey", fill = NA) +
@@ -49,7 +50,7 @@ ggplot(data=hexmap2) +
         aspect.ratio = 1)
 
 # Full Qld map
-ggplot(data=hexmap2) +
+ggplot(data=hexmap_qld_3) +
     geom_hex(aes(x = hex_long, y = hex_lat, fill=SA4_NAME11,
         label = SA2_NAME11), position = "identity", stat = "identity") +
     geom_polygon(aes(x=long,y=lat,order=order,group=group), colour = "grey", fill = NA) +
