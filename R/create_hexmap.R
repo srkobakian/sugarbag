@@ -63,12 +63,13 @@ create_hexmap <- function(shp = NULL, shp_path = NULL, sf_id = NULL, buffer_dist
 
     # create a buffer distance if not supplied
     if (is.null(buffer_dist)){
-        buffer_dist <- max((bbox$max[1] - bbox$min[1]), (bbox$max[2] - bbox$min[2])) / 5
+        browser()
+        buffer_dist <- max((bbox$max[1] - bbox$min[1]), (bbox$max[2] - bbox$min[2]))*0.3
         message(paste0("Buffer set to ", round(buffer_dist,4), " degrees."))
     }
 
     # Consider a buffer distance above 5 to be a mistake
-    if (buffer_dist > 5) {
+    if (buffer_dist > 100) {
         # convert metres to degrees
         buffer_dist = buffer_dist/111139
         message(paste0("Converted buffer distance to ", round(buffer_dist, 4), "metres"))
@@ -125,6 +126,7 @@ create_hexmap <- function(shp = NULL, shp_path = NULL, sf_id = NULL, buffer_dist
         hex_grid = hex_grid,
         hex_size = hex_size,
         filter_dist = filter_dist,
+        width = width,
         focal_points = focal_points,
         verbose = verbose,
         id = sf_id)

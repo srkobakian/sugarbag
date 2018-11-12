@@ -65,11 +65,12 @@ allocate <- function(centroids, hex_grid, hex_size, filter_dist, focal_points = 
             }
             # prevent endless loop
             else {
-                message("Cannot expand further, trying a wider angle.")
-                filter_dist <- max_dist/10
-                angle_width <- angle_width + 0.5*(angle_width)
 
-                browser()
+                filter_dist <- max_dist/5
+                width <- width + 5
+                message("Cannot expand further, trying a wider angle.")
+
+                #browser()
                 #break
             }
 
