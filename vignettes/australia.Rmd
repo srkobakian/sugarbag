@@ -68,32 +68,7 @@ The hexagon locations for each area polygon are returned.
 fortified_aus <- fortify_sfc(aus_sfc)
 
 # join to geometry data
-hexmap_aus_3 <- left_join(hexmap_qld_3, fortified_aus, by = c("SA2_NAME11" = "NAME"))
-```
-
-
-```{r}
-# Facet by STE
-#load("data/aus_grid.rda")
-ggplot(aus_sfc) +
-    geom_sf(aes(fill = STE_NAME11, label = SA2_NAME11)) +
-    scale_fill_viridis_d() +
-    #facet_geo(~STE_NAME11, grid = aus_grid1) +
-    guides(fill = FALSE)
-
-
-ggplot(data=fortified_aus_3) +
-    geom_hex(aes(x = hex_long, y = hex_lat, fill=STE_NAME11,
-        label = SA2_NAME11), position = "identity", stat = "identity") +
-    geom_polygon(aes(x=long,y=lat,order=order,group=group), colour = "grey", fill = NA) +
-    scale_fill_viridis_d() +
-    #facet_geo(~STE_NAME11, scales = "free", grid = aus_grid1) +
-    guides(fill = FALSE) +
-    theme(strip.text.x = element_text(size = 5),
-        strip.background = element_rect(fill = NA, size = 1),
-        axis.text = element_blank(),
-        aspect.ratio = 1)
-
+hexmap_aus_3 <- left_join(hexmap_qld_3, fortified_aus, by = c("SA2_NAME11"))
 ```
 
 
@@ -107,6 +82,31 @@ ggplot(data=fortified_aus_3) +
     scale_fill_viridis_d() +
     guides(fill = FALSE) +
     theme(aspect.ratio = 1)
+
+```
+
+
+```{r, fig.height=12, fig.width=6}
+# Facet by STE
+#load("data/aus_grid.rda")
+ggplot(aus_sfc) +
+    geom_sf(aes(fill = STE_NAME11, label = SA2_NAME11)) +
+    scale_fill_viridis_d() +
+    facet_geo(~STE_NAME11, scales = "free", grid = aus_grid1) +
+    guides(fill = FALSE)
+
+
+ggplot(data=fortified_aus_3) +
+    geom_hex(aes(x = hex_long, y = hex_lat, fill=STE_NAME11,
+        label = SA2_NAME11), position = "identity", stat = "identity") +
+    geom_polygon(aes(x=long,y=lat,order=order,group=group), colour = "grey", fill = NA) +
+    scale_fill_viridis_d() +
+    facet_geo(~STE_NAME11, scales = "free", grid = aus_grid1) +
+    guides(fill = FALSE) +
+    theme(strip.text.x = element_text(size = 5),
+        strip.background = element_rect(fill = NA, size = 1),
+        axis.text = element_blank(),
+        aspect.ratio = 1)
 
 ```
 
