@@ -28,7 +28,7 @@ library(purrr)
 library(sf)
 library(viridis)
 library(ggthemes)
-library(plotly)
+#library(plotly)
 library(geofacet)
 ```
 
@@ -56,6 +56,12 @@ hexmap <- create_hexmap(shp = shp_sfc,
     focal_points = capital_cities, verbose = TRUE)
 
 
+qld_lung <- SIR_Downloadable_Data %>%
+    #filter(Cancer_name=="Lung") %>%
+    filter(Cancer_name=="Melanoma") %>%
+    filter(Sex_name == "Persons") %>%
+    filter(SA2_name %in% fortified_qld_3$SA2_NAME11)
+
 fortified_SIR <- left_join(fortified_qld_3, qld_lung, by = c("SA2_NAME11"="SA2_name"))
 
 ```
@@ -64,9 +70,8 @@ fortified_SIR <- left_join(fortified_qld_3, qld_lung, by = c("SA2_NAME11"="SA2_n
 
 ```{r}
 ggplot(data=fortified_SIR) +
-    geom_hex(aes(x = hex_long, y = hex_lat, fill=p50,
-        label = SA2_NAME11), position = "identity", stat = "identity") +
-    scale_fill_viridis_c() +
+    geom_hex(aes(x = hex_long, y = hex_lat, fill = p50), position = "identity", stat = "identity") +
+    scale_fill_viridis() +
     guides(fill = FALSE) +
     theme(aspect.ratio = 1)
 ```
@@ -74,9 +79,38 @@ ggplot(data=fortified_SIR) +
 ```{r}
 ggplot(data=fortified_SIR) +
     scale_fill_viridis_c() +
-    guides(fill = FALSE) +
+    #guides(fill = FALSE) +
     theme(aspect.ratio = 1) +
-    geom_polygon(aes(x=long,y=lat,group=group, fill =p50))
+    geom_polygon(aes(x=long,y=lat,group=group, fill = p50))
+    
+```
+
+
+```{r}
+qld_lung <- SIR_Downloadable_Data %>%
+    filter(Cancer_name=="Lung") %>%
+    filter(Sex_name == "Persons") %>%
+    filter(SA2_name %in% fortified_qld_3$SA2_NAME11)
+
+fortified_lung <- left_join(fortified_qld_3, qld_lung, by = c("SA2_NAME11"="SA2_name"))
+
+```
+
+
+```{r}
+ggplot(data=fortified_lung) +
+    geom_hex(aes(x = hex_long, y = hex_lat, fill = p50), position = "identity", stat = "identity") +
+    scale_fill_viridis() +
+    guides(fill = FALSE) +
+    theme(aspect.ratio = 1)
+```
+
+```{r}
+ggplot(data=fortified_lung) +
+    scale_fill_viridis_c() +
+    #guides(fill = FALSE) +
+    theme(aspect.ratio = 1) +
+    geom_polygon(aes(x=long,y=lat,group=group, fill = p50))
     
 ```
 
