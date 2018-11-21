@@ -1,5 +1,5 @@
 ---
-title: "Australia"
+title: "Queensland"
 author: "Stephanie Kobakian"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
@@ -15,6 +15,8 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 
+library(sugaRbag)
+
 library(tidyverse)
 library(purrr)
 library(sf)
@@ -25,69 +27,54 @@ library(geofacet)
 ```
 
 
-The sugaRbag package can be downloaded directly from github:
-
-```{r}
-#devtools::install_github("srkobakian/sugaRbag")
-library(sugaRbag)
-```
-
-It also contains the location of the Australian capital cities and information about the upper heirarchy levels the SA2 areas belong to.
-
-```{r}
-load(system.file("data","capital_cities.Rda", package = "sugaRbag"))
-
-load(system.file("data","sa2_2011.Rda", package = "sugaRbag"))
-```
-
-
+# Queensland
 
 ```{r map1}
-aus_sfc <- sf::st_as_sf(shp)
+load(system.file("data","sa2_2011.Rda", package = "sugaRbag"))
+load("data/capital_cities.Rda")
+
+shp_sfc <- sf::st_as_sf(shp)
+qld_sfc <- shp_sfc %>% dplyr::filter(STE_NAME11=="Queensland")
+
 ```
 
 ```{r, eval = FALSE}
-hexmap <- create_hexmap(shp = aus_sfc,
-    sf_id = "NAME",
+hexmap <- create_hexmap(shp = qld_sfc,
+    sf_id = "SA2_NAME11",
     hex_size = 0.3,
-    buffer_dist = 6,
-    filter_dist = 2,
     export_shp = FALSE,
-    focal_points = capital_cities, verbose = TRUE)
+    focal_points = capital_cities[5,], verbose = TRUE)
+
 ```
 
-
-```{r, echo = FALSE}
-load(system.file("data","hexmap_qld_3.Rda", package = "sugaRbag"))
-```
-
-The hexagon locations for each area polygon are returned.
 
 ```{r}
 # converting to fortified tibble
-fortified_aus <- fortify_sfc(aus_sfc)
+fortified_qld_3<- fortify_sfc(hexmap_qld_3)
 
 # join to geometry data
-hexmap_aus_3 <- left_join(hexmap_qld_3, fortified_aus, by = c("SA2_NAME11" = "NAME"))
+hexmap_qld_3 <- left_join(hexmap, qld_sfc)
 ```
 
 
+
 ```{r}
-# Facet by STE
-#load("data/aus_grid.rda")
-ggplot(aus_sfc) +
-    geom_sf(aes(fill = STE_NAME11, label = SA2_NAME11)) +
+
+# Facet by SA4
+load("data/qld_grid.rda")
+ggplot(qld_sfc) +
+    geom_sf(aes(fill = SA4_NAME11, label = SA2_NAME11)) +
     scale_fill_viridis_d() +
-    #facet_geo(~STE_NAME11, grid = aus_grid1) +
+    facet_geo(~SA4_NAME11, grid = qld_grid) +
     guides(fill = FALSE)
 
 
-ggplot(data=fortified_aus_3) +
-    geom_hex(aes(x = hex_long, y = hex_lat, fill=STE_NAME11,
+ggplot(data=fortified_qld_3) +
+    geom_hex(aes(x = hex_long, y = hex_lat, fill=SA4_NAME11,
         label = SA2_NAME11), position = "identity", stat = "identity") +
     geom_polygon(aes(x=long,y=lat,order=order,group=group), colour = "grey", fill = NA) +
     scale_fill_viridis_d() +
-    #facet_geo(~STE_NAME11, scales = "free", grid = aus_grid1) +
+    facet_geo(~SA4_NAME11, scales = "free", grid = qld_grid) +
     guides(fill = FALSE) +
     theme(strip.text.x = element_text(size = 5),
         strip.background = element_rect(fill = NA, size = 1),
@@ -99,9 +86,9 @@ ggplot(data=fortified_aus_3) +
 
 ```{r}
 
-# Full aus map
-ggplot(data=fortified_aus_3) +
-    geom_hex(aes(x = hex_long, y = hex_lat, fill=STE_NAME11,
+# Full Qld map
+ggplot(data=fortified_qld_3) +
+    geom_hex(aes(x = hex_long, y = hex_lat, fill=SA4_NAME11,
         label = SA2_NAME11), position = "identity", stat = "identity") +
     geom_polygon(aes(x=long,y=lat,order=order,group=group), colour = "grey", fill = NA) +
     scale_fill_viridis_d() +

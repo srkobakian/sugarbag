@@ -5,8 +5,10 @@ date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Vignette Title}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include = FALSE}
@@ -19,7 +21,7 @@ knitr::opts_chunk$set(
 
 ```{r}
 
-library(sugaRbag)
+#library(sugaRbag)
 
 library(tidyverse)
 library(purrr)
@@ -34,15 +36,25 @@ library(geofacet)
 ```{r}
 load(system.file("data","sa2_2011.Rda", package = "sugaRbag"))
 load(system.file("data","capital_cities.Rda", package = "sugaRbag"))
-load(system.file("data","fortified_qld_3.Rda", package = "sugaRbag"))
+load(system.file("data","fortified_aus_3.Rda", package = "sugaRbag"))
 load(system.file("data","SIR_Downloadable_Data.Rda", package = "sugaRbag"))
 
 
-
-qld_lung <- SIR_Downloadable_Data %>%
+aus_lung <- SIR_Downloadable_Data %>%
     filter(Cancer_name=="Lung") %>%
-    filter(Sex_name == "Persons") %>%
-    filter(SA2_name %in% fortified_qld_3$SA2_NAME11)
+    filter(Sex_name == "Persons")
+
+shp_sfc <- sf::st_as_sf(shp)
+
+```
+
+```{r, eval = FALSE}
+hexmap <- create_hexmap(shp = shp_sfc,
+    sf_id = "SA2_NAME11",
+    hex_size = 0.3,
+    export_shp = FALSE,
+    focal_points = capital_cities, verbose = TRUE)
+
 
 fortified_SIR <- left_join(fortified_qld_3, qld_lung, by = c("SA2_NAME11"="SA2_name"))
 

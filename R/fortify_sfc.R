@@ -7,10 +7,10 @@
 #' @return a tibble point of long lat points used to plot polygons
 #' @export
 #'
-sfc_to_tibble <- function(sfc_df) {
+fortify_sfc <- function(sfc_df) {
 
     sfc_df <- sf::st_as_sf(sfc_df)
-    sf_tbl = as(sfc_df,'Spatial')
+    sf_tbl <- sf::as_Spatial(sfc_df)
     sf_tbl@data[["row"]] <- rownames(sf_tbl@data)
     # Australian Projection for Long Lat
     sf_tbl <- sp::spTransform(sf_tbl, sp::CRS('+init=epsg:3112 +proj=longlat +ellps=GRS80'))
