@@ -12,14 +12,15 @@ sf_id = "SA2_NAME11"
 
 # Calculate 7 points, given the set of degrees and original hex long and lat
 hex_points <- function(area, degrees = c(0, 60, 120, 180, 240, 300, 360)) {
+    #browser()
     points <- geosphere::destPoint(
             p = c(area$hex_long, area$hex_lat),
-            d = 111139*hex_size,
+            d = (hex_size/cos(30*pi/180))*111111*(1/2),
             a=6378160, f=1/298.257222101, b = degrees)
 
     points_tbl <- tibble(hexv_long = points[,1],
             hexv_lat = points[,2]) %>%
-        mutate(sf_id = area[[sf_id]])
+        mutate(sf_id = area[[sf_id]], hexv_id =1:7)
 
     colnames(points_tbl)[3] <- sf_id
 
@@ -43,5 +44,8 @@ hex_points_df <- full_join(data,
 
 
 ghex <- ggplot(hex_points_df, aes(hexv_long, hexv_lat)) +
-    geom_polygon(aes(label = SA2_NAME11, group = SA2_NAME11))
+    geom_polygon(aes(label = SA2_NAME11, group = SA2_NAME11), fill=NA, colour = "black") + coord_equal()
 ghex
+#ghex1 <- ggplot(hex_points_df1, aes(hexv_long, hexv_lat)) +
+#    geom_polygon(aes(label = SA2_NAME11, group = SA2_NAME11), fill=NA, colour = "red") + coord_equal()
+#ghex1
