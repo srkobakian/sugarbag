@@ -1,6 +1,5 @@
 ## add 6 hex points
 
-# split the data frame with hexagon centroids
 
 load(system.file("data","hexmap_qld_3.Rda", package = "sugaRbag"))
 hex_size <- 0.3
@@ -28,6 +27,9 @@ hex_points <- function(area, degrees = c(0, 60, 120, 180, 240, 300, 360)) {
 }
 
 
+
+# create a data frame with 7 points per hexagon centroids
+
 hex_points_df <- data %>%
     split(.[[sf_id]]) %>%
     map_dfr(hex_points)
@@ -38,14 +40,9 @@ hex_points_df <- full_join(data,
     by = c("SA2_NAME11")))
 
 
-# create a data frame with 7 points per hexagon centroids
-
 # find how many rows in the tibble
 
 
 ghex <- ggplot(hex_points_df, aes(hexv_long, hexv_lat)) +
     geom_polygon(aes(label = SA2_NAME11, group = SA2_NAME11), fill=NA, colour = "black") + coord_equal()
 ghex
-#ghex1 <- ggplot(hex_points_df1, aes(hexv_long, hexv_lat)) +
-#    geom_polygon(aes(label = SA2_NAME11, group = SA2_NAME11), fill=NA, colour = "red") + coord_equal()
-#ghex1
