@@ -52,6 +52,9 @@ create_hexmap <- function(shp = NULL, shp_path = NULL, sf_id = NULL, buffer_dist
     st_agr(shp_sf) = "constant"
 
     ###########################################################################
+    # First make sure all levels have been dropped if not being used
+    shp_sf[[sf_id]] <- droplevels(shp_sf[[sf_id]])
+
     # Derive centroids from geometry column, do something about warning message
     centroids <- create_centroids(shp_sf = shp_sf, sf_id = sf_id)
 
@@ -75,6 +78,13 @@ create_hexmap <- function(shp = NULL, shp_path = NULL, sf_id = NULL, buffer_dist
     }
 
 
+    # if hex_size TODO: tune this
+    if (is.null(hex_size)){
+        hex_size <- (bbox$max[1] - bbox$min[1])/(bbox$max[2] - bbox$min[2]) / 10
+        message(paste0("Converted hexagon size to ", round(hex_size, 4), " degrees."))
+    }
+
+
     # filter according to amount of hexagons
     if (is.null(filter_dist)){
         filter_dist <- (hex_size)*10
@@ -92,12 +102,6 @@ create_hexmap <- function(shp = NULL, shp_path = NULL, sf_id = NULL, buffer_dist
     #if (!("tbl" %in% class(bbox))){
     #    bbox <- tibble::as.tibble(bbox)
     #}
-
-    # if hex_size TODO: tune this
-    if (is.null(hex_size)){
-        hex_size <- (bbox$max[1] - bbox$min[1])/(bbox$max[2] - bbox$min[2]) / 10
-        message(paste0("Converted hexagon size to ", round(hex_size, 4), " degrees."))
-    }
 
     ###########################################################################
     # Create grid for hexagons
@@ -121,6 +125,7 @@ create_hexmap <- function(shp = NULL, shp_path = NULL, sf_id = NULL, buffer_dist
 
     ###########################################################################
     # Allocate polygons to a hexagon
+    #browser()
     hexmap_allocation <- allocate(centroids = centroids,
         hex_grid = hex_grid,
         hex_size = hex_size,
