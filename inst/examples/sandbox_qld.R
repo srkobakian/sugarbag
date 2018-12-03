@@ -26,7 +26,7 @@ hexmap <- create_hexmap(shp = qld_sfc,
 hexmap_qld_3 <- left_join(hexmap, qld_sfc)
 
 # converting to fortified tibble
-fortified_qld_3<- sfc_to_tibble(hexmap_qld_3)
+fortified_qld_3 <- sfc_to_tibble(hexmap_qld_3)
 
 # Facet by SA4
 load("data/qld_grid.rda")

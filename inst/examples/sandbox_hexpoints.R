@@ -1,8 +1,15 @@
 ## add 6 hex points
 
 
+library(tidyverse)
+
 load(system.file("data","hexmap_qld_3.Rda", package = "sugaRbag"))
-hex_size <- 0.3
+load(system.file("data","fortified_qld_3.Rda", package = "sugaRbag"))
+
+hexmap_qld_3 <- hexmap_qld_3 %>% mutate(shape = "hexagon")
+
+fortified_qld_3 <- fortified_qld_3 %>% mutate(shape = "geography")
+
 
 # only use a subset
 data <- hexmap_qld_3
