@@ -53,7 +53,7 @@ create_hexmap <- function(shp = NULL, shp_path = NULL, sf_id = NULL, buffer_dist
 
     ###########################################################################
     # First make sure all levels have been dropped if not being used
-    shp_sf[[sf_id]] <- droplevels(shp_sf[[sf_id]])
+    shp_sf[[sf_id]] <- droplevels(as.factor(shp_sf[[sf_id]]))
 
     # Derive centroids from geometry column, do something about warning message
     centroids <- create_centroids(shp_sf = shp_sf, sf_id = sf_id)
