@@ -35,9 +35,9 @@ library(sugaRbag)
 It also contains the location of the Australian capital cities and information about the upper heirarchy levels the SA2 areas belong to.
 
 ```{r}
+load(system.file("data","sa2_2011.Rda", package = "sugaRbag"))
 load(system.file("data","capital_cities.Rda", package = "sugaRbag"))
 
-load(system.file("data","sa2_2011.Rda", package = "sugaRbag"))
 ```
 
 

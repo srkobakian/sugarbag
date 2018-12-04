@@ -39,8 +39,7 @@ load(system.file("data","capital_cities.Rda", package = "sugaRbag"))
 load(system.file("data","fortified_aus_3.Rda", package = "sugaRbag"))
 load(system.file("data","SIR_Downloadable_Data.Rda", package = "sugaRbag"))
 
-
-aus_lung <- SIR_Downloadable_Data %>%
+aus_mel <- SIR_Downloadable_Data %>%
     filter(Cancer_name=="Lung") %>%
     filter(Sex_name == "Persons")
 
@@ -54,21 +53,21 @@ hexmap <- create_hexmap(shp = shp_sfc,
     hex_size = 0.3,
     export_shp = FALSE,
     focal_points = capital_cities, verbose = TRUE)
+```
 
-
-qld_lung <- SIR_Downloadable_Data %>%
-    #filter(Cancer_name=="Lung") %>%
-    filter(Cancer_name=="Melanoma") %>%
-    filter(Sex_name == "Persons") %>%
-    filter(SA2_name %in% fortified_qld_3$SA2_NAME11)
-
-fortified_SIR <- left_join(fortified_qld_3, qld_lung, by = c("SA2_NAME11"="SA2_name"))
-
+```{r, echo = FALSE}
+load(system.file("data","hexmap_aus_3.Rda", package = "sugaRbag"))
 ```
 
 
-
 ```{r}
+aus_mel <- SIR_Downloadable_Data %>%
+    filter(Cancer_name== "Melanoma") %>%
+    filter(Sex_name == "Persons") %>%
+    filter(SA2_name %in% fortified_aus_3$SA2_NAME11)
+
+fortified_SIR <- left_join(fortified_aus_3, aus_mel, by = c("SA2_NAME11"="SA2_name"))
+
 ggplot(data=fortified_SIR) +
     geom_hex(aes(x = hex_long, y = hex_lat, fill = p50), position = "identity", stat = "identity") +
     scale_fill_viridis() +
@@ -87,18 +86,18 @@ ggplot(data=fortified_SIR) +
 
 
 ```{r}
-qld_lung <- SIR_Downloadable_Data %>%
-    filter(Cancer_name=="Lung") %>%
+aus_mel <- SIR_Downloadable_Data %>%
+    filter(Cancer_name=="Melanoma") %>%
     filter(Sex_name == "Persons") %>%
-    filter(SA2_name %in% fortified_qld_3$SA2_NAME11)
+    filter(SA2_name %in% fortified_aus_3$SA2_NAME11)
 
-fortified_lung <- left_join(fortified_qld_3, qld_lung, by = c("SA2_NAME11"="SA2_name"))
+fortified_mel <- left_join(fortified_aus_3, aus_mel, by = c("SA2_NAME11"="SA2_name"))
 
 ```
 
 
 ```{r}
-ggplot(data=fortified_lung) +
+ggplot(data=fortified_mel) +
     geom_hex(aes(x = hex_long, y = hex_lat, fill = p50), position = "identity", stat = "identity") +
     scale_fill_viridis() +
     guides(fill = FALSE) +
@@ -106,7 +105,7 @@ ggplot(data=fortified_lung) +
 ```
 
 ```{r}
-ggplot(data=fortified_lung) +
+ggplot(data=fortified_mel) +
     scale_fill_viridis_c() +
     #guides(fill = FALSE) +
     theme(aspect.ratio = 1) +

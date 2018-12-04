@@ -31,7 +31,7 @@ library(geofacet)
 
 ```{r map1}
 load(system.file("data","sa2_2011.Rda", package = "sugaRbag"))
-load("data/capital_cities.Rda")
+load(system.file("data","capital_cities.Rda", package = "sugaRbag"))
 
 shp_sfc <- sf::st_as_sf(shp)
 qld_sfc <- shp_sfc %>% dplyr::filter(STE_NAME11=="Queensland")
