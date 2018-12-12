@@ -9,7 +9,6 @@
 #' @return an sf data frame, with a column of non null geometries
 #' @export
 #'
-#' @examples
 #'
 read_shape <- function(shp_path, simplify) {
 

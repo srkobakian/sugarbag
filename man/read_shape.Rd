@@ -18,6 +18,3 @@ an sf data frame, with a column of non null geometries
 \description{
 read_shape
 }
-\examples{
-
-}
