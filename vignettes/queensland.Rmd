@@ -47,21 +47,25 @@ hexmap <- create_hexmap(shp = qld_sfc,
 
 ```
 
+```{r, echo = FALSE}
+load(system.file("data","hexmap_qld_3.Rda", package = "sugaRbag"))
+```
+
 
 ```{r}
-# converting to fortified tibble
-fortified_qld_3<- fortify_sfc(hexmap_qld_3)
-
 # join to geometry data
-hexmap_qld_3 <- left_join(hexmap, qld_sfc)
+hexmap_qld_3 <- left_join(hexmap_qld_3, qld_sfc)
+
+# converting to fortified tibble
+fortified_qld_3 <- fortify_sfc(hexmap_qld_3)
 ```
 
 
 
 ```{r}
-
 # Facet by SA4
-load("data/qld_grid.rda")
+load(system.file("data","qld_grid.Rda", package = "sugaRbag"))
+
 ggplot(qld_sfc) +
     geom_sf(aes(fill = SA4_NAME11, label = SA2_NAME11)) +
     scale_fill_viridis_d() +

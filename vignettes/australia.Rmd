@@ -5,8 +5,10 @@ date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Vignette Title}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include = FALSE}
@@ -58,27 +60,26 @@ hexmap <- create_hexmap(shp = aus_sfc,
 
 
 ```{r, echo = FALSE}
-load(system.file("data","hexmap_qld_3.Rda", package = "sugaRbag"))
+load(system.file("data","hexmap_aus_3.Rda", package = "sugaRbag"))
 ```
 
 The hexagon locations for each area polygon are returned.
 
 ```{r}
 # converting to fortified tibble
-fortified_aus <- fortify_sfc(aus_sfc)
+fortified_aus_3 <- fortify_sfc(aus_sfc)
 
 # join to geometry data
-hexmap_aus_3 <- left_join(hexmap_qld_3, fortified_aus, by = c("SA2_NAME11"))
+hexmap_aus_3 <- left_join(hexmap_aus_3, fortified_aus_3, by = c("SA2_NAME11"))
 ```
 
 
 ```{r}
 
 # Full aus map
-ggplot(data=fortified_aus_3) +
-    geom_hex(aes(x = hex_long, y = hex_lat, fill=STE_NAME11,
-        label = SA2_NAME11), position = "identity", stat = "identity") +
-    geom_polygon(aes(x=long,y=lat,order=order,group=group), colour = "grey", fill = NA) +
+ggplot(data=hexmap_aus_3 %>% filter(GCC_NAME11=="Greater Perth")) +
+    geom_hex(aes(x = hex_long, y = hex_lat, fill=STE_NAME11), position = "identity", stat = "identity") +
+    geom_polygon(aes(x=long,y=lat,group=group), colour = "grey", fill = NA) +
     scale_fill_viridis_d() +
     guides(fill = FALSE) +
     theme(aspect.ratio = 1)
@@ -95,7 +96,7 @@ ggplot(aus_sfc) +
     guides(fill = FALSE)
 
 
-ggplot(data=fortified_aus_3) +
+ggplot(data=hexmap_aus_3) +
     geom_hex(aes(x = hex_long, y = hex_lat, fill=STE_NAME11,
         label = SA2_NAME11), position = "identity", stat = "identity") +
     geom_polygon(aes(x=long,y=lat,order=order,group=group), colour = "grey", fill = NA) +
@@ -106,7 +107,6 @@ ggplot(data=fortified_aus_3) +
         strip.background = element_rect(fill = NA, size = 1),
         axis.text = element_blank(),
         aspect.ratio = 1)
-
 ```
 
 

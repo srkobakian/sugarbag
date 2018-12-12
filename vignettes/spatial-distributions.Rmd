@@ -1,6 +1,5 @@
 ---
-title: "Vignette Title"
-author: "Vignette Author"
+title: "Spatial Distributions"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
@@ -18,17 +17,15 @@ knitr::opts_chunk$set(
 )
 ```
 
-
 ```{r}
 
 #library(sugaRbag)
 
 library(tidyverse)
-library(purrr)
+#library(purrr)
 library(sf)
 library(viridis)
 library(ggthemes)
-#library(plotly)
 library(geofacet)
 ```
 
