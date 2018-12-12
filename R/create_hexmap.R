@@ -24,18 +24,22 @@
 #' shp_path <- system.file("data","sa2_2011.Rda", package = "sugaRbag")
 #' load(system.file("data","capital_cities.Rda", package = "sugaRbag"))
 #'
-#' create_hexmap(shp_path = shp_path, sf_id = "SA2_NAME11", buffer_dist = NULL,
-#' filter_dist = 10, hex_size = "auto", export_shp = FALSE,
+#' hexmap <- create_hexmap(shp_path = shp_path, sf_id = "SA2_CODE11", buffer_dist = NULL,
+#' filter_dist = 10, hex_size = NULL, export_shp = FALSE,
 #' focal_points = capital_cities, verbose = TRUE)
 #' }
 #'
-create_hexmap <- function(shp = NULL, shp_path = NULL, sf_id = NULL, buffer_dist = NULL, hex_size = NULL, filter_dist = NULL, width = 30, focal_points = NULL, export_shp = FALSE, verbose = FALSE) {
+create_hexmap <- function(shp = NULL, shp_path = NULL, sf_id = NULL, buffer_dist = NULL, hex_size = NULL, filter_dist = NULL, width = 15, focal_points = NULL, export_shp = FALSE, verbose = FALSE) {
 
 
     if (!is.null(shp)){
         if ("SpatialPolygonsDataFrame" %in% class(shp)){
             shp_sf <- sf::st_as_sf(shp)
         }
+        else if ("geometry" %in% colnames(shp))  {
+            shp_sf <- sf::st_as_sf(shp)
+        }
+
         else {shp_sf <- shp}
     }
     else {
@@ -49,11 +53,19 @@ create_hexmap <- function(shp = NULL, shp_path = NULL, sf_id = NULL, buffer_dist
         }
     }
 
-    st_agr(shp_sf) = "constant"
+    sf::st_agr(shp_sf) <- "constant"
 
     ###########################################################################
     # First make sure all levels have been dropped if not being used
     shp_sf[[sf_id]] <- droplevels(as.factor(shp_sf[[sf_id]]))
+
+
+    # check for duplicated id values
+    if (any(duplicated(shp_sf[[sf_id]]))) {
+        message("The id variable chosen contains duplicates.\nThe shape file has been returned, please choose an identifying variable without duplicates.")
+        return(shp_sf)
+    }
+
 
     # Derive centroids from geometry column, do something about warning message
     centroids <- create_centroids(shp_sf = shp_sf, sf_id = sf_id)
@@ -78,7 +90,7 @@ create_hexmap <- function(shp = NULL, shp_path = NULL, sf_id = NULL, buffer_dist
     }
 
 
-    # if hex_size TODO: tune this
+    # if hex_size was not provided
     if (is.null(hex_size)){
         hex_size <- (bbox$max[1] - bbox$min[1])/(bbox$max[2] - bbox$min[2]) / 10
         message(paste0("Converted hexagon size to ", round(hex_size, 4), " degrees."))
@@ -114,9 +126,10 @@ create_hexmap <- function(shp = NULL, shp_path = NULL, sf_id = NULL, buffer_dist
         if (verbose) {message("Finding closest point in focal_points data set.")}
         s_centroids <- split(x = centroids, f = centroids[[sf_id]])
 
+
         centroids <- bind_cols(centroids,
             purrr::map_dfr(.x = s_centroids,
-                .f = closest_focal_point,
+                .f = (closest_focal_point),
                 focal_points = focal_points))
 
         if (verbose) {message("Closest points found.")}

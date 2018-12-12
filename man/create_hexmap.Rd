@@ -6,7 +6,7 @@
 \usage{
 create_hexmap(shp = NULL, shp_path = NULL, sf_id = NULL,
   buffer_dist = NULL, hex_size = NULL, filter_dist = NULL,
-  width = 30, focal_points = NULL, export_shp = FALSE,
+  width = 15, focal_points = NULL, export_shp = FALSE,
   verbose = FALSE)
 }
 \arguments{
@@ -42,8 +42,8 @@ the geographic chape of each area is lost.
 shp_path <- system.file("data","sa2_2011.Rda", package = "sugaRbag")
 load(system.file("data","capital_cities.Rda", package = "sugaRbag"))
 
-create_hexmap(shp_path = shp_path, sf_id = "SA2_NAME11", buffer_dist = NULL,
-filter_dist = 10, hex_size = "auto", export_shp = FALSE,
+hexmap <- create_hexmap(shp_path = shp_path, sf_id = "SA2_CODE11", buffer_dist = NULL,
+filter_dist = 10, hex_size = NULL, export_shp = FALSE,
 focal_points = capital_cities, verbose = TRUE)
 }
 
