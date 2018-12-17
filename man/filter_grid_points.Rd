@@ -5,7 +5,7 @@
 \title{Filter full set of grid points for those within range of original point}
 \usage{
 filter_grid_points(f_grid, f_centroid, focal_points = NULL,
-  f_dist = filter_dist, angle_width = width)
+  f_dist = filter_dist, angle_width = width, h_size = hex_size)
 }
 \arguments{
 \item{f_grid}{complete grid of hexagon centroids}
