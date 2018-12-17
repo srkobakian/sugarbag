@@ -36,8 +36,8 @@ Create the map
 
 ```{r}
 hexmap_vic_lga <- create_hexmap(shp = vic_lga, sf_id = "LGA_NAME11", buffer_dist = NULL,
-filter_dist = 10, hex_size = NULL, export_shp = FALSE,
-focal_points = capital_cities[1,], verbose = TRUE, width = 15)
+filter_dist = 4, hex_size = NULL, export_shp = FALSE,
+focal_points = capital_cities[1,], verbose = TRUE, width = 20)
 ```
 
 
@@ -60,5 +60,31 @@ ggplot() +
     geom_segment(data = hexmap_vic_lga, mapping = aes(x = longitude, xend = hex_long, y = latitude, yend = hex_lat, label = LGA_NAME11), arrow = arrow(length = unit(0.1,"cm"))) +
     geom_polygon(data = fortified_lga, mapping = aes(x = long, y = lat, group = group), fill=NA, colour ="grey") + coord_fixed()
 )
+```
+
+
+# Impact of angle around direction
+
+```{r}
+angles <- seq(5, 65, 10)
+
+hexmap_vic_lga_set <- angles %>%
+    map_dfr( ~
+            {  angle_width = .
+            
+                a <- create_hexmap(shp = vic_lga, sf_id = "LGA_NAME11", buffer_dist = NULL,
+filter_dist = 4, hex_size = NULL, export_shp = FALSE,
+focal_points = capital_cities[1,], verbose = TRUE, width = angle_width) %>% mutate(angle_width = angle_width) %>%
+                    rowwise %>%
+            mutate(dist = geosphere::distVincentyEllipsoid(
+        c(longitude, latitude), 
+        c(hex_long, hex_lat),
+        a=6378160, b=6356774.719, f=1/298.257222101)) %>%
+                    ungroup() %>%
+                    summarise(angle = mean(angle_width), sum = sum(dist))
+        }
+        ) %>% arrange(desc(sum))
+
+
 ```
 
