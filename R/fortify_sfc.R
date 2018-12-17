@@ -14,7 +14,7 @@ fortify_sfc <- function(sfc_df) {
     sf_tbl@data[["row"]] <- rownames(sf_tbl@data)
     # Australian Projection for Long Lat
     sf_tbl <- sp::spTransform(sf_tbl, sp::CRS('+init=epsg:3112 +proj=longlat +ellps=GRS80'))
-    sf_tbl <- fortify(sf_tbl) %>% left_join(sf_tbl@data, by =c("id" = "row")) %>% dplyr::select(-id)
+    sf_tbl <- ggplot2::fortify(sf_tbl) %>% left_join(sf_tbl@data, by =c("id" = "row")) %>% dplyr::select(-id)
 
     return(sf_tbl)
 

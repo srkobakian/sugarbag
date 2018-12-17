@@ -17,12 +17,9 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 
-library(tidyverse)
-library(purrr)
-library(sf)
+library(ggplot2)
+library(dplyr)
 library(viridis)
-library(ggthemes)
-library(plotly)
 library(geofacet)
 ```
 
@@ -70,7 +67,7 @@ The hexagon locations for each area polygon are returned.
 fortified_aus_3 <- fortify_sfc(aus_sfc)
 
 # join to geometry data
-hexmap_aus_3 <- left_join(hexmap_aus_3, fortified_aus_3, by = c("SA2_NAME11"))
+hexmap_aus_3 <- dplyr::left_join(hexmap_aus_3, fortified_aus_3, by = c("SA2_NAME11"))
 ```
 
 
@@ -89,7 +86,6 @@ ggplot(data=hexmap_aus_3 %>% filter(GCC_NAME11=="Greater Perth")) +
 
 ```{r, fig.height=12, fig.width=6}
 # Facet by STE
-#load("data/aus_grid.rda")
 ggplot(aus_sfc) +
     geom_sf(aes(fill = STE_NAME11, label = SA2_NAME11)) +
     scale_fill_viridis_d() +

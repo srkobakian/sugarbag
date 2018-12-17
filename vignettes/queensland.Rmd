@@ -16,13 +16,10 @@ knitr::opts_chunk$set(
 )
 
 library(sugaRbag)
-
-library(tidyverse)
-library(purrr)
+library(ggplot2)
+library(dplyr)
 library(sf)
 library(viridis)
-library(ggthemes)
-library(plotly)
 library(geofacet)
 ```
 
