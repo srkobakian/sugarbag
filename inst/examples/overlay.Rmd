@@ -1,0 +1,91 @@
+---
+title: "Overlay"
+author: "Stephanie"
+date: "13 December 2018"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+library(sf)
+library(tidyverse)
+
+# Set Up Data
+# Read in LGA data, this location should be where you have stored your shape folder (should have around 5 or 6 files, one ending in .shp)
+ #eg. "C:/Users/steff/Documents/atlas/hexmap/data/LGA_2011_AUST"
+lga_2011 <- sf::read_sf("C:/Users/steff/Documents/atlas/hexmap/data/LGA_2011_AUST")
+```
+
+Note the EPSG and proj4string. This will be used later to ensure the same projection of the grid. Does not have to be this, but they MUST match.
+
+Filter the LGA set:
+
+```{r}
+#Consider only vic
+vic_lga <- lga_2011 %>% filter(STE_NAME11=="Victoria")
+```
+
+
+
+```{r}
+# Boundaries
+bbox <- sf::st_bbox(vic_lga)
+    
+# Grid
+# This is a simple grid;
+# from min to max, in both long and lat, 
+grid <- expand.grid(long = seq(bbox[1],bbox[3], 0.5),
+    lat = seq(bbox[2],bbox[4], 0.5)) %>% mutate(grid_id = 1:NROW(.))
+
+# To create your grid:
+# Step one, create a sequence of the long and lat values
+## eg. seq(minvalue, maxvalue = minvalue + N*cell_size)
+# Add the latitudes as a new column
+# add the longitude as colnames 
+# eg. colnames(data) <- seq(minvalue, maxvalue = minvalue + N*cell_size)
+
+#recommended: create an id for each grid point
+
+
+```
+
+We now have a polygon set, and a grid.
+
+Convert the grid to points:
+
+```{r}
+# Check crs of polygons:
+sf::st_crs(vic_lga)
+
+grid_sf <- sf::st_as_sf(grid, coords = c("long", "lat"),
+    crs = 4283)
+
+# Checking for intersections will only work if this is TRUE
+sf::st_crs(vic_lga) == sf::st_crs(grid_sf)
+```
+
+IT IS KEY TO ENSURE SAME PROJECTIONS
+
+
+```{r}
+# find the LGA area for each grid point
+intersections <- sf::st_intersection(grid_sf, vic_lga) %>%
+        sf::st_transform(., '+init=epsg:3112 +proj=longlat +ellps=GRS80')
+```
+
+Note the functions intersects and intersection perform differently.
+
+sf::st_intersection returns the points that fall in the polygon areas
+
+```{r}
+# plot the new data set with LGA and point information
+ggplot() + geom_sf(data = vic_lga, colour = "grey") + geom_sf(data=intersections, 
+    aes(colour = LGA_NAME11), size = 1) + guides(colour = FALSE)
+```
+
