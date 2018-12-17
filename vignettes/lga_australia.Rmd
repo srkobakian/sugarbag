@@ -65,7 +65,7 @@ ggplot() +
 
 # Impact of angle around direction
 
-```{r}
+```{r, eval = FALSE}
 angles <- seq(5, 65, 10)
 
 hexmap_vic_lga_set <- angles %>%

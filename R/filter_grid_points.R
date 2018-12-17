@@ -25,8 +25,6 @@
 filter_grid_points <- function(f_grid, f_centroid, focal_points = NULL, f_dist = filter_dist, angle_width = width, h_size = hex_size){
 
     # Filter distance in degrees for initial filter step
-    browser()
-
     distance <- (((f_centroid$latitude-f_centroid$latitude1)^2) + ((f_centroid$longitude-f_centroid$longitude1)^2))^(1/2)
 
     if (distance > h_size) {
