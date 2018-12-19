@@ -30,20 +30,21 @@ library(geofacet)
 ```{r}
 load(system.file("data","sa2_2011.Rda", package = "sugaRbag"))
 load(system.file("data","capital_cities.Rda", package = "sugaRbag"))
-load(system.file("data","fortified_aus_3.Rda", package = "sugaRbag"))
 load(system.file("data","SIR_Downloadable_Data.Rda", package = "sugaRbag"))
 
 aus_mel <- SIR_Downloadable_Data %>%
     filter(Cancer_name=="Lung") %>%
     filter(Sex_name == "Persons")
 
-shp_sfc <- sf::st_as_sf(shp)
+sa2_2011_sfc <- sf::st_as_sf(sa2_2011)
 
 ```
 
 ```{r, eval = FALSE}
-hexmap <- create_hexmap(shp = shp_sfc,
+hexmap <- create_hexmap(shp = sa2_2011_sfc,
     sf_id = "SA2_NAME11",
+    buffer_dist = 12,
+    filter_dist = 3,
     hex_size = 0.3,
     export_shp = FALSE,
     focal_points = capital_cities, verbose = TRUE)

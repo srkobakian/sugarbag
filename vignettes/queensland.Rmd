@@ -14,7 +14,10 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+```
 
+
+```{r}
 library(sugaRbag)
 library(ggplot2)
 library(dplyr)
@@ -27,31 +30,28 @@ library(geofacet)
 # Queensland
 
 ```{r map1}
-load(system.file("data","sa2_2011.Rda", package = "sugaRbag"))
+load(system.file("data","lga_2011.Rda", package = "sugaRbag"))
 load(system.file("data","capital_cities.Rda", package = "sugaRbag"))
 
-shp_sfc <- sf::st_as_sf(shp)
+shp_sfc <- sf::st_as_sf(lga_2011)
 qld_sfc <- shp_sfc %>% dplyr::filter(STE_NAME11=="Queensland")
 
+qld_sfc$LGA_CODE11 <-
+droplevels(qld_sfc$LGA_CODE11)
 ```
 
-```{r, eval = FALSE}
-hexmap <- create_hexmap(shp = qld_sfc,
-    sf_id = "SA2_NAME11",
+```{r}
+hexmap_qld_3 <- create_hexmap(shp = qld_sfc,
+    sf_id = "LGA_CODE11",
     hex_size = 0.3,
     export_shp = FALSE,
     focal_points = capital_cities[5,], verbose = TRUE)
-
 ```
-
-```{r, echo = FALSE}
-load(system.file("data","hexmap_qld_3.Rda", package = "sugaRbag"))
-```
-
 
 ```{r}
 # join to geometry data
-hexmap_qld_3 <- left_join(hexmap_qld_3, qld_sfc)
+hexmap_qld_3 <- left_join(hexmap_qld_3, qld_sfc,
+    by = c("LGA_CODE11"))
 
 # converting to fortified tibble
 fortified_qld_3 <- fortify_sfc(hexmap_qld_3)
@@ -60,22 +60,19 @@ fortified_qld_3 <- fortify_sfc(hexmap_qld_3)
 
 
 ```{r}
-# Facet by SA4
 load(system.file("data","qld_grid.Rda", package = "sugaRbag"))
 
 ggplot(qld_sfc) +
-    geom_sf(aes(fill = SA4_NAME11, label = SA2_NAME11)) +
+    geom_sf(aes(label = LGA_CODE11)) +
     scale_fill_viridis_d() +
-    facet_geo(~SA4_NAME11, grid = qld_grid) +
     guides(fill = FALSE)
 
 
 ggplot(data=fortified_qld_3) +
-    geom_hex(aes(x = hex_long, y = hex_lat, fill=SA4_NAME11,
-        label = SA2_NAME11), position = "identity", stat = "identity") +
+    geom_hex(aes(x = hex_long, y = hex_lat,
+        label = LGA_CODE11), position = "identity", stat = "identity") +
     geom_polygon(aes(x=long,y=lat,order=order,group=group), colour = "grey", fill = NA) +
     scale_fill_viridis_d() +
-    facet_geo(~SA4_NAME11, scales = "free", grid = qld_grid) +
     guides(fill = FALSE) +
     theme(strip.text.x = element_text(size = 5),
         strip.background = element_rect(fill = NA, size = 1),
@@ -89,8 +86,8 @@ ggplot(data=fortified_qld_3) +
 
 # Full Qld map
 ggplot(data=fortified_qld_3) +
-    geom_hex(aes(x = hex_long, y = hex_lat, fill=SA4_NAME11,
-        label = SA2_NAME11), position = "identity", stat = "identity") +
+    geom_hex(aes(x = hex_long, y = hex_lat,
+        label = LGA_CODE11), position = "identity", stat = "identity") +
     geom_polygon(aes(x=long,y=lat,order=order,group=group), colour = "grey", fill = NA) +
     scale_fill_viridis_d() +
     guides(fill = FALSE) +
