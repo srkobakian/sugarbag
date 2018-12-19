@@ -2,4 +2,4 @@
 ^LICENSE\.md$
 ^sugaRbag\.Rproj$
 ^\.Rproj\.user$
-^inst/examples*.R$
+^/examples*.R$
