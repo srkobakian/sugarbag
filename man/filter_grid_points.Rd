@@ -21,6 +21,12 @@ as focal points.}
 
 \item{f_dist}{a distance in degrees, used as a boundary to filter
 the hexagon centroids considered for each polygon centroid to be allocated.}
+
+\item{angle_width}{a numeric used to filter the hexagon grid}
+
+\item{h_size}{a float value in degrees for the diameter of the hexagons}
+
+\item{verbose}{a boolean to indicate whether to show function progress#'}
 }
 \value{
 a tibble of filtered grid points

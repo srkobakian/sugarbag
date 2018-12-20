@@ -8,6 +8,10 @@ create_centroids(shp_sf, sf_id = NULL, verbose = FALSE)
 }
 \arguments{
 \item{shp_sf}{an sf object, a data set with a simple feature list column}
+
+\item{sf_id}{a string to indicate the column to identify individual polygons}
+
+\item{verbose}{a boolean to indicate whether to show function progress}
 }
 \value{
 a tibble containing longitude and latitude

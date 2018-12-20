@@ -14,11 +14,15 @@ create_hexmap(shp = NULL, shp_path = NULL, sf_id = NULL,
 
 \item{shp_path}{character string location of shape file}
 
+\item{sf_id}{name of a unique column that distinguishes areas}
+
 \item{buffer_dist}{distance in degrees to extend beyond the geometry provided}
 
 \item{hex_size}{a float value in degrees for the diameter of the hexagons}
 
 \item{filter_dist}{amount of hexagons around centroid to consider for allocation}
+
+\item{width}{the angle used to filter the grid points around a centroid}
 
 \item{focal_points}{a data frame of reference locations when allocating
 hexagons, capital cities of Australia are used in the example}

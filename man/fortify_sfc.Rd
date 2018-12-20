@@ -9,7 +9,7 @@ latitude, order of points, if a hole is present, the piece, id and group.}
 fortify_sfc(sfc_df)
 }
 \arguments{
-\item{sfc}{a simple features table with a geometry column}
+\item{sfc_df}{a simples features data set}
 }
 \value{
 a tibble point of long lat points used to plot polygons
