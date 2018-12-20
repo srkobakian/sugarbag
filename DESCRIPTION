@@ -15,16 +15,14 @@ LazyData: true
 Imports: 
     dplyr,
     geosphere,
-    tibble
+    tibble,
+    sf,
+    sp,
+    purrr
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.1.1
 Suggests: 
     testthat,
     knitr,
-    rmarkdown,
-    gridExtra,
-    hexbin,
-    viridis,
-    geofacet,
-    ggplot2
+    rmarkdown
 VignetteBuilder: knitr

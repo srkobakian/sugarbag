@@ -6,9 +6,11 @@
 #'
 #' @param shp a shape file
 #' @param shp_path character string location of shape file
+#' @param sf_id name of a unique column that distinguishes areas
 #' @param buffer_dist distance in degrees to extend beyond the geometry provided
 #' @param hex_size a float value in degrees for the diameter of the hexagons
 #' @param filter_dist amount of hexagons around centroid to consider for allocation
+#' @param width the angle used to filter the grid points around a centroid
 #' @param focal_points a data frame of reference locations when allocating
 #' hexagons, capital cities of Australia are used in the example
 #' @param export_shp export the simple features set

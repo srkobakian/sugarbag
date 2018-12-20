@@ -2,7 +2,7 @@
 #' individual points for plotting the polygon, indicating the longitude and
 #' latitude, order of points, if a hole is present, the piece, id and group.
 #'
-#' @param sfc a simple features table with a geometry column
+#' @param sfc_df a simples features data set
 #'
 #' @return a tibble point of long lat points used to plot polygons
 #' @export

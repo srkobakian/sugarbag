@@ -12,6 +12,7 @@
 #' hexagons, capital cities of Australia are used in the example
 #' @param verbose a boolean to indicate whether to show polygon id
 #' @param id a string to indicate the column to identify individual polygons
+#' @param width a numeric indicating the angle used to filter the hexagon grid
 #'
 #' @return a data frame of one allocation
 #'

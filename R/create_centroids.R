@@ -1,6 +1,8 @@
 #' Create a data frame of longitude and latitude centroids of each polygon
 #'
 #' @param shp_sf an sf object, a data set with a simple feature list column
+#' @param sf_id a string to indicate the column to identify individual polygons
+#' @param verbose a boolean to indicate whether to show function progress
 #'
 #' @return a tibble containing longitude and latitude
 #' @export

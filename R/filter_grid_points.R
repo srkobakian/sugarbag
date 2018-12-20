@@ -13,7 +13,9 @@
 #' as focal points.
 #' @param f_dist a distance in degrees, used as a boundary to filter
 #' the hexagon centroids considered for each polygon centroid to be allocated.
-#'
+#' @param angle_width a numeric used to filter the hexagon grid
+#' @param h_size a float value in degrees for the diameter of the hexagons
+#' @param verbose a boolean to indicate whether to show function progress#'
 #' @return a tibble of filtered grid points
 #' @export
 #'
