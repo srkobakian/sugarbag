@@ -4,7 +4,6 @@
 #' to allocate polygons.
 #'
 #' @param f_grid complete grid of hexagon centroids
-#' @param f_centroid longitude latitude of centroid of polygon
 #' @param focal_points a tibble of focal locations, an optional argument that
 #' allows allocation of polygons to hexagon centroids in ascending order of
 #' the distance to the closest focal point. It also filters the grid points to
@@ -15,7 +14,6 @@
 #' the hexagon centroids considered for each polygon centroid to be allocated.
 #' @param angle_width a numeric used to filter the hexagon grid
 #' @param h_size a float value in degrees for the diameter of the hexagons
-#' @param verbose a boolean to indicate whether to show function progress#'
 #' @return a tibble of filtered grid points
 #' @export
 #'
