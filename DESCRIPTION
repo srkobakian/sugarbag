@@ -12,13 +12,16 @@ Description: From a set of polygons, a data set is created to plot spatial
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
+Depends:
+    R (>= 2.10)
 Imports: 
     dplyr,
     geosphere,
-    tibble,
-    sf,
+    ggplot2,
+    purrr,
     sp,
-    purrr
+    sf,
+    tibble
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.1.1
 Suggests: 
