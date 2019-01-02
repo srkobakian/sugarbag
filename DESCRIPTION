@@ -3,12 +3,12 @@ Title: Create Tessellated Hexagon Maps of Australia
 Version: 0.0.0.9000
 Authors@R: c(person("Stephanie", "Kobakian", email = "stephanie.kobakian@gmail.com", role = c("aut", "cre")),
              person("Dianne", "Cook", email = "dicook@monash.edu", role = c("aut")))
-Description: From a set of polygons, a data set is created to plot spatial
-    distributions. Each polygon is represented by a hexagon tile, placed as
+Description: Create a hexagon tiling from spatial polygons. Each polygon is 
+    represented by a hexagon tile, placed as
     close to it's original centroid as possible with a focus on maintaining
-    spatial relationships with neighbours. Primarily used to allow analysis 
-    of spatial distributions within Australia, which can be difficult to
-    analyse using geographic maps.
+    spatial relationships with neighbours. Developed for the visualisation and analysis 
+    of spatial distributions across Australia, which can be challenging due to
+    the concentration of population on the coast and wide open interior.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
