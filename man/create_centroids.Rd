@@ -4,7 +4,7 @@
 \alias{create_centroids}
 \title{Create a data frame of longitude and latitude centroids of each polygon}
 \usage{
-create_centroids(shp_sf, sf_id = NULL, verbose = FALSE)
+create_centroids(shp_sf, sf_id = NULL, verbose = FALSE, projstring)
 }
 \arguments{
 \item{shp_sf}{an sf object, a data set with a simple feature list column}
@@ -12,6 +12,8 @@ create_centroids(shp_sf, sf_id = NULL, verbose = FALSE)
 \item{sf_id}{a string to indicate the column to identify individual polygons}
 
 \item{verbose}{a boolean to indicate whether to show function progress}
+
+\item{projstring}{a string to indicate the projection and epsg}
 }
 \value{
 a tibble containing longitude and latitude

@@ -10,7 +10,7 @@ filter_grid_points(f_grid, f_centroid, focal_points = NULL,
 \arguments{
 \item{f_grid}{complete grid of hexagon centroids}
 
-\item{f_centroid}{longitude latitude of centroid of polygon}
+\item{f_centroid}{the longitude and latitude values for the current centroid}
 
 \item{focal_points}{a tibble of focal locations, an optional argument that
 allows allocation of polygons to hexagon centroids in ascending order of

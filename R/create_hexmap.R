@@ -13,6 +13,8 @@
 #' @param width the angle used to filter the grid points around a centroid
 #' @param focal_points a data frame of reference locations when allocating
 #' hexagons, capital cities of Australia are used in the example
+#' @param projstring a string to indicate the projection and epsg
+#' @param epsg the four character string to indicate the CRS
 #' @param export_shp export the simple features set
 #' @param verbose a boolean to indicate whether to show function progress
 #'
@@ -31,7 +33,7 @@
 #' focal_points = capital_cities, verbose = TRUE)
 #' }
 #'
-create_hexmap <- function(shp = NULL, shp_path = NULL, sf_id = NULL, buffer_dist = NULL, hex_size = NULL, filter_dist = NULL, width = 15, focal_points = NULL, export_shp = FALSE, verbose = FALSE) {
+create_hexmap <- function(shp = NULL, shp_path = NULL, sf_id = NULL, buffer_dist = NULL, hex_size = NULL, filter_dist = NULL, width = 15, focal_points = NULL, projstring = NULL, epsg = NULL, export_shp = FALSE, verbose = FALSE) {
 
 
     if (!is.null(shp)){
@@ -57,6 +59,18 @@ create_hexmap <- function(shp = NULL, shp_path = NULL, sf_id = NULL, buffer_dist
 
     sf::st_agr(shp_sf) <- "constant"
 
+    # Set projection and crs
+    crs_info <- sf::st_crs(shp_sf)
+
+    if (is.null(projstring)){
+    proj4string <- crs_info$proj4string
+    }
+    if (is.null(epsg)){
+    epsg <- crs_info$epsg
+    }
+
+    projstring <- paste0("+init=epsg:", epsg, proj4string, collapse = " ")
+
     ###########################################################################
     # First make sure all levels have been dropped if not being used
     shp_sf[[sf_id]] <- droplevels(as.factor(shp_sf[[sf_id]]))
@@ -70,7 +84,7 @@ create_hexmap <- function(shp = NULL, shp_path = NULL, sf_id = NULL, buffer_dist
 
 
     # Derive centroids from geometry column, do something about warning message
-    centroids <- create_centroids(shp_sf = shp_sf, sf_id = sf_id)
+    centroids <- create_centroids(shp_sf = shp_sf, sf_id = sf_id, proj4string, epsg)
 
     # Creating a bounding box around all centroids
     bbox <- tibble::tibble(min = c(min(centroids$longitude),

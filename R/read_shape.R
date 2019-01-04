@@ -5,12 +5,14 @@
 #' @param shp_path character vector location of shape file, extension .shp
 #' @param simplify boolean to determine whether to simplify the shape file
 #' using rmapshaper
+#' @param espg the four character string to indicate the CRS
+#' @param projstring a string to indicate the projection and epsg
 #'
 #' @return an sf data frame, with a column of non null geometries
 #' @export
 #'
 #'
-read_shape <- function(shp_path, simplify) {
+read_shape <- function(shp_path, simplify, espg, projstring) {
 
     # Check if file or folder has been input
     extn <- tools::file_ext(shp_path)
@@ -34,15 +36,15 @@ read_shape <- function(shp_path, simplify) {
         }
 
         # When it is a previously imported shape file
-        if  (extn == "Rda") {
+        if  (extn == "Rda" | extn == "rda") {
             # When sa2 files were saved, they were named shp
-            load(file = shp_path, verbose = TRUE)
+            shp <- get(load(file = shp_path, verbose = TRUE))
         }
     }
 
     shp_polys <- shp %>% sf::st_as_sf() %>%
         dplyr::filter(!sf::st_is_empty(sf::st_geometry(.))) %>%
-        sf::st_transform(shp_polys, crs = 3112, '+init=epsg:3112 +proj=longlat +ellps=GRS80'
+        sf::st_transform(shp_polys, espg, projstring
         )
 
     # add message that polygons were dropped?

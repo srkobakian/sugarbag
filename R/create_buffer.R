@@ -69,8 +69,8 @@ create_buffer <- function(centroids, grid, hex_size, buffer_dist, verbose = FALS
     range_rows <- purrr::map_dfr(.x = lat_windows,
         .f = function(x) {x %>%
                 dplyr::summarise(
-                    long_min = ifelse(rlang::is_empty(long_int), NA, min(x$long_int)),
-                    long_max = ifelse(rlang::is_empty(long_int), NA, max(x$long_int))
+                    long_min = ifelse(purrr::is_empty(long_int), NA, min(x$long_int)),
+                    long_max = ifelse(purrr::is_empty(long_int), NA, max(x$long_int))
                 )}
     )
 
@@ -87,8 +87,8 @@ create_buffer <- function(centroids, grid, hex_size, buffer_dist, verbose = FALS
     # find the min and max longitude for each latitude
     range_cols <- purrr::map_dfr(.x = long_windows, .f = function(x) { x %>%
             dplyr::summarise(
-                lat_min = ifelse(rlang::is_empty(lat_int), NA, min(x$lat_int)),
-                lat_max = ifelse(rlang::is_empty(lat_int), NA, max(x$lat_int))
+                lat_min = ifelse(purrr::is_empty(lat_int), NA, min(x$lat_int)),
+                lat_max = ifelse(purrr::is_empty(lat_int), NA, max(x$lat_int))
             )}
     )
 

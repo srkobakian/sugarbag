@@ -6,8 +6,8 @@
 \usage{
 create_hexmap(shp = NULL, shp_path = NULL, sf_id = NULL,
   buffer_dist = NULL, hex_size = NULL, filter_dist = NULL,
-  width = 15, focal_points = NULL, export_shp = FALSE,
-  verbose = FALSE)
+  width = 15, focal_points = NULL, projstring = NULL, epsg = NULL,
+  export_shp = FALSE, verbose = FALSE)
 }
 \arguments{
 \item{shp}{a shape file}
@@ -26,6 +26,10 @@ create_hexmap(shp = NULL, shp_path = NULL, sf_id = NULL,
 
 \item{focal_points}{a data frame of reference locations when allocating
 hexagons, capital cities of Australia are used in the example}
+
+\item{projstring}{a string to indicate the projection and epsg}
+
+\item{epsg}{the four character string to indicate the CRS}
 
 \item{export_shp}{export the simple features set}
 

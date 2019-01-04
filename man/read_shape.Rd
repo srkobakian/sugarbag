@@ -4,13 +4,17 @@
 \alias{read_shape}
 \title{Read in the shape file as sf object}
 \usage{
-read_shape(shp_path, simplify)
+read_shape(shp_path, simplify, espg, projstring)
 }
 \arguments{
 \item{shp_path}{character vector location of shape file, extension .shp}
 
 \item{simplify}{boolean to determine whether to simplify the shape file
 using rmapshaper}
+
+\item{espg}{the four character string to indicate the CRS}
+
+\item{projstring}{a string to indicate the projection and epsg}
 }
 \value{
 an sf data frame, with a column of non null geometries
