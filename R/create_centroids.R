@@ -9,7 +9,7 @@
 #' @export
 #'
 #'
-create_centroids <- function(shp_sf, sf_id = NULL, verbose = FALSE, projstring) {
+create_centroids <- function(shp_sf, sf_id = NULL, projstring = projstring, verbose = FALSE) {
 
     if (verbose) {
         message("Deriving polygon centroids")
