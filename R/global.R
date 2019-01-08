@@ -28,9 +28,13 @@ utils::globalVariables(c('lat_int',
 # create centroids function
 utils::globalVariables(c('X', 'Y', 'projstring'))
 
-#filter_grid_points function
+# filter_grid_points function
 utils::globalVariables(c('filter_dist', 'width', 'hex_size', 'hex_lat_c', 'hex_long_c', 'latitude1', 'longitude1', 'angle', 'hyp', 'hex_angle',
 'angle_minus', 'angle_plus'))
 
 # find lat group function
 utils::globalVariables(c('next_lat', 'gradient', 'new_grad', 'cut_long'))
+
+# create_hexmap function
+utils::globalVariables(c('closest',
+    'data', 'nest', 'unnest'))

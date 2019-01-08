@@ -26,12 +26,11 @@ closest_focal_point <- function(centroid, focal_points = as.matrix(focal_points)
 
         colnames(focal_points)[which(colnames(focal_points) == "hex_lat")] <- "latitude"
 
-        fp_matrix <- as.matrix(bind_cols(longitude = focal_points$longitude, latitude = focal_points$latitude))
     }
 
 
     # create a martix for distance calculations
-    fp_matrix <- as.matrix(bind_cols(longitude = focal_points$longitude, latitude = focal_points$latitude))
+    fp_matrix <- as.matrix(focal_points[c("longitude","latitude")])
 
     focal_distance <- geosphere::distVincentyEllipsoid(
         c(centroid$longitude, centroid$latitude), fp_matrix,

@@ -137,13 +137,12 @@ create_hexmap <- function(shp = NULL, shp_path = NULL, sf_id = NULL, buffer_dist
 
         # distance between centroids and all focal points
         if (verbose) {message("Finding closest point in focal_points data set.")}
-        s_centroids <- split(x = centroids, f = centroids[[sf_id]])
 
-
-        centroids <- bind_cols(centroids,
-            purrr::map_dfr(.x = s_centroids,
-                .f = (closest_focal_point),
-                focal_points = focal_points))
+        centroids <- centroids %>%
+            nest(longitude, latitude) %>%
+            mutate(closest = purrr::map(data, closest_focal_point, focal_points = focal_points)) %>%
+            unnest(data, closest) %>%
+            arrange(focal_distance)
 
         if (verbose) {message("Closest points found.")}
 

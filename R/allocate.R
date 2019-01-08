@@ -15,7 +15,7 @@
 #' @param width a numeric indicating the angle used to filter the hexagon grid
 #'
 #' @return a data frame of one allocation
-#'
+#' @export
 #'
 allocate <- function(centroids, hex_grid, hex_size, filter_dist, focal_points = NULL, width, verbose, id) {
 
