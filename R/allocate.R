@@ -58,7 +58,7 @@ allocate <- function(centroids, hex_grid, hex_size, filter_dist, focal_points = 
         # filter grid for avaiable points
         while(NROW(f_grid) == 0) {
             if (filter_dist < max_dist) {
-                f_grid <- filter_grid_points(f_grid = hex_grid, f_centroid = centroid, f_dist = filter_dist, angle_width = width, h_size = hex_size)
+                f_grid <- filter_grid_points(f_grid = hex_grid, f_centroid = centroid, focal_points = focal_points, f_dist = filter_dist, angle_width = width, h_size = hex_size)
                 if (NROW(f_grid) == 0) {
                     filter_dist <- filter_dist + expand_dist
                     print(paste("Filter Distance expanded by ", expand_dist, " to ", filter_dist))
