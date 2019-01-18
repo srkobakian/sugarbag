@@ -2,24 +2,22 @@
 % Please edit documentation in R/fortify_sfc.R
 \name{fortify_sfc}
 \alias{fortify_sfc}
-\title{Convert a simple features tibble to tibble for plotting. This will contain
-individual points for plotting the polygon, indicating the longitude and
-latitude, order of points, if a hole is present, the piece, id and group.}
+\title{Convert a simple features tibble to tibble for plotting.}
 \usage{
-fortify_sfc(sfc_df, projstring, simplify = 0.05)
+fortify_sfc(sfc_df, projstring, keep = NULL)
 }
 \arguments{
 \item{sfc_df}{a simples features data set}
 
 \item{projstring}{a string to indicate the projection and epsg}
 
-\item{simplify}{a proportion of points to keep from the shape file}
+\item{keep}{ratio of points to keep}
 }
 \value{
 a tibble point of long lat points used to plot polygons
 }
 \description{
-Convert a simple features tibble to tibble for plotting. This will contain
-individual points for plotting the polygon, indicating the longitude and
-latitude, order of points, if a hole is present, the piece, id and group.
+This will contain individual points for plotting the polygon, indicating the
+longitude and latitude, order of points, if a hole is present, the piece, id
+and group.
 }

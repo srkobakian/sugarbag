@@ -78,8 +78,12 @@ create_hexmap <- function(shp = NULL, shp_path = NULL, sf_id = NULL, buffer_dist
 
     ###########################################################################
     # First make sure all levels have been dropped if not being used
+    # Check to be sure column exists
+    if (!(sf_id %in% colnames(shp_sf))){
+        return(message("sf_id does not exist in this data set."))
+    } else {
     shp_sf[[sf_id]] <- droplevels(as.factor(shp_sf[[sf_id]]))
-
+    }
 
     # check for duplicated id values
     if (any(duplicated(shp_sf[[sf_id]]))) {

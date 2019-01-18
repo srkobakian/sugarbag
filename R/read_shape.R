@@ -3,16 +3,17 @@
 #' read_shape
 #'
 #' @param shp_path character vector location of shape file, extension .shp
-#' @param simplify boolean to determine whether to simplify the shape file
+#' @param simplify a boolean to decide whether to simplify the shape file
 #' using rmapshaper
 #' @param epsg the four character string to indicate the CRS
 #' @param projstring a string to indicate the projection and epsg
+#' @param keep ratio of points to keep
 #'
 #' @return an sf data frame, with a column of non null geometries
 #' @export
 #'
 #'
-read_shape <- function(shp_path = NULL, simplify = NULL, epsg = NULL, projstring = NULL) {
+read_shape <- function(shp_path = NULL, simplify = TRUE, keep = 0.1, epsg = NULL, projstring = NULL) {
 
     # Check if file or folder has been input
     extn <- tools::file_ext(shp_path)
@@ -20,7 +21,7 @@ read_shape <- function(shp_path = NULL, simplify = NULL, epsg = NULL, projstring
     if (extn == ""){
         shp_path <- paste0(file.path(shp_path), "/", basename(shp_path), ".", "shp")
         extn <- tools::file_ext(shp_path)
-        }
+    }
 
     if (!file.exists(shp_path)) {
         message("The shape file provided cannot be found")
@@ -31,28 +32,32 @@ read_shape <- function(shp_path = NULL, simplify = NULL, epsg = NULL, projstring
                 error=function(e) print("Argument for shp could not be read as sf object."))
             # Simplify polygons to have less detail
             if (simplify) {
-                shp <- rmapshaper::ms_simplify(shp, keep = 0.1)
+                if (!is.null(keep)) {
+                    shp <- rmapshaper::ms_simplify(shp, keep = keep)
+                } else {
+                    shp <- rmapshaper::ms_simplify(shp, keep = 0.5)
+                }
             }
+
         }
 
         # When it is a previously imported shape file
         if  (extn == "Rda" | extn == "rda") {
-            # When sa2 files were saved, they were named shp
             shp <- get(load(file = shp_path, verbose = TRUE))
         }
     }
 
-        # Set projection and crs
-        crs_info <- sf::st_crs(shp)
+    # Set projection and crs
+    crs_info <- sf::st_crs(shp)
 
-        if (is.null(projstring)){
-            proj4string <- crs_info$proj4string
-            message(paste0("Using proj4string: ", proj4string))
-        }
-        if (is.null(epsg)){
-            epsg <- crs_info$epsg
-            message(paste0("Using epsg: ", epsg))
-        }
+    if (is.null(projstring)){
+        proj4string <- crs_info$proj4string
+        message(paste0("Using proj4string: ", proj4string))
+    }
+    if (is.null(epsg)){
+        epsg <- crs_info$epsg
+        message(paste0("Using epsg: ", epsg))
+    }
 
 
     shp_polys <- shp %>% sf::st_as_sf() %>%
@@ -67,4 +72,3 @@ read_shape <- function(shp_path = NULL, simplify = NULL, epsg = NULL, projstring
 
     return(shp_polys)
 }
-

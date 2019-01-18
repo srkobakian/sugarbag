@@ -6,6 +6,7 @@
 #' @return a data fram of the seven points used to draw a hexagon
 #' @export
 #'
+
 fortify_hexagon <- function(data, hex_size) {
 
   # create a model hexagon, with centre at (0,0)

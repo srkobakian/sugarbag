@@ -4,14 +4,16 @@
 \alias{read_shape}
 \title{Read in the shape file as sf object}
 \usage{
-read_shape(shp_path = NULL, simplify = NULL, epsg = NULL,
-  projstring = NULL)
+read_shape(shp_path = NULL, simplify = TRUE, keep = 0.1,
+  epsg = NULL, projstring = NULL)
 }
 \arguments{
 \item{shp_path}{character vector location of shape file, extension .shp}
 
-\item{simplify}{boolean to determine whether to simplify the shape file
+\item{simplify}{a boolean to decide whether to simplify the shape file
 using rmapshaper}
+
+\item{keep}{ratio of points to keep}
 
 \item{epsg}{the four character string to indicate the CRS}
 
