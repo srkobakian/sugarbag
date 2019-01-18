@@ -6,12 +6,14 @@
 individual points for plotting the polygon, indicating the longitude and
 latitude, order of points, if a hole is present, the piece, id and group.}
 \usage{
-fortify_sfc(sfc_df, projstring)
+fortify_sfc(sfc_df, projstring, simplify = 0.05)
 }
 \arguments{
 \item{sfc_df}{a simples features data set}
 
 \item{projstring}{a string to indicate the projection and epsg}
+
+\item{simplify}{a proportion of points to keep from the shape file}
 }
 \value{
 a tibble point of long lat points used to plot polygons

@@ -35,6 +35,10 @@ utils::globalVariables(c('filter_dist', 'width', 'hex_size', 'hex_lat_c', 'hex_l
 # find lat group function
 utils::globalVariables(c('next_lat', 'gradient', 'new_grad', 'cut_long'))
 
+
 # create_hexmap function
 utils::globalVariables(c('closest',
     'data', 'nest', 'unnest'))
+
+# fortify hexagon function
+utils::globalVariables(c('hexv_lat', 'hexv_long'))

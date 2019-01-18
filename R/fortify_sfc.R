@@ -4,13 +4,16 @@
 #'
 #' @param sfc_df a simples features data set
 #' @param projstring a string to indicate the projection and epsg
+#' @param simplify a proportion of points to keep from the shape file
 #'
 #' @return a tibble point of long lat points used to plot polygons
 #' @export
 #'
-fortify_sfc <- function(sfc_df, projstring) {
+fortify_sfc <- function(sfc_df, projstring, simplify = 0.05) {
+
 
     sfc_df <- sf::st_as_sf(sfc_df)
+    sfc_df <- sfc_df %>% mutate(geometry = rmapshaper::ms_simplify(sfc_df$geometry, keep = simplify, keep_shapes = TRUE))
     sf_tbl <- sf::as_Spatial(sfc_df)
     sf_tbl@data[["row"]] <- rownames(sf_tbl@data)
     # Australian Projection for Long Lat
