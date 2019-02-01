@@ -50,3 +50,22 @@
 #'   \item{hex_id}{id of the hexagon grid point}
 #' }
 "hexmap_aus_3"
+
+#' The polygons of Australian Local Government Areas in 2011.
+#'
+#' A simple features dataset containing the polygons for all Australian LGAs in
+#' 2011.
+#'
+#' @format A simple features data frame with 559 rows and 6 variables:
+#' \describe{
+#'   \item{LGA_CODE11}{code for the Local Government Area}
+#'   \item{LGA_NAME11}{name of the Local Government Area}
+#'   \item{STE_CODE11}{code for the state containing the Local Government Area}
+#'   \item{STE_NAME11}{name of the state containing the Local Government Area}
+#'   \item{AREA_SQKM}{area contained in the polygon}
+#'   \item{geometry}{describes where on Earth the polygon is located}
+#' }
+#'
+#' @name lga_2011
+#' @usage lga_2011
+"lga_2011"

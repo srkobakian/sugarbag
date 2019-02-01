@@ -15,8 +15,13 @@
 }}
 \usage{
 lga_2011
+
+lga_2011
 }
 \description{
+A simple features dataset containing the polygons for all Australian LGAs in
+2011.
+
 A simple features dataset containing the polygons for all Australian LGAs in
 2011.
 }
