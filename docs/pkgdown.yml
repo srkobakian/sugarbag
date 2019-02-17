@@ -1,5 +1,44 @@
 pandoc: '2.5'
 pkgdown: 1.3.0
 pkgdown_sha: ~
-articles: []
+navbar:
+  structure:
+    left:
+    - home
+    - reference
+    - data
+    - news
+    right: github
+  components:
+    home:
+      icon: fa-home fa-lg
+      href: index.html
+    reference:
+      text: Reference
+      href: reference/index.html
+    data:
+      text: ABS Data
+      href: www.abs.gov.au/AUSSTATS/subscriber.nsf/log?openagent&1270055001_sa2_2016_aust_shape.zip&1270.0.55.001&Data%20Cubes&A09309ACB3FA50B8CA257FED0013D420&0&July%202016&12.07.2016&Latest
+    github:
+      icon: fa-github fa-lg
+      href: https://github.com/srkobakian/sugaRbag
 
+reference:
+- title: Data
+  desc: Package data files
+  contents:
+  - '`capital_cities`'
+  - '`tas_sa2`'
+- title: Core Functions
+  desc: Functions used to create a tesselated hexagon map
+  contents:
+  - '`create_hexmap`'
+  - '`create_centroids`'
+  - '`create_grid`'
+  - '`allocate`'
+- title: Helper Functions
+  desc: Functions used to manipulate data
+  contents:
+  - '`read_shape`'
+  - '`fortify_hexagon`'
+  - '`fortify_sfc`'
