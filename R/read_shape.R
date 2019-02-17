@@ -12,6 +12,13 @@
 #' @return an sf data frame, with a column of non null geometries
 #' @export
 #'
+#' @example
+#' \dontrun{
+#' # Download resource from sugaRbag site
+#' # link
+#'
+#' shape <- read_shape()
+#' }
 #'
 read_shape <- function(shp_path = NULL, simplify = TRUE, keep = 0.1, epsg = NULL, projstring = NULL) {
 
