@@ -47,9 +47,8 @@ the geographic chape of each area is lost.
 \examples{
 \dontrun{
 
-hexmap <- create_hexmap(shp = sugaRbag::lga_2011, sf_id = "LGA_CODE11", buffer_dist = NULL,
-filter_dist = 10, hex_size = NULL, export_shp = FALSE,
-focal_points = sugaRbag::capital_cities, verbose = TRUE)
+data(lga_2011)
+hexmap <- create_hexmap(shp = lga_2011, sf_id = "LGA_CODE11", buffer_dist = NULL, filter_dist = 10, hex_size = NULL, export_shp = FALSE, focal_points = sugaRbag::capital_cities, verbose = TRUE)
 }
 
 }
