@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>The polygons of Australian Statistical Areas in 2011. — tas_sa2 • sugaRbag</title>
+<title>The polygons of Tasmanian Statistical Areas in 2016. — tas_sa2 • sugaRbag</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,11 +30,9 @@
 
 
 
-<meta property="og:title" content="The polygons of Australian Statistical Areas in 2011. — tas_sa2" />
+<meta property="og:title" content="The polygons of Tasmanian Statistical Areas in 2016. — tas_sa2" />
 
-<meta property="og:description" content="A simple features dataset containing the polygons for all Australian SA2s in
-2011.
-A simple features dataset containing the polygons for all Tasmanian SA2s in
+<meta property="og:description" content="A simple features dataset containing the polygons for all Tasmanian SA2s in
 2016." />
 <meta name="twitter:card" content="summary" />
 
@@ -81,6 +79,18 @@ A simple features dataset containing the polygons for all Tasmanian SA2s in
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Data
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/abs-data.html">ABS Data</a>
+    </li>
+  </ul>
+</li>
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
@@ -102,33 +112,40 @@ A simple features dataset containing the polygons for all Tasmanian SA2s in
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>The polygons of Australian Statistical Areas in 2011.</h1>
+    <h1>The polygons of Tasmanian Statistical Areas in 2016.</h1>
     <small class="dont-index">Source: <a href='https://github.com/srkobakian/sugaRbag/blob/master/R/data.R'><code>R/data.R</code></a></small>
     <div class="hidden name"><code>tas_sa2.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>A simple features dataset containing the polygons for all Australian SA2s in
-2011.</p>
-<p>A simple features dataset containing the polygons for all Tasmanian SA2s in
+    <p>A simple features dataset containing the polygons for all Tasmanian SA2s in
 2016.</p>
     
     </div>
 
-    <pre class="usage"><span class='no'>tas_sa2</span>
-
-<span class='no'>tas_sa2</span></pre>
+    <pre class="usage"><span class='no'>tas_sa2</span></pre>
         
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>A simple features data frame with 559 rows and 6 variables:</p><dl class='dl-horizontal'>
-<dt>SA2_CODE11</dt><dd><p>code for the Statistical Area</p></dd>
-<dt>SA2_NAME11</dt><dd><p>name of the Statistical Area</p></dd>
-<dt>STE_CODE11</dt><dd><p>code for the state containing the Statistical Area</p></dd>
-<dt>STE_NAME11</dt><dd><p>name of the state containing the Statistical Area</p></dd>
-<dt>AREA_SQKM</dt><dd><p>area contained in the polygon</p></dd>
-<dt>geometry</dt><dd><p>describes where on Earth the polygon is located</p></dd>
+    <p>A simple features data frame with 99 rows and 15 variables:</p><dl class='dl-horizontal'>
+<dt>SA2_MAIN16</dt><dd><p>complete code of the Statistical Area</p></dd>
+<dt>SA2_5DIG16</dt><dd><p>simple code for the Statistical Area</p></dd>
+<dt>SA2_NAME16</dt><dd><p>name of the Statistical Area</p></dd>
+<dt>SA3_CODE16</dt><dd><p>code for the SA3 containing the Statistical Area</p></dd>
+<dt>SA3_NAME16</dt><dd><p>name of the SA3 containing the Statistical Area</p></dd>
+<dt>SA4_CODE16</dt><dd><p>code for the SA4 containing the Statistical Area</p></dd>
+<dt>SA4_NAME16</dt><dd><p>name of the SA4 containing the Statistical Area</p></dd>
+<dt>GCC_CODE16</dt><dd><p>code for the Greater Capital City region containing
+the Statistical Area</p></dd>
+<dt>GCC_NAME16</dt><dd><p>name of the Greater Capital City region containing
+the Statistical Area</p></dd>
+<dt>STE_CODE16</dt><dd><p>code for the state containing the Statistical Area</p></dd>
+<dt>STE_NAME16</dt><dd><p>name of the state containing the Statistical Area</p></dd>
+<dt>AREASQKM16</dt><dd><p>area contained in the polygon</p></dd>
+<dt>id</dt><dd><p>distinguishes SA2 regions</p></dd>
+<dt>population</dt><dd><p>amount of people living within the region</p></dd>
+<dt>SA2_CODE16</dt><dd><p>code of the Statistical Area</p></dd>
 </dl>
     
 

@@ -75,6 +75,18 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/abs-data.html">ABS Data</a>
+    </li>
+  </ul>
+</li>
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
@@ -110,17 +122,11 @@
     <tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
+          <h2 id="section-data" class="hasAnchor"><a href="#section-data" class="anchor"></a>Data</h2>
+          <p class="section-desc"><p>Package data files</p></p>
         </th>
       </tr>
       <tr>
-        
-        <td>
-          <p><code><a href="allocate.html">allocate()</a></code> </p>
-        </td>
-        <td><p>Allocate polygon centroids to hexagons in a grid</p></td>
-      </tr><tr>
         
         <td>
           <p><code><a href="capital_cities.html">capital_cities</a></code> </p>
@@ -129,15 +135,23 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="closest_focal_point.html">closest_focal_point()</a></code> </p>
+          <p><code><a href="tas_sa2.html">tas_sa2</a></code> </p>
         </td>
-        <td><p>For the polygon provided, find the closest focal point in the set provided</p></td>
-      </tr><tr>
+        <td><p>The polygons of Tasmanian Statistical Areas in 2016.</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-core-functions" class="hasAnchor"><a href="#section-core-functions" class="anchor"></a>Core Functions</h2>
+          <p class="section-desc"><p>Functions used to create a tesselated hexagon map</p></p>
+        </th>
+      </tr>
+      <tr>
         
         <td>
-          <p><code><a href="create_buffer.html">create_buffer()</a></code> </p>
+          <p><code><a href="create_hexmap.html">create_hexmap()</a></code> </p>
         </td>
-        <td><p>Expand points to extend beyond the outermost centroids</p></td>
+        <td><p>Create a tesselated hexagon map from a set of polygons</p></td>
       </tr><tr>
         
         <td>
@@ -153,15 +167,23 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="create_hexmap.html">create_hexmap()</a></code> </p>
+          <p><code><a href="allocate.html">allocate()</a></code> </p>
         </td>
-        <td><p>Create a tesselated hexagon map from a set of polygons</p></td>
-      </tr><tr>
+        <td><p>Allocate polygon centroids to hexagons in a grid</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-helper-functions" class="hasAnchor"><a href="#section-helper-functions" class="anchor"></a>Helper Functions</h2>
+          <p class="section-desc"><p>Functions used to manipulate data</p></p>
+        </th>
+      </tr>
+      <tr>
         
         <td>
-          <p><code><a href="filter_grid_points.html">filter_grid_points()</a></code> </p>
+          <p><code><a href="read_shape.html">read_shape()</a></code> </p>
         </td>
-        <td><p>Filter full set of grid points for those within range of original point</p></td>
+        <td><p>Read in the shape file as sf object</p></td>
       </tr><tr>
         
         <td>
@@ -174,24 +196,6 @@
           <p><code><a href="fortify_sfc.html">fortify_sfc()</a></code> </p>
         </td>
         <td><p>Convert a simple features tibble to tibble for plotting.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="hexmap_aus_3.html">hexmap_aus_3</a></code> </p>
-        </td>
-        <td><p>A hexagon map data set of Australia, with hexagons of size 0.3 degrees.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="read_shape.html">read_shape()</a></code> </p>
-        </td>
-        <td><p>Read in the shape file as sf object</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="tas_sa2.html">tas_sa2</a></code> <code><a href="tas_sa2.html">tas_sa2</a></code> </p>
-        </td>
-        <td><p>The polygons of Australian Statistical Areas in 2011.</p></td>
       </tr>
     </tbody>
     </table>
@@ -200,7 +204,9 @@
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#section-all-functions">All functions</a></li>
+      <li><a href="#section-data">Data</a></li>
+      <li><a href="#section-core-functions">Core Functions</a></li>
+      <li><a href="#section-helper-functions">Helper Functions</a></li>
     </ul>
   </div>
 </div>

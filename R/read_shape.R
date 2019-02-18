@@ -15,12 +15,11 @@
 #' @example
 #' \dontrun{
 #' # Download resource from sugaRbag site
-#' # link
-#'
-#' shape <- read_shape()
+#' # file <-
+#' shape <- read_shape(shp_path = file)
 #' }
 #'
-read_shape <- function(shp_path = NULL, simplify = TRUE, keep = 0.1, epsg = NULL, projstring = NULL) {
+read_shape <- function(shp_path, simplify = TRUE, keep = 0.1, epsg = NULL, projstring = NULL) {
 
     # Check if file or folder has been input
     extn <- tools::file_ext(shp_path)

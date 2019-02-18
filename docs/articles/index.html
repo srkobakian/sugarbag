@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Creates the points that define a hexagon polygon for plotting — fortify_hexagon • sugaRbag</title>
+<title>Articles • sugaRbag</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,10 +30,7 @@
 
 
 
-<meta property="og:title" content="Creates the points that define a hexagon polygon for plotting — fortify_hexagon" />
-
-<meta property="og:description" content="Creates the points that define a hexagon polygon for plotting" />
-<meta name="twitter:card" content="summary" />
+<meta property="og:title" content="Articles" />
 
 
 
@@ -50,7 +47,7 @@
   </head>
 
   <body>
-    <div class="container template-reference-topic">
+    <div class="container template-article-index">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -78,8 +75,17 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li>
-  <a href="../www.abs.gov.au/AUSSTATS/subscriber.nsf/log?openagent&amp;1270055001_sa2_2016_aust_shape.zip&amp;1270.0.55.001&amp;Data%20Cubes&amp;A09309ACB3FA50B8CA257FED0013D420&amp;0&amp;July%202016&amp;12.07.2016&amp;Latest">ABS Data</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Data
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/abs-data.html">ABS Data</a>
+    </li>
+  </ul>
 </li>
       </ul>
       
@@ -102,46 +108,17 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Creates the points that define a hexagon polygon for plotting</h1>
-    <small class="dont-index">Source: <a href='https://github.com/srkobakian/sugaRbag/blob/master/R/fortify_hexagon.R'><code>R/fortify_hexagon.R</code></a></small>
-    <div class="hidden name"><code>fortify_hexagon.Rd</code></div>
+      <h1>Articles</h1>
     </div>
 
-    <div class="ref-description">
-    
-    <p>Creates the points that define a hexagon polygon for plotting</p>
-    
+    <div class="section ">
+      <h3>All vignettes</h3>
+      <p class="section-desc"></p>
+
+      <ul>
+        <li><a href="abs-data.html">ABS Data</a></li>
+      </ul>
     </div>
-
-    <pre class="usage"><span class='fu'>fortify_hexagon</span>(<span class='no'>data</span>, <span class='no'>hex_size</span>)</pre>
-    
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>data</th>
-      <td><p>data frame containing the longitude, latitude of a hexagon centroid</p></td>
-    </tr>
-    <tr>
-      <th>hex_size</th>
-      <td><p>the distance between the hexagon centroids</p></td>
-    </tr>
-    </table>
-    
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>a data fram of the seven points used to draw a hexagon</p>
-    
-
-  </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-          </ul>
-
   </div>
 </div>
 

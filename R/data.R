@@ -11,21 +11,6 @@
 #' }
 "capital_cities"
 
-#' The polygons of Australian Statistical Areas in 2011.
-#'
-#' A simple features dataset containing the polygons for all Australian SA2s in
-#' 2011.
-#'
-#' @format A simple features data frame with 559 rows and 6 variables:
-#' \describe{
-#'   \item{SA2_CODE11}{code for the Statistical Area}
-#'   \item{SA2_NAME11}{name of the Statistical Area}
-#'   \item{STE_CODE11}{code for the state containing the Statistical Area}
-#'   \item{STE_NAME11}{name of the state containing the Statistical Area}
-#'   \item{AREA_SQKM}{area contained in the polygon}
-#'   \item{geometry}{describes where on Earth the polygon is located}
-#' }
-"tas_sa2"
 
 #' A hexagon map data set of Australia, with hexagons of size 0.3 degrees.
 #'

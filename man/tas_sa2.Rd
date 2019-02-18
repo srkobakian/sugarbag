@@ -3,25 +3,31 @@
 \docType{data}
 \name{tas_sa2}
 \alias{tas_sa2}
-\title{The polygons of Australian Statistical Areas in 2011.}
-\format{A simple features data frame with 559 rows and 6 variables:
+\title{The polygons of Tasmanian Statistical Areas in 2016.}
+\format{A simple features data frame with 99 rows and 15 variables:
 \describe{
-\item{SA2_CODE11}{code for the Statistical Area}
-\item{SA2_NAME11}{name of the Statistical Area}
-\item{STE_CODE11}{code for the state containing the Statistical Area}
-\item{STE_NAME11}{name of the state containing the Statistical Area}
-\item{AREA_SQKM}{area contained in the polygon}
-\item{geometry}{describes where on Earth the polygon is located}
+\item{SA2_MAIN16}{complete code of the Statistical Area}
+\item{SA2_5DIG16}{simple code for the Statistical Area}
+\item{SA2_NAME16}{name of the Statistical Area}
+\item{SA3_CODE16}{code for the SA3 containing the Statistical Area}
+\item{SA3_NAME16}{name of the SA3 containing the Statistical Area}
+\item{SA4_CODE16}{code for the SA4 containing the Statistical Area}
+\item{SA4_NAME16}{name of the SA4 containing the Statistical Area}
+\item{GCC_CODE16}{code for the Greater Capital City region containing
+the Statistical Area}
+\item{GCC_NAME16}{name of the Greater Capital City region containing
+the Statistical Area}
+\item{STE_CODE16}{code for the state containing the Statistical Area}
+\item{STE_NAME16}{name of the state containing the Statistical Area}
+\item{AREASQKM16}{area contained in the polygon}
+\item{id}{distinguishes SA2 regions}
+\item{population}{amount of people living within the region}
+\item{SA2_CODE16}{code of the Statistical Area}
 }}
 \usage{
 tas_sa2
-
-tas_sa2
 }
 \description{
-A simple features dataset containing the polygons for all Australian SA2s in
-2011.
-
 A simple features dataset containing the polygons for all Tasmanian SA2s in
 2016.
 }

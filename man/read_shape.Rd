@@ -4,8 +4,8 @@
 \alias{read_shape}
 \title{Read in the shape file as sf object}
 \usage{
-read_shape(shp_path = NULL, simplify = TRUE, keep = 0.1,
-  epsg = NULL, projstring = NULL)
+read_shape(shp_path, simplify = TRUE, keep = 0.1, epsg = NULL,
+  projstring = NULL)
 }
 \arguments{
 \item{shp_path}{character vector location of shape file, extension .shp}
