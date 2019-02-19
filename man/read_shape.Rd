@@ -20,3 +20,12 @@ an sf data frame, with a column of non null geometries
 \description{
 read_shape
 }
+\examples{
+\dontrun{
+# Download resource from sugaRbag site
+# https://srkobakian.github.io/sugaRbag/articles/abs-data.html
+# Find the location of extracted shape data
+shape <- read_shape(shp_path = file.choose())
+}
+
+}
