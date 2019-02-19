@@ -8,7 +8,7 @@
 #' @export
 #'
 #' @examples
-#' centroids <- create_centroids(tas_sa2)
+#' centroids <- create_centroids(tas_sa2, "SA2_5DIG16")
 #'
 create_centroids <- function(shp_sf, sf_id = NULL, verbose = FALSE) {
 

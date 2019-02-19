@@ -19,3 +19,7 @@ a tibble containing longitude and latitude
 \description{
 Create a data frame of longitude and latitude centroids of each polygon
 }
+\examples{
+centroids <- create_centroids(tas_sa2, "SA2_5DIG16")
+
+}
