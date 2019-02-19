@@ -28,4 +28,4 @@ www.abs.gov.au/AUSSTATS/subscriber.nsf/log?openagent&1270055001_sa2_2016_aust_sh
 
 Unzip the folder that has been downloaded, and note the extracted location.
 
-Follow the steps in the `read_shape` reference article to create a simple features data object.
+Follow the steps in the `read_shape()` reference article to create a simple features data object.
