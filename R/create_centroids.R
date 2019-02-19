@@ -20,7 +20,7 @@ create_centroids <- function(shp_sf, sf_id = NULL, verbose = FALSE) {
     ids <- shp_sf %>% sf::st_as_sf() %>% sf::st_set_geometry(NULL) %>% dplyr::select(.data[[sf_id]])
 
     centroids <- shp_sf %>%
-        sf::st_centroid(of_largest_polygon = TRUE) %>%
+        sf::st_centroid() %>%
         sf::st_coordinates() %>%
         tibble::as_tibble()
 

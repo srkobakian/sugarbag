@@ -5,10 +5,8 @@
 #' for each polygon to be allocated to that will tesselate into hexagons.
 #'
 #' @param centroids data frame of centroids to be allocated
-#' @param bbox table with columns minimum and maximum and rows
-#' containing longitude and latitude values
-#' @param buffer_dist distance to extend beyond the geometry provided
 #' @param hex_size a float value in degrees for the diameter of the hexagons
+#' @param buffer_dist distance to extend beyond the geometry provided
 #' @param verbose a boolean to indicate whether to show function progress
 #'
 #' @return grid
@@ -16,21 +14,26 @@
 #'
 #' @import dplyr
 #'
+#' @examples
+#' # Create a set of centroids for grid to overlay
+#' centroids <- create_centroids(tas_sa2, "SA2_5DIG16")
+#' # Create the grid
+#' grid <- create_grid(centroids = centroids, hex_size = 0.1, buffer_dist = 0.01, verbose = FALSE)
 #'
 #'
 
-create_grid <- function(centroids, bbox, hex_size, buffer_dist, verbose = FALSE) {
+create_grid <- function(centroids, hex_size, buffer_dist, verbose = FALSE) {
 
     if (verbose){
         message("Creating hexagon grid.")
     }
     # filter grid points to be within buffer_dist
 
-    grid <- tibble::as.tibble(expand.grid(hex_long = seq(bbox$min[1] - buffer_dist,
-        bbox$max[1] + buffer_dist,
+    grid <- tibble::as.tibble(expand.grid(hex_long = seq(min(centroids$longitude) - buffer_dist,
+        max(centroids$longitude) + buffer_dist,
         hex_size),
-        hex_lat = seq(bbox$min[2] - buffer_dist,
-            bbox$max[2] + buffer_dist,
+        hex_lat = seq(min(centroids$latitude) - buffer_dist,
+            max(centroids$latitude) + buffer_dist,
             hex_size)))
 
 

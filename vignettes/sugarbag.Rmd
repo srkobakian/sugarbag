@@ -1,0 +1,60 @@
+---
+title: "Vignette Title"
+author: "Vignette Author"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+## Creating a hexagon map of Tasmania
+
+Tasmania is a state of Australia, it has one large land mass and several smaller islands.
+
+### Data
+
+We will use the Australian Bureau of Statistics' ESRI shape files to build our map.
+Provided for convenience:
+
+https://srkobakian.github.io/sugaRbag/articles/abs-data.html
+
+
+Filtering for only Tasmanian areas.
+The data set of Tasmanian Statistical Areas at level two has been provided as a package data set, `tas_sa2`.
+
+### Centroids
+
+Derive the central points of the provided polygons
+
+```{r}
+centroids <- create_centroids(tas_sa2, "SA2_5DIG16")
+```
+
+### Hexagon grid
+
+To tesselate correctly, all the hexagons must be evenly spaced.
+
+```{r}
+grid <- create_grid(centroids = centroids, hex_size = 0.1, buffer_dist = 0.01, verbose = FALSE)
+```
+
+### Allocate areas
+
+Each polygon centroid will be allocated to the closest available hexagon grid point.
+
+```{r}
+
+```
+
+
+
