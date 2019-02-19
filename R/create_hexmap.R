@@ -13,8 +13,6 @@
 #' @param width the angle used to filter the grid points around a centroid
 #' @param focal_points a data frame of reference locations when allocating
 #' hexagons, capital cities of Australia are used in the example
-#' @param projstring a string to indicate the projection and epsg
-#' @param epsg the four character string to indicate the CRS
 #' @param export_shp export the simple features set
 #' @param verbose a boolean to indicate whether to show function progress
 #'
@@ -29,7 +27,7 @@
 #' hexmap <- create_hexmap(shp = lga_2011, sf_id = "LGA_CODE11", buffer_dist = NULL, filter_dist = 10, hex_size = NULL, export_shp = FALSE, focal_points = sugaRbag::capital_cities, verbose = TRUE)
 #' }
 #'
-create_hexmap <- function(shp = NULL, shp_path = NULL, sf_id = NULL, buffer_dist = NULL, hex_size = NULL, filter_dist = NULL, width = 15, focal_points = NULL, projstring = NULL, epsg = NULL, export_shp = FALSE, verbose = FALSE) {
+create_hexmap <- function(shp = NULL, shp_path = NULL, sf_id = NULL, buffer_dist = NULL, hex_size = NULL, filter_dist = NULL, width = 15, focal_points = NULL, export_shp = FALSE, verbose = FALSE) {
 
 
     if (!is.null(shp)){
@@ -55,25 +53,6 @@ create_hexmap <- function(shp = NULL, shp_path = NULL, sf_id = NULL, buffer_dist
 
     sf::st_agr(shp_sf) <- "constant"
 
-    # Set projection and crs
-    crs_info <- sf::st_crs(shp_sf)
-
-    if (is.null(projstring)){
-    proj4string <- crs_info$proj4string
-    }
-    if (is.null(epsg)){
-    epsg <- crs_info$epsg
-    }
-
-    if (is.null(projstring)){
-        if (is.na(epsg)){
-            return(message('EPSG code not provided, for Australia, use 3112'))}
-        else{
-            projstring <- paste0("+init=epsg:", epsg, " ", proj4string)
-        }
-    }
-
-
 
     ###########################################################################
     # First make sure all levels have been dropped if not being used
@@ -92,7 +71,7 @@ create_hexmap <- function(shp = NULL, shp_path = NULL, sf_id = NULL, buffer_dist
 
 
     # Derive centroids from geometry column, do something about warning message
-    centroids <- create_centroids(shp_sf = shp_sf, sf_id = sf_id, projstring = projstring, verbose = FALSE)
+    centroids <- create_centroids(shp_sf = shp_sf, sf_id = sf_id, verbose = FALSE)
 
     # Creating a bounding box around all centroids
     bbox <- tibble::tibble(min = c(min(centroids$longitude),

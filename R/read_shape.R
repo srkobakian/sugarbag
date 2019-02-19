@@ -5,8 +5,6 @@
 #' @param shp_path character vector location of shape file, extension .shp
 #' @param simplify a boolean to decide whether to simplify the shape file
 #' using rmapshaper
-#' @param epsg the four character string to indicate the CRS
-#' @param projstring a string to indicate the projection and epsg
 #' @param keep ratio of points to keep
 #'
 #' @return an sf data frame, with a column of non null geometries
@@ -15,11 +13,11 @@
 #' @example
 #' \dontrun{
 #' # Download resource from sugaRbag site
-#' # file <-
-#' shape <- read_shape(shp_path = file)
+#' #
+#' shape <- read_shape(shp_path = file.choose())
 #' }
 #'
-read_shape <- function(shp_path, simplify = TRUE, keep = 0.1, epsg = NULL, projstring = NULL) {
+read_shape <- function(shp_path, simplify = TRUE, keep = 0.1) {
 
     # Check if file or folder has been input
     extn <- tools::file_ext(shp_path)
@@ -53,23 +51,9 @@ read_shape <- function(shp_path, simplify = TRUE, keep = 0.1, epsg = NULL, projs
         }
     }
 
-    # Set projection and crs
-    crs_info <- sf::st_crs(shp)
-
-    if (is.null(projstring)){
-        proj4string <- crs_info$proj4string
-        message(paste0("Using proj4string: ", proj4string))
-    }
-    if (is.null(epsg)){
-        epsg <- crs_info$epsg
-        message(paste0("Using epsg: ", epsg))
-    }
-
 
     shp_polys <- shp %>% sf::st_as_sf() %>%
-        dplyr::filter(!sf::st_is_empty(sf::st_geometry(.))) %>%
-        sf::st_transform(., epsg, projstring
-        )
+        dplyr::filter(!sf::st_is_empty(sf::st_geometry(.)))
 
     # add message that polygons were dropped?
     if (NROW(shp_polys) != NROW(shp)) {

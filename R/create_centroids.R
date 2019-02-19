@@ -3,26 +3,26 @@
 #' @param shp_sf an sf object, a data set with a simple feature list column
 #' @param sf_id a string to indicate the column to identify individual polygons
 #' @param verbose a boolean to indicate whether to show function progress
-#' @param projstring a string to indicate the projection and epsg
 #'
 #' @return a tibble containing longitude and latitude
 #' @export
 #'
+#' @examples
+#' centroids <- create_centroids(tas_sa2)
 #'
-create_centroids <- function(shp_sf, sf_id = NULL, projstring = projstring, verbose = FALSE) {
+create_centroids <- function(shp_sf, sf_id = NULL, verbose = FALSE) {
 
     if (verbose) {
         message("Deriving polygon centroids")
     }
 
     # have an option to pass id column
+    ids <- shp_sf %>% sf::st_as_sf() %>% sf::st_set_geometry(NULL) %>% dplyr::select(.data[[sf_id]])
 
-    ids <- shp_sf %>% sf::st_set_geometry(NULL) %>% dplyr::select(.data[[sf_id]])
-
-    centroids <- shp_sf %>% sf::st_centroid() %>%
-        sf::st_transform(., crs = projstring) %>%
+    centroids <- shp_sf %>%
+        sf::st_centroid() %>%
         sf::st_coordinates() %>%
-        tibble::as.tibble()
+        tibble::as_tibble()
 
     # return with id column as specified
     if (is.null(sf_id)) {

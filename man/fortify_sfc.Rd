@@ -4,12 +4,10 @@
 \alias{fortify_sfc}
 \title{Convert a simple features tibble to tibble for plotting.}
 \usage{
-fortify_sfc(sfc_df, projstring, keep = NULL)
+fortify_sfc(sfc_df, keep = NULL)
 }
 \arguments{
 \item{sfc_df}{a simples features data set}
-
-\item{projstring}{a string to indicate the projection and epsg}
 
 \item{keep}{ratio of points to keep}
 }
