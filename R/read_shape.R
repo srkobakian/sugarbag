@@ -10,7 +10,7 @@
 #' @return an sf data frame, with a column of non null geometries
 #' @export
 #'
-#' @example
+#' @examples
 #' \dontrun{
 #' # Download resource from sugaRbag site
 #' #
