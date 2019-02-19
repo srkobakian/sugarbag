@@ -7,7 +7,7 @@
 # zip file
 
 # unzip to a folder:
-file_path <- "data/sa2_2016.rda"
+file_path <- ""
 
 # Load sugaRbag library
 library(sugaRbag)
@@ -16,4 +16,4 @@ library(sugaRbag)
 sa2_2016 <- read_shape(shp_path = file_path, simplify = 0.1)
 
 # to subset for Tasmania
-tas_sa2 <- dplyr::filter(sa2_2016, sa2_2016$STE_NAME11 == "Tasmania")
+tas_sa2 <- dplyr::filter(sa2_2016, sa2_2016$STE_NAME16 == "Tasmania")
