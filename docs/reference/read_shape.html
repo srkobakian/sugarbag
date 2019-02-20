@@ -88,6 +88,9 @@
     <li>
       <a href="../articles/abs-data.html">ABS Data</a>
     </li>
+    <li>
+      <a href="../articles/sugarbag.html">Vignette Title</a>
+    </li>
   </ul>
 </li>
       </ul>
@@ -147,6 +150,14 @@ using rmapshaper</p></td>
     <p>an sf data frame, with a column of non null geometries</p>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='co'># Download resource from sugaRbag site</span>
+<span class='co'># https://srkobakian.github.io/sugaRbag/articles/abs-data.html</span>
+<span class='co'># Find the location of extracted shape data</span>
+<span class='no'>shape</span> <span class='kw'>&lt;-</span> <span class='fu'>read_shape</span>(<span class='kw'>shp_path</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/file.choose'>file.choose</a></span>())
+<span class='co'># }</span><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -154,7 +165,9 @@ using rmapshaper</p></td>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-          </ul>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>
