@@ -111,7 +111,7 @@ create_buffer <- function(centroids, grid, hex_size, buffer_dist, verbose = FALS
     buff_grid <- grid %>%
         left_join(., av_range_rows, by = c("hex_lat_int" = "lat_id")) %>%
         left_join(., av_range_cols, by = c("hex_long_int" = "long_id")) %>%
-        rowwise %>%
+        rowwise() %>%
         mutate(long_buffer = ifelse(between(hex_long_int,mean_long_min - hex_buffer,
             mean_long_max + hex_buffer), "in", "out")) %>%
         mutate(lat_buffer = ifelse(between(hex_lat_int,mean_lat_min - hex_buffer,

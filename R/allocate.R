@@ -20,7 +20,15 @@
 allocate <- function(centroids, hex_grid, hex_size, filter_dist, focal_points = NULL, width, verbose, id) {
 
     if (!is.null(focal_points)) {
-        s_centroids <- centroids %>% arrange(focal_distance)
+        if(!("focal_distance" %in% colnames(centroids))) {
+            s_centroids <- centroids %>%
+                group_nest(SA2_5DIG16) %>%
+                mutate(closest = purrr::map(data, closest_focal_point, focal_points = focal_points)) %>%
+                unnest(data, closest) %>% arrange(focal_distance)
+        } else {
+                    s_centroids <- centroids %>% arrange(focal_distance)
+        }
+
         s_centroids <- split(s_centroids, s_centroids[["focal_distance"]])
         message("Allocating centroids, in order of distance to closest focal point.")
     } else {

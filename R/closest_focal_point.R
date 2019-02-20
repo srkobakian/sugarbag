@@ -10,7 +10,7 @@
 #' @export
 #'
 #'
-closest_focal_point <- function(centroid, focal_points = as.matrix(focal_points)) {
+closest_focal_point <- function(centroid, focal_points) {
 
 
     if ("long" %in% colnames(focal_points)) {
