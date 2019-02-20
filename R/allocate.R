@@ -17,6 +17,21 @@
 #' @return a data frame of one allocation
 #' @export
 #'
+#' @examples
+#' # Create centroids set
+#' centroids <- create_centroids(tas_sa2, "SA2_5DIG16")
+#' # Create hexagon location grid
+#' grid <- create_grid(centroids = centroids, hex_size = 0.1, buffer_dist = 0.1)
+#' # Allocate polygon centroids to hexagon grid points
+#' hex_allocated <- allocate(centroids = centroids,
+#' hex_grid = grid,
+#' hex_size = 0.1, # same size used in create_grid
+#' filter_dist = 0.25,
+#' focal_points = sugaRbag::capital_cities,
+#' width = 30,
+#' id = "SA2_5DIG16", verbose = TRUE) # same column used in
+#' create_centroids
+#'
 allocate <- function(centroids, hex_grid, hex_size, filter_dist, focal_points = NULL, width, verbose, id) {
 
     if (!is.null(focal_points)) {
@@ -24,7 +39,7 @@ allocate <- function(centroids, hex_grid, hex_size, filter_dist, focal_points = 
             s_centroids <- centroids %>%
                 group_nest(SA2_5DIG16) %>%
                 mutate(closest = purrr::map(data, closest_focal_point, focal_points = focal_points)) %>%
-                unnest(data, closest) %>% arrange(focal_distance)
+                tidyr::unnest(data, closest) %>% arrange(focal_distance)
         } else {
                     s_centroids <- centroids %>% arrange(focal_distance)
         }
