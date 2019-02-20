@@ -4,7 +4,7 @@
 \alias{closest_focal_point}
 \title{For the polygon provided, find the closest focal point in the set provided}
 \usage{
-closest_focal_point(centroid, focal_points = as.matrix(focal_points))
+closest_focal_point(centroid, focal_points)
 }
 \arguments{
 \item{centroid}{a data frame describing one centroid}
