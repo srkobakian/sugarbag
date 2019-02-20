@@ -10,8 +10,7 @@ vignette: >
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>", message = FALSE
-)
+  comment = "#>", message = FALSE, warning = FALSE)
 ```
 
 ```{r}
@@ -35,17 +34,17 @@ Tasmania is a state of Australia, it has one large land mass and several smaller
 ### Data
 
 We will use the Australian Bureau of Statistics' ESRI shape files to build our map.
-Provided for convenience:
+Provided for convenience on the package website:
 
 https://srkobakian.github.io/sugaRbag/articles/abs-data.html
 
 
-Filtering for only Tasmanian areas.
-The data set of Tasmanian Statistical Areas at level two has been provided as a package data set, `tas_sa2`.
+The set has been filtered for only Tasmanian areas.
+The data set of Tasmanian Statistical Areas at level two has been provided as a package data set, `?tas_sa2`.
 
 ### Centroids
 
-Derive the central points of the provided polygons
+The function create_centroids finds the central points of the polygons provided as an argument.
 
 ```{r}
 centroids <- create_centroids(tas_sa2, "SA2_5DIG16")
@@ -54,6 +53,7 @@ centroids <- create_centroids(tas_sa2, "SA2_5DIG16")
 ### Hexagon grid
 
 To tesselate correctly, all the hexagons must be evenly spaced.
+This function creates a grid of possible locations for the polygons.
 
 ```{r}
 grid <- create_grid(centroids = centroids, hex_size = 0.1, buffer_dist = 0.1)
