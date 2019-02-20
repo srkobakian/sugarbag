@@ -16,6 +16,19 @@ knitr::opts_chunk$set(
 )
 ```
 
+```{r}
+library(tidyverse)
+library(viridis)
+```
+
+
+The sugaRbag package can be downloaded directly from github:
+
+```{r}
+#devtools::install_github("srkobakian/sugaRbag")
+library(sugaRbag)
+```
+
 
 ## Creating a hexagon map of Tasmania
 
@@ -45,15 +58,37 @@ centroids <- create_centroids(tas_sa2, "SA2_5DIG16")
 To tesselate correctly, all the hexagons must be evenly spaced.
 
 ```{r}
-grid <- create_grid(centroids = centroids, hex_size = 0.1, buffer_dist = 0.01, verbose = FALSE)
+grid <- create_grid(centroids = centroids, hex_size = 0.1, buffer_dist = 0.1)
 ```
 
 ### Allocate areas
 
 Each polygon centroid will be allocated to the closest available hexagon grid point.
+The capital cities data set will be used to preserve neighbourly relationships.
 
 ```{r}
+hex_allocated <- allocate(centroids = centroids,
+  hex_grid = grid,
+  hex_size = 0.1, # same size used in create_grid
+  filter_dist = 0.25,
+  focal_points = sugaRbag::capital_cities,
+  width = 30,
+  id = "SA2_5DIG16", verbose = TRUE) # same column used in create_centroids
+```
 
+
+```{r}
+h1 <- hex_allocated %>%
+  group_nest(SA2_5DIG16) %>%
+                mutate(hex = purrr::map(data, fortify_hexagon, hex_size = 0.1)) %>%
+                unnest(data) %>% 
+  unnest(hex) %>% left_join(., tas_sa2)
+
+p1 <- fortify_sfc(tas_sa2)
+
+ggplot(mapping = aes(fill = SA4_NAME16)) +
+  geom_polygon(data = p1, aes(x=long, lat, group = group), alpha = 0.1) +
+  geom_polygon(data = h1, aes(x=hexv_long, hexv_lat, group = SA2_5DIG16))
 ```
 
 
