@@ -1,4 +1,4 @@
-Package: sugaRbag
+Package: sugarbag
 Title: Create Tessellated Hexagon Maps of Australia
 Version: 0.0.0.9000
 Authors@R: c(person("Stephanie", "Kobakian", email = "stephanie.kobakian@gmail.com", role = c("aut", "cre")),
