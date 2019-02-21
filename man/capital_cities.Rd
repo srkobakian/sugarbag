@@ -3,7 +3,7 @@
 \docType{data}
 \name{capital_cities}
 \alias{capital_cities}
-\title{The point locations of Asutralian capital cities.}
+\title{The point locations of Australian capital cities.}
 \format{A data frame with 8 rows and 3 variables:
 \describe{
 \item{points}{name of cities}

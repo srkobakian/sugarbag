@@ -1,4 +1,4 @@
-#' The point locations of Asutralian capital cities.
+#' The point locations of Australian capital cities.
 #'
 #' A dataset containing the longitude and latitude values of Australian
 #' capital cities.
