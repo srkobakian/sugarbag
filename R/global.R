@@ -1,8 +1,3 @@
-#' @importFrom magrittr %>%
-#' @name `%>%`
-#' @export
-magrittr::`%>%`
-
 # add global variables
 
 # allocate function

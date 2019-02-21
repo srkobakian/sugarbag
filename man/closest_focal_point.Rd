@@ -18,3 +18,10 @@ data frame containing the name and location of the closest focal
 For one row of an sf data frame, calculate the distance to the closest focal
 point. Return the name of the focal point, and the angle between focal point and centroid.
 }
+\examples{
+# Create a set of polygon centroids
+centroids <- create_centroids(tas_sa2, "SA2_5DIG16")
+
+# Find the closest capital city for the first centroid
+closest_focal_point(centroids[1,], capital_cities)
+}

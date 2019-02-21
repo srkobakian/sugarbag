@@ -8,6 +8,8 @@
 #'
 #' @return data frame containing the name and location of the closest focal
 #' @export
+#'
+#' @examples
 #' # Create a set of polygon centroids
 #' centroids <- create_centroids(tas_sa2, "SA2_5DIG16")
 #'
