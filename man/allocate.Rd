@@ -44,7 +44,6 @@ hex_size = 0.1, # same size used in create_grid
 filter_dist = 0.25,
 focal_points = sugaRbag::capital_cities,
 width = 30,
-id = "SA2_5DIG16", verbose = TRUE) # same column used in
-create_centroids
+id = "SA2_5DIG16", verbose = TRUE) # same column used in create_centroids
 
 }

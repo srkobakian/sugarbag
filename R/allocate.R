@@ -29,8 +29,7 @@
 #' filter_dist = 0.25,
 #' focal_points = sugaRbag::capital_cities,
 #' width = 30,
-#' id = "SA2_5DIG16", verbose = TRUE) # same column used in
-#' create_centroids
+#' id = "SA2_5DIG16", verbose = TRUE) # same column used in create_centroids
 #'
 allocate <- function(centroids, hex_grid, hex_size, filter_dist, focal_points = NULL, width, verbose, id) {
 
