@@ -1,7 +1,7 @@
-#' @importFrom dplyr %>%
+#' @importFrom magrittr %>%
 #' @name `%>%`
 #' @export
-dplyr::`%>%`
+magrittr::`%>%`
 
 # add global variables
 
