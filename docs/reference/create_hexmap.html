@@ -80,6 +80,9 @@ the geographic chape of each area is lost." />
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li>
+  <a href="../articles/sugaRbag.html">Get started</a>
+</li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     Articles
@@ -185,8 +188,10 @@ points for each non null geometry passed in the shape file</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>lga_2011</span>)
-<span class='no'>hexmap</span> <span class='kw'>&lt;-</span> <span class='fu'>create_hexmap</span>(<span class='kw'>shp</span> <span class='kw'>=</span> <span class='no'>lga_2011</span>, <span class='kw'>sf_id</span> <span class='kw'>=</span> <span class='st'>"LGA_CODE11"</span>, <span class='kw'>buffer_dist</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>filter_dist</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>hex_size</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>export_shp</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>focal_points</span> <span class='kw'>=</span> <span class='kw pkg'>sugaRbag</span><span class='kw ns'>::</span><span class='no'><a href='https://www.rdocumentation.org/packages/sugaRbag/topics/capital_cities'>capital_cities</a></span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>tas_sa2</span>)
+<span class='no'>hexmap</span> <span class='kw'>&lt;-</span> <span class='fu'>create_hexmap</span>(<span class='kw'>shp</span> <span class='kw'>=</span> <span class='no'>tas_sa2</span>, <span class='kw'>sf_id</span> <span class='kw'>=</span> <span class='st'>"SA2_5DIG16"</span>,
+<span class='kw'>filter_dist</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>export_shp</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+<span class='kw'>focal_points</span> <span class='kw'>=</span> <span class='kw pkg'>sugaRbag</span><span class='kw ns'>::</span><span class='no'><a href='https://www.rdocumentation.org/packages/sugaRbag/topics/capital_cities'>capital_cities</a></span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 <span class='co'># }</span><div class='input'>
 </div></pre>
   </div>
