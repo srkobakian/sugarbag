@@ -17,7 +17,6 @@
 #' @param h_size a float value in degrees for the diameter of the hexagons
 #'
 #' @return a tibble of filtered grid points
-#' @export
 #'
 #' @importFrom geosphere finalBearing destPoint
 #' @importFrom tibble tibble as.tibble

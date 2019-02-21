@@ -1,10 +1,16 @@
+#' @importFrom dplyr %>%
+#' @name `%>%`
+#' @export
+dplyr::`%>%`
+
 # add global variables
 
 # allocate function
 utils::globalVariables(c('focal_distance',
     'points',
     'angle',
-    'hyp'))
+    'hyp',
+    'SA2_5DIG16'))
 
 
 # create_buffer function

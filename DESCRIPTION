@@ -30,5 +30,6 @@ Suggests:
     testthat,
     knitr,
     rmarkdown,
-    pkgdown
+    pkgdown,
+    tidyr
 VignetteBuilder: knitr

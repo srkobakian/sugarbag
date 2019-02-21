@@ -11,6 +11,7 @@ reference:
   contents:
   - '`create_hexmap`'
   - '`create_centroids`'
+  - '`closest_focal_point`'
   - '`create_grid`'
   - '`allocate`'
 - title: Helper Functions

@@ -11,7 +11,6 @@
 #' @param verbose a boolean to indicate whether to show function progress
 #'
 #' @return data frame of hexagon centroids
-#' @export
 #'
 #' @import dplyr
 #'

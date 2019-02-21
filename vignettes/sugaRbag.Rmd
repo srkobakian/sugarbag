@@ -13,17 +13,14 @@ knitr::opts_chunk$set(
   comment = "#>", message = FALSE, warning = FALSE)
 ```
 
-```{r}
-library(tidyverse)
-library(viridis)
-```
-
-
 The sugaRbag package can be downloaded directly from github:
 
 ```{r}
 #devtools::install_github("srkobakian/sugaRbag")
 library(sugaRbag)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
 ```
 
 
@@ -77,7 +74,7 @@ hex_allocated <- allocate(centroids = centroids,
 
 ```{r}
 h1 <- hex_allocated %>%
-  group_nest(SA2_5DIG16) %>%
+  dplyr::group_nest(SA2_5DIG16) %>%
                 mutate(hex = purrr::map(data, fortify_hexagon, hex_size = 0.1)) %>%
                 unnest(data) %>% 
   unnest(hex) %>% left_join(., tas_sa2)

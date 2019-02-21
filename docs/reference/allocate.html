@@ -79,6 +79,9 @@ spanning the longitudes and latitudes in the expanded bounding box." />
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li>
+  <a href="../articles/sugaRbag.html">Get started</a>
+</li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     Articles
@@ -170,6 +173,20 @@ hexagons, capital cities of Australia are used in the example</p></td>
     <p>a data frame of one allocation</p>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='co'># Create centroids set</span>
+<span class='no'>centroids</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='create_centroids.html'>create_centroids</a></span>(<span class='no'>tas_sa2</span>, <span class='st'>"SA2_5DIG16"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: st_centroid assumes attributes are constant over geometries of x</span></div><div class='output co'>#&gt; <span class='warning'>Warning: st_centroid does not give correct centroids for longitude/latitude data</span></div><div class='input'><span class='co'># Create hexagon location grid</span>
+<span class='no'>grid</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='create_grid.html'>create_grid</a></span>(<span class='kw'>centroids</span> <span class='kw'>=</span> <span class='no'>centroids</span>, <span class='kw'>hex_size</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>buffer_dist</span> <span class='kw'>=</span> <span class='fl'>0.1</span>)
+<span class='co'># Allocate polygon centroids to hexagon grid points</span>
+<span class='no'>hex_allocated</span> <span class='kw'>&lt;-</span> <span class='fu'>allocate</span>(<span class='kw'>centroids</span> <span class='kw'>=</span> <span class='no'>centroids</span>,
+<span class='kw'>hex_grid</span> <span class='kw'>=</span> <span class='no'>grid</span>,
+<span class='kw'>hex_size</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='co'># same size used in create_grid</span>
+<span class='kw'>filter_dist</span> <span class='kw'>=</span> <span class='fl'>0.25</span>,
+<span class='kw'>focal_points</span> <span class='kw'>=</span> <span class='kw pkg'>sugaRbag</span><span class='kw ns'>::</span><span class='no'><a href='https://www.rdocumentation.org/packages/sugaRbag/topics/capital_cities'>capital_cities</a></span>,
+<span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>30</span>,
+<span class='kw'>id</span> <span class='kw'>=</span> <span class='st'>"SA2_5DIG16"</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) <span class='co'># same column used in create_centroids</span></div><div class='output co'>#&gt; <span class='message'>Allocating centroids, in order of distance to closest focal point.</span></div><div class='output co'>#&gt; |============                                          | 22% ~10 s remaining    [1] "Filter Distance expanded by  0.25  to  0.5"
+#&gt; |=============                                         | 24% ~10 s remaining    |==============                                        | 26% ~9 s remaining     |===============                                       | 28% ~8 s remaining     |================                                      | 30% ~8 s remaining     |================                                      | 31% ~7 s remaining     |==================                                    | 33% ~7 s remaining     |==================                                    | 34% ~7 s remaining     |===================                                   | 35% ~7 s remaining     |====================                                  | 37% ~6 s remaining     |=====================                                 | 39% ~6 s remaining     |=====================                                 | 40% ~6 s remaining     |======================                                | 42% ~5 s remaining     |=======================                               | 43% ~5 s remaining     |========================                              | 45% ~5 s remaining     |=========================                             | 47% ~5 s remaining     |==========================                            | 49% ~4 s remaining     |===========================                           | 52% ~4 s remaining     |============================                          | 54% ~4 s remaining     |=============================                         | 55% ~4 s remaining     |==============================                        | 56% ~4 s remaining     |===============================                       | 58% ~3 s remaining     |================================                      | 60% ~3 s remaining     |=================================                     | 62% ~3 s remaining     |==================================                    | 64% ~3 s remaining     |==================================                    | 65% ~3 s remaining     |===================================                   | 66% ~3 s remaining     |====================================                  | 68% ~2 s remaining     |=====================================                 | 69% ~2 s remaining     |======================================                | 71% ~2 s remaining     |=======================================               | 73% ~2 s remaining     |=======================================               | 74% ~2 s remaining     |========================================              | 75% ~2 s remaining     |========================================              | 76% ~2 s remaining     |==========================================            | 78% ~2 s remaining     |===========================================           | 80% ~1 s remaining     |============================================          | 82% ~1 s remaining     |============================================          | 83% ~1 s remaining     |=============================================         | 84% ~1 s remaining     |==============================================        | 86% ~1 s remaining     |===============================================       | 88% ~1 s remaining     |================================================      | 90% ~1 s remaining     |=================================================     | 91% ~1 s remaining     |=================================================     | 92% ~1 s remaining     |==================================================    | 94% ~0 s remaining     |===================================================   | 96% ~0 s remaining     |====================================================  | 98% ~0 s remaining     |======================================================|100% ~0 s remaining     </div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -177,7 +194,9 @@ hexagons, capital cities of Australia are used in the example</p></td>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-          </ul>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>
