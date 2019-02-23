@@ -36,13 +36,14 @@ spanning the longitudes and latitudes in the expanded bounding box.
 # Create centroids set
 centroids <- create_centroids(tas_sa2, "SA2_5DIG16")
 # Create hexagon location grid
+data(capital_cities)
 grid <- create_grid(centroids = centroids, hex_size = 0.1, buffer_dist = 0.1)
 # Allocate polygon centroids to hexagon grid points
 hex_allocated <- allocate(centroids = centroids,
 hex_grid = grid,
 hex_size = 0.1, # same size used in create_grid
 filter_dist = 0.25,
-focal_points = sugaRbag::capital_cities,
+focal_points = capital_cities,
 width = 30,
 id = "SA2_5DIG16", verbose = TRUE) # same column used in create_centroids
 

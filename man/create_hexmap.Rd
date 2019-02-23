@@ -44,9 +44,10 @@ the geographic chape of each area is lost.
 \dontrun{
 
 data(tas_sa2)
+data(capital_cities)
 hexmap <- create_hexmap(shp = tas_sa2, sf_id = "SA2_5DIG16",
 filter_dist = 10, export_shp = FALSE,
-focal_points = sugaRbag::capital_cities, verbose = TRUE)
+focal_points = capital_cities, verbose = TRUE)
 }
 
 }

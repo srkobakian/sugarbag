@@ -22,8 +22,8 @@ read_shape
 }
 \examples{
 \dontrun{
-# Download resource from sugaRbag site
-# https://srkobakian.github.io/sugaRbag/articles/abs-data.html
+# Download resource from sugarbag site
+# https://srkobakian.github.io/sugarbag/articles/abs-data.html
 # Find the location of extracted shape data
 shape <- read_shape(shp_path = file.choose())
 }
