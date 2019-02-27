@@ -4,7 +4,7 @@
 \alias{create_centroids}
 \title{Create a data frame of longitude and latitude centroids of each polygon}
 \usage{
-create_centroids(shp_sf, sf_id = NULL, verbose = FALSE)
+create_centroids(shp_sf, sf_id, verbose = FALSE)
 }
 \arguments{
 \item{shp_sf}{an sf object, a data set with a simple feature list column}
@@ -20,6 +20,6 @@ a tibble containing longitude and latitude
 Create a data frame of longitude and latitude centroids of each polygon
 }
 \examples{
-centroids <- create_centroids(tas_sa2, "SA2_5DIG16")
+centroids <- create_centroids(tas_lga, "LGA_CODE16")
 
 }

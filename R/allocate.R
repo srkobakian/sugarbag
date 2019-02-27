@@ -7,19 +7,20 @@
 #' @param centroids a data frame with centroids of non empty polygons
 #' @param hex_grid a data frame containing all possible hexagon points
 #' @param hex_size a float value in degrees for the diameter of the hexagons
-#' @param filter_dist distance around centroid to consider grid points
+#' @param hex_filter amount of hexagons around centroid to consider
 #' @param focal_points a data frame of reference locations when allocating
 #' hexagons, capital cities of Australia are used in the example
 #' @param verbose a boolean to indicate whether to show polygon id
-#' @param id a string to indicate the column to identify individual polygons
 #' @param width a numeric indicating the angle used to filter the hexagon grid
+#' @param sf_id a string to indicate the column to identify individual polygons
 #'
 #' @return a data frame of one allocation
+#' @importFrom ggplot2 sym
 #' @export
 #'
 #' @examples
 #' # Create centroids set
-#' centroids <- create_centroids(tas_sa2, "SA2_5DIG16")
+#' centroids <- create_centroids(tas_lga, sf_id = "LGA_CODE16")
 #' # Create hexagon location grid
 #' data(capital_cities)
 #' grid <- create_grid(centroids = centroids, hex_size = 0.1, buffer_dist = 0.1)
@@ -27,19 +28,20 @@
 #' hex_allocated <- allocate(centroids = centroids,
 #' hex_grid = grid,
 #' hex_size = 0.1, # same size used in create_grid
-#' filter_dist = 0.25,
+#' hex_filter = 10,
 #' focal_points = capital_cities,
-#' width = 30,
-#' id = "SA2_5DIG16", verbose = TRUE) # same column used in create_centroids
+#' width = 30, verbose = TRUE)
+#' # same column used in create_centroids
 #'
-allocate <- function(centroids, hex_grid, hex_size, filter_dist, focal_points = NULL, width, verbose, id) {
+allocate <- function(centroids, hex_grid, sf_id = names(centroids)[1], hex_size, hex_filter, focal_points = NULL, width, verbose) {
 
     if (!is.null(focal_points)) {
         if(!("focal_distance" %in% colnames(centroids))) {
             s_centroids <- centroids %>%
-                group_nest(SA2_5DIG16) %>%
+                group_nest(!!sf_id := as.character(!!sym(sf_id))) %>%
                 mutate(closest = purrr::map(data, closest_focal_point, focal_points = focal_points)) %>%
                 tidyr::unnest(data, closest) %>% arrange(focal_distance)
+            
         } else {
                     s_centroids <- centroids %>% arrange(focal_distance)
         }
@@ -47,14 +49,14 @@ allocate <- function(centroids, hex_grid, hex_size, filter_dist, focal_points = 
         s_centroids <- split(s_centroids, s_centroids[["focal_distance"]])
         message("Allocating centroids, in order of distance to closest focal point.")
     } else {
-        s_centroids <- split(centroids, centroids[[id]])
+        s_centroids <- split(centroids, centroids[[sf_id]])
     }
 
     # Set up allocation data frame
     centroid_allocation <- NULL
 
     # keep value to reset expanded distances
-    expand_dist <- filter_dist
+    expand_dist <- hex_filter
 
     ###########################################################################
     p <- progress_estimated(NROW(centroids), min_time = 3)
@@ -76,28 +78,26 @@ allocate <- function(centroids, hex_grid, hex_size, filter_dist, focal_points = 
         }
 
         # Make this find if the grid boundary point was reached, expand angle?
-        max_dist <- filter_dist*10
+        max_dist <- hex_filter*10
 
         # filter grid for avaiable points
         while(NROW(f_grid) == 0) {
-            if (filter_dist < max_dist) {
-                f_grid <- filter_grid_points(f_grid = hex_grid, f_centroid = centroid, focal_points = focal_points, f_dist = filter_dist, angle_width = width, h_size = hex_size)
+            if (hex_filter < max_dist) {
+                f_grid <- filter_grid_points(f_grid = hex_grid, f_centroid = centroid, focal_points = focal_points, f_dist = hex_filter, angle_width = width, h_size = hex_size)
                 if (NROW(f_grid) == 0) {
-                    filter_dist <- filter_dist + expand_dist
-                    print(paste("Filter Distance expanded by ", expand_dist, " to ", filter_dist))
+                    hex_filter <- hex_filter + expand_dist
+                    print(paste("Filter Distance expanded by ", expand_dist, " to ", hex_filter))
                 }
             }
             # prevent endless loop
             else {
 
-                filter_dist <- max_dist/5
+                hex_filter <- max_dist/5
                 width <- width + 5
                 message("Cannot expand further, trying a wider angle.")
 
-                #browser()
                 #break
             }
-
         }
 
         # Choose first avaiable point
@@ -118,4 +118,3 @@ allocate <- function(centroids, hex_grid, hex_size, filter_dist, focal_points = 
 }
 
 
-utils::globalVariables(c("sf_id", "longitude", "latitude", "assigned"))

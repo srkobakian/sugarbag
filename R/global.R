@@ -5,8 +5,11 @@ utils::globalVariables(c('focal_distance',
     'points',
     'angle',
     'hyp',
-    'SA2_5DIG16'))
-
+    'SA2_5DIG16',
+    ':=',
+    "sf_id",
+    "longitude",
+    "latitude", "assigned", "f_width"))
 
 # create_buffer function
 utils::globalVariables(c('lat_int',
@@ -30,7 +33,7 @@ utils::globalVariables(c('lat_int',
 utils::globalVariables(c('X', 'Y', 'projstring'))
 
 # filter_grid_points function
-utils::globalVariables(c('filter_dist', 'width', 'hex_size', 'hex_lat_c', 'hex_long_c', 'latitude1', 'longitude1', 'angle', 'hyp', 'hex_angle',
+utils::globalVariables(c('hex_filter', 'width', 'hex_size', 'hex_lat_c', 'hex_long_c', 'latitude1', 'longitude1', 'angle', 'hyp', 'hex_angle',
 'angle_minus', 'angle_plus'))
 
 # find lat group function

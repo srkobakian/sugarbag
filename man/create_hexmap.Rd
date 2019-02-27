@@ -4,25 +4,22 @@
 \alias{create_hexmap}
 \title{Create a tesselated hexagon map from a set of polygons}
 \usage{
-create_hexmap(shp = NULL, shp_path = NULL, sf_id = NULL,
-  buffer_dist = NULL, hex_size = NULL, filter_dist = NULL,
-  width = 15, focal_points = NULL, export_shp = FALSE,
-  verbose = FALSE)
+create_hexmap(shp, sf_id, hex_size = NULL, buffer_dist = NULL,
+  hex_filter = 10, f_width = 30, focal_points = NULL,
+  export_shp = FALSE, verbose = FALSE)
 }
 \arguments{
 \item{shp}{a shape file}
 
-\item{shp_path}{character string location of shape file}
-
 \item{sf_id}{name of a unique column that distinguishes areas}
-
-\item{buffer_dist}{distance in degrees to extend beyond the geometry provided}
 
 \item{hex_size}{a float value in degrees for the diameter of the hexagons}
 
-\item{filter_dist}{amount of hexagons around centroid to consider for allocation}
+\item{buffer_dist}{distance in degrees to extend beyond the geometry provided}
 
-\item{width}{the angle used to filter the grid points around a centroid}
+\item{hex_filter}{amount of hexagons around centroid to consider}
+
+\item{f_width}{the angle used to filter the grid points around a centroid}
 
 \item{focal_points}{a data frame of reference locations when allocating
 hexagons, capital cities of Australia are used in the example}
@@ -41,13 +38,11 @@ tesselated hexagons. The spatial relationships of areas are preserved while
 the geographic chape of each area is lost.
 }
 \examples{
-\dontrun{
 
 data(tas_sa2)
 data(capital_cities)
-hexmap <- create_hexmap(shp = tas_sa2, sf_id = "SA2_5DIG16",
-filter_dist = 10, export_shp = FALSE,
+hexmap <- create_hexmap(shp = tas_lga,
+ sf_id = "LGA_CODE16",
 focal_points = capital_cities, verbose = TRUE)
-}
 
 }

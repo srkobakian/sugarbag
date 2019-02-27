@@ -10,7 +10,7 @@ vignette: >
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>", message = FALSE, warning = FALSE)
+  comment = "#>", message = FALSE, warning = FALSE, fig.width = 12, fig.height = 8)
 ```
 
 The sugarbag package can be downloaded directly from github:
@@ -44,7 +44,7 @@ The data set of Tasmanian Statistical Areas at level two has been provided as a 
 The function create_centroids finds the central points of the polygons provided as an argument.
 
 ```{r}
-centroids <- create_centroids(tas_sa2, "SA2_5DIG16")
+centroids <- create_centroids(tas_sa2, sf_id = "SA2_5DIG16")
 ```
 
 ### Hexagon grid
@@ -63,20 +63,21 @@ The capital cities data set will be used to preserve neighbourly relationships.
 
 ```{r}
 hex_allocated <- allocate(centroids = centroids,
+  sf_id = "SA2_5DIG16",
   hex_grid = grid,
   hex_size = 0.1, # same size used in create_grid
-  filter_dist = 0.25,
+  hex_filter = 10,
   focal_points = capital_cities,
-  width = 30,
-  id = "SA2_5DIG16", verbose = TRUE) # same column used in create_centroids
+  width = 30, verbose = TRUE) # same column used in create_centroids
 ```
 
 
 ```{r}
 h1 <- hex_allocated %>%
-  dplyr::group_nest(SA2_5DIG16) %>%
-                mutate(hex = purrr::map(data, fortify_hexagon, hex_size = 0.1)) %>%
-                unnest(data) %>% 
+  group_by(SA2_5DIG16) %>%
+  nest() %>%
+  mutate(hex = purrr::map(data, fortify_hexagon, hex_size = 0.1)) %>%
+  unnest(data) %>% 
   unnest(hex) %>% left_join(., tas_sa2)
 
 p1 <- fortify_sfc(tas_sa2)

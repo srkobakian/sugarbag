@@ -8,16 +8,19 @@
 #' @export
 #'
 #' @examples
-#' centroids <- create_centroids(tas_sa2, "SA2_5DIG16")
+#' centroids <- create_centroids(tas_lga, "LGA_CODE16")
 #'
-create_centroids <- function(shp_sf, sf_id = NULL, verbose = FALSE) {
+create_centroids <- function(shp_sf, sf_id, verbose = FALSE) {
 
     if (verbose) {
         message("Deriving polygon centroids")
     }
 
     # have an option to pass id column
-    ids <- shp_sf %>% sf::st_as_sf() %>% sf::st_set_geometry(NULL) %>% dplyr::select(.data[[sf_id]])
+    ids <- shp_sf %>% sf::st_as_sf() %>%
+        sf::st_set_geometry(NULL) %>%
+        mutate(!!sf_id := !!sym(sf_id)) %>%
+        dplyr::select(!!sf_id)
 
     centroids <- shp_sf %>%
         sf::st_centroid() %>%

@@ -4,17 +4,19 @@
 \alias{allocate}
 \title{Allocate polygon centroids to hexagons in a grid}
 \usage{
-allocate(centroids, hex_grid, hex_size, filter_dist, focal_points = NULL,
-  width, verbose, id)
+allocate(centroids, hex_grid, sf_id = names(centroids)[1], hex_size,
+  hex_filter, focal_points = NULL, width, verbose)
 }
 \arguments{
 \item{centroids}{a data frame with centroids of non empty polygons}
 
 \item{hex_grid}{a data frame containing all possible hexagon points}
 
+\item{sf_id}{a string to indicate the column to identify individual polygons}
+
 \item{hex_size}{a float value in degrees for the diameter of the hexagons}
 
-\item{filter_dist}{distance around centroid to consider grid points}
+\item{hex_filter}{amount of hexagons around centroid to consider}
 
 \item{focal_points}{a data frame of reference locations when allocating
 hexagons, capital cities of Australia are used in the example}
@@ -22,8 +24,6 @@ hexagons, capital cities of Australia are used in the example}
 \item{width}{a numeric indicating the angle used to filter the hexagon grid}
 
 \item{verbose}{a boolean to indicate whether to show polygon id}
-
-\item{id}{a string to indicate the column to identify individual polygons}
 }
 \value{
 a data frame of one allocation
@@ -34,7 +34,7 @@ spanning the longitudes and latitudes in the expanded bounding box.
 }
 \examples{
 # Create centroids set
-centroids <- create_centroids(tas_sa2, "SA2_5DIG16")
+centroids <- create_centroids(tas_lga, sf_id = "LGA_CODE16")
 # Create hexagon location grid
 data(capital_cities)
 grid <- create_grid(centroids = centroids, hex_size = 0.1, buffer_dist = 0.1)
@@ -42,9 +42,9 @@ grid <- create_grid(centroids = centroids, hex_size = 0.1, buffer_dist = 0.1)
 hex_allocated <- allocate(centroids = centroids,
 hex_grid = grid,
 hex_size = 0.1, # same size used in create_grid
-filter_dist = 0.25,
+hex_filter = 10,
 focal_points = capital_cities,
-width = 30,
-id = "SA2_5DIG16", verbose = TRUE) # same column used in create_centroids
+width = 30, verbose = TRUE)
+# same column used in create_centroids
 
 }

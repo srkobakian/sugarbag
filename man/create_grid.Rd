@@ -25,7 +25,7 @@ for each polygon to be allocated to that will tesselate into hexagons.
 }
 \examples{
 # Create a set of centroids for grid to overlay
-centroids <- create_centroids(tas_sa2, "SA2_5DIG16")
+centroids <- create_centroids(tas_lga, "LGA_CODE16")
 # Create the grid
 grid <- create_grid(centroids = centroids, hex_size = 0.1, buffer_dist = 0.01, verbose = FALSE)
 

@@ -16,7 +16,7 @@
 #'
 #' @examples
 #' # Create a set of centroids for grid to overlay
-#' centroids <- create_centroids(tas_sa2, "SA2_5DIG16")
+#' centroids <- create_centroids(tas_lga, "LGA_CODE16")
 #' # Create the grid
 #' grid <- create_grid(centroids = centroids, hex_size = 0.1, buffer_dist = 0.01, verbose = FALSE)
 #'
@@ -29,12 +29,17 @@ create_grid <- function(centroids, hex_size, buffer_dist, verbose = FALSE) {
     }
     # filter grid points to be within buffer_dist
 
-    grid <- tibble::as.tibble(expand.grid(hex_long = seq(min(centroids$longitude) - buffer_dist,
-        max(centroids$longitude) + buffer_dist,
+    grid <- tibble::as.tibble(
+        expand.grid(hex_long = seq(
+            (min(centroids$longitude) - buffer_dist),
+            (max(centroids$longitude) + buffer_dist),
         hex_size),
-        hex_lat = seq(min(centroids$latitude) - buffer_dist,
-            max(centroids$latitude) + buffer_dist,
-            hex_size)))
+        hex_lat = seq(
+            (min(centroids$latitude) - buffer_dist),
+            (max(centroids$latitude) + buffer_dist),
+            hex_size)
+            )
+        )
 
 
     # Shift the longitude of every second latitude - to make hex structure

@@ -5,12 +5,11 @@
 #' the geographic chape of each area is lost.
 #'
 #' @param shp a shape file
-#' @param shp_path character string location of shape file
 #' @param sf_id name of a unique column that distinguishes areas
 #' @param buffer_dist distance in degrees to extend beyond the geometry provided
 #' @param hex_size a float value in degrees for the diameter of the hexagons
-#' @param filter_dist amount of hexagons around centroid to consider for allocation
-#' @param width the angle used to filter the grid points around a centroid
+#' @param hex_filter amount of hexagons around centroid to consider
+#' @param f_width the angle used to filter the grid points around a centroid
 #' @param focal_points a data frame of reference locations when allocating
 #' hexagons, capital cities of Australia are used in the example
 #' @param export_shp export the simple features set
@@ -21,16 +20,14 @@
 #' @export
 #'
 #' @examples
-#' \dontrun{
 #'
 #' data(tas_sa2)
 #' data(capital_cities)
-#' hexmap <- create_hexmap(shp = tas_sa2, sf_id = "SA2_5DIG16",
-#' filter_dist = 10, export_shp = FALSE,
+#' hexmap <- create_hexmap(shp = tas_lga,
+#'  sf_id = "LGA_CODE16",
 #' focal_points = capital_cities, verbose = TRUE)
-#' }
 #'
-create_hexmap <- function(shp = NULL, shp_path = NULL, sf_id = NULL, buffer_dist = NULL, hex_size = NULL, filter_dist = NULL, width = 15, focal_points = NULL, export_shp = FALSE, verbose = FALSE) {
+create_hexmap <- function(shp, sf_id, hex_size = NULL, buffer_dist = NULL, hex_filter = 10, f_width = 30, focal_points = NULL, export_shp = FALSE, verbose = FALSE) {
 
 
     if (!is.null(shp)){
@@ -41,18 +38,13 @@ create_hexmap <- function(shp = NULL, shp_path = NULL, sf_id = NULL, buffer_dist
             shp_sf <- sf::st_as_sf(shp)
         }
 
-        else {shp_sf <- shp}
+        else {
+            shp_sf <- shp}
     }
     else {
-        if (!is.null(shp_path)) {
-            # Read in ESRI shape file, remove null geometries, transform projection
-            shp_sf <- read_shape(shp_path, simplify = TRUE)
+        return(message("Provide an sf object, see read_shape()."))
         }
-        else {
-            return(message(paste0(shp_path," cannot be found.")))
-
-        }
-    }
+    
 
     sf::st_agr(shp_sf) <- "constant"
 
@@ -104,26 +96,23 @@ create_hexmap <- function(shp = NULL, shp_path = NULL, sf_id = NULL, buffer_dist
 
 
     # filter according to amount of hexagons
-    if (is.null(filter_dist)){
-        filter_dist <- (hex_size)*10
+    if (is.null(hex_filter)){
+        hex_filter <- (hex_size)*10
     }
     else {
-        if (filter_dist < 10){
-        filter_dist <- (hex_size)*10
+        if (hex_filter < hex_size){
+        hex_filter <- (hex_size)*10
         }
-        else {filter_dist <- (hex_size)*filter_dist}
+        else {hex_filter <- (hex_size)*hex_filter}
     }
 
-    message(paste0("Filter set to ", round(filter_dist,4), " degrees."))
+    message(paste0("Filter set to ", round(hex_filter,4), " degrees."))
 
-    # if matrix, convert to tibble
-    #if (!("tbl" %in% class(bbox))){
-    #    bbox <- tibble::as.tibble(bbox)
-    #}
 
     ###########################################################################
     # Create grid for hexagons
-    hex_grid <- create_grid(centroids, bbox, hex_size, buffer_dist)
+    hex_grid <- create_grid(centroids = centroids, hex_size = hex_size, 
+        buffer_dist = buffer_dist)
 
     # consider focal point distance if they were provided
     if (!is.null(focal_points)) {
@@ -132,9 +121,9 @@ create_hexmap <- function(shp = NULL, shp_path = NULL, sf_id = NULL, buffer_dist
         if (verbose) {message("Finding closest point in focal_points data set.")}
 
         centroids <- centroids %>%
-            nest(longitude, latitude) %>%
+            group_nest(!!sym(names(centroids)[1])) %>%
             mutate(closest = purrr::map(data, closest_focal_point, focal_points = focal_points)) %>%
-            unnest(data, closest) %>%
+            tidyr::unnest(data, closest) %>%
             arrange(focal_distance)
 
         if (verbose) {message("Closest points found.")}
@@ -145,13 +134,13 @@ create_hexmap <- function(shp = NULL, shp_path = NULL, sf_id = NULL, buffer_dist
     # Allocate polygons to a hexagon
     #browser()
     hexmap_allocation <- allocate(centroids = centroids,
+        sf_id = sf_id,
         hex_grid = hex_grid,
         hex_size = hex_size,
-        filter_dist = filter_dist,
-        width = width,
+        hex_filter = hex_filter,
+        width = f_width,
         focal_points = focal_points,
-        verbose = verbose,
-        id = sf_id)
+        verbose = verbose)
 
     if (export_shp) {
         return(list(hexmap_allocation, shp_sf))
