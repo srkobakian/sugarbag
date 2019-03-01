@@ -23,7 +23,7 @@
 #' centroids <- create_centroids(tas_lga, sf_id = "LGA_CODE16")
 #' # Create hexagon location grid
 #' data(capital_cities)
-#' grid <- create_grid(centroids = centroids, hex_size = 0.1, buffer_dist = 0.1)
+#' grid <- create_grid(centroids = centroids, hex_size = 0.1, buffer_dist = 1.2)
 #' # Allocate polygon centroids to hexagon grid points
 #' hex_allocated <- allocate(centroids = centroids,
 #' hex_grid = grid,
@@ -79,20 +79,21 @@ allocate <- function(centroids, hex_grid, sf_id = names(centroids)[1], hex_size,
 
         # Make this find if the grid boundary point was reached, expand angle?
         max_dist <- hex_filter*10
+        filter_dist <- hex_filter*hex_size
 
         # filter grid for avaiable points
         while(NROW(f_grid) == 0) {
-            if (hex_filter < max_dist) {
+            if (filter_dist< max_dist) {
                 f_grid <- filter_grid_points(f_grid = hex_grid, f_centroid = centroid, focal_points = focal_points, f_dist = hex_filter, angle_width = width, h_size = hex_size)
                 if (NROW(f_grid) == 0) {
-                    hex_filter <- hex_filter + expand_dist
+                    filter_dist<- filter_dist+ expand_dist
                     print(paste("Filter Distance expanded by ", expand_dist, " to ", hex_filter))
                 }
             }
             # prevent endless loop
             else {
 
-                hex_filter <- max_dist/5
+                filter_dist<- max_dist/5
                 width <- width + 5
                 message("Cannot expand further, trying a wider angle.")
 
