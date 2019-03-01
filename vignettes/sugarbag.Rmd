@@ -53,7 +53,7 @@ To tesselate correctly, all the hexagons must be evenly spaced.
 This function creates a grid of possible locations for the polygons.
 
 ```{r}
-grid <- create_grid(centroids = centroids, hex_size = 0.1, buffer_dist = 1.2)
+grid <- create_grid(centroids = centroids, hex_size = 0.2, buffer_dist = 1.2)
 ```
 
 ### Allocate areas
@@ -65,7 +65,7 @@ The capital cities data set will be used to preserve neighbourly relationships.
 hex_allocated <- allocate(centroids = centroids,
   sf_id = "SA2_5DIG16",
   hex_grid = grid,
-  hex_size = 0.1, # same size used in create_grid
+  hex_size = 0.2, # same size used in create_grid
   hex_filter = 10,
   focal_points = capital_cities,
   width = 30, verbose = TRUE) # same column used in create_centroids
@@ -76,7 +76,7 @@ hex_allocated <- allocate(centroids = centroids,
 h1 <- hex_allocated %>%
   group_by(SA2_5DIG16) %>%
   nest() %>%
-  mutate(hex = purrr::map(data, fortify_hexagon, hex_size = 0.1)) %>%
+  mutate(hex = purrr::map(data, fortify_hexagon, hex_size = 0.2)) %>%
   unnest(data) %>% 
   unnest(hex) %>% left_join(., tas_sa2)
 

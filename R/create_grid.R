@@ -18,7 +18,7 @@
 #' # Create a set of centroids for grid to overlay
 #' centroids <- create_centroids(tas_lga, "LGA_CODE16")
 #' # Create the grid
-#' grid <- create_grid(centroids = centroids, hex_size = 0.1, buffer_dist = 1.2, verbose = FALSE)
+#' grid <- create_grid(centroids = centroids, hex_size = 0.2, buffer_dist = 1.2, verbose = FALSE)
 #'
 #'
 
