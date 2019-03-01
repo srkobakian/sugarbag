@@ -21,7 +21,7 @@ Creates the points that define a hexagon polygon for plotting
 # Create centroids set
 centroids <- create_centroids(tas_lga, "LGA_CODE16")
 # Create hexagon location grid
-grid <- create_grid(centroids = centroids, hex_size = 0.1, buffer_dist = 0.1)
+grid <- create_grid(centroids = centroids, hex_size = 0.1, buffer_dist = 1.2)
 # Allocate polygon centroids to hexagon grid points
 hex_allocated <- allocate(centroids = centroids,
 sf_id = "LGA_CODE16",
