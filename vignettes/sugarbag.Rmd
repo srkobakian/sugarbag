@@ -10,7 +10,11 @@ vignette: >
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>", message = FALSE, warning = FALSE, fig.width = 12, fig.height = 8)
+  comment = "#>", 
+  message = FALSE, 
+  warning = FALSE,
+  fig.height = 4,
+  fig.width = 7)
 ```
 
 The sugarbag package can be downloaded directly from github:
