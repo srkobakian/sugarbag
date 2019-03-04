@@ -25,6 +25,7 @@ library(sugarbag)
 library(dplyr)
 library(tidyr)
 library(ggplot2)
+library(gganimate)
 ```
 
 
@@ -82,13 +83,18 @@ h1 <- hex_allocated %>%
   nest() %>%
   mutate(hex = purrr::map(data, fortify_hexagon, hex_size = 0.2)) %>%
   unnest(data) %>% 
-  unnest(hex) %>% left_join(., tas_sa2)
+  unnest(hex) %>% 
+   dplyr::rename(long = hexv_long,
+    lat = hexv_lat) %>%
+  left_join(., tas_sa2) %>% mutate(poly_type = "hex")
 
-p1 <- fortify_sfc(tas_sa2)
+
+p1 <- fortify_sfc(tas_sa2) %>% mutate(poly_type = "geo")
+
 
 ggplot(mapping = aes(fill = SA4_NAME16)) +
   geom_polygon(data = p1, aes(x=long, lat, group = group), alpha = 0.1) +
-  geom_polygon(data = h1, aes(x=hexv_long, hexv_lat, group = SA2_5DIG16))
+  geom_polygon(data = h1, aes(x=long, lat, group = SA2_5DIG16))
 ```
 
 
