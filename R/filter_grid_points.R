@@ -23,7 +23,7 @@
 #'
 #'
 #'
-filter_grid_points <- function(f_grid, f_centroid, focal_points = NULL, f_dist = hex_filter, angle_width = width, h_size = hex_size){
+filter_grid_points <- function(f_grid, f_centroid, focal_points = NULL, f_dist = filter_dist, angle_width = width, h_size = hex_size){
 
     # Filter distance in degrees for initial filter step
     distance <- (((f_centroid$latitude-f_centroid$latitude1)^2) + ((f_centroid$longitude-f_centroid$longitude1)^2))^(1/2)
@@ -82,12 +82,12 @@ filter_grid_points <- function(f_grid, f_centroid, focal_points = NULL, f_dist =
 
         if (grid$angle_minus[1] < grid$angle_plus[1]) {
             grid <- grid %>%
-                # create slice of 60 degrees from centroid
+                # create slice of width *2 degrees from centroid
                 filter(angle_minus < hex_angle & hex_angle < angle_plus)
         }
         else {
             grid <- grid %>%
-                # create slice of 60 degrees from centroid
+                # create slice of width *2 degrees from centroid
                 filter(hex_angle < angle_plus | angle_minus > hex_angle)
         }
 

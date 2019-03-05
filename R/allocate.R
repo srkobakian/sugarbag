@@ -55,8 +55,9 @@ allocate <- function(centroids, hex_grid, sf_id = names(centroids)[1], hex_size,
     # Set up allocation data frame
     centroid_allocation <- NULL
 
-    # keep value to reset expanded distances
-    expand_dist <- hex_filter
+    # keep value to reset expand distance to half of original given distance
+    expand_dist <- (hex_filter*hex_size)/2
+    expanded_times = 0
 
     ###########################################################################
     p <- progress_estimated(NROW(centroids), min_time = 3)
@@ -65,12 +66,10 @@ allocate <- function(centroids, hex_grid, sf_id = names(centroids)[1], hex_size,
 
         # Indicate progression
         if (verbose) {
-
             p$tick()$print()
         }
 
-        # filter the grid for appropriate hex positions
-        f_grid = NULL
+        f_grid = NULL # filter the grid for appropriate hex positions
 
         # filter for only the available hex grid points
         if (!is.null(centroid_allocation)) {
@@ -78,26 +77,29 @@ allocate <- function(centroids, hex_grid, sf_id = names(centroids)[1], hex_size,
         }
 
         # Make this find if the grid boundary point was reached, expand angle?
-        max_dist <- hex_filter*10
+        max_dist <- hex_filter*hex_size*10
         filter_dist <- hex_filter*hex_size
 
-        # filter grid for avaiable points
+        # filter grid for available points
         while(NROW(f_grid) == 0) {
-            if (filter_dist< max_dist) {
-                f_grid <- filter_grid_points(f_grid = hex_grid, f_centroid = centroid, focal_points = focal_points, f_dist = hex_filter, angle_width = width, h_size = hex_size)
+            if (filter_dist < max_dist) {
+                f_grid <- filter_grid_points(f_grid = hex_grid, f_centroid = centroid, focal_points = focal_points, f_dist = filter_dist, angle_width = width, h_size = hex_size)
                 if (NROW(f_grid) == 0) {
-                    filter_dist<- filter_dist+ expand_dist
-                    print(paste("Filter Distance expanded by ", expand_dist, " to ", hex_filter))
+                    filter_dist <- filter_dist + expand_dist
+                    expanded_times = expanded_times + 1
                 }
             }
             # prevent endless loop
             else {
+                # Too much loss of spatial pattern beyond 80 degrees
+                if (width < 80) {
+                    width <- width + 5
+                }
+                else {
+                    return("This hexmap could not be completed. Try expanding the buffer distance.")
+                }
+                message(paste("Issue at ", pull(centroid[,1]), ": Cannot expand further, trying a wider angle of ", width," degrees."))
 
-                filter_dist<- max_dist/5
-                width <- width + 5
-                message("Cannot expand further, trying a wider angle.")
-
-                #break
             }
         }
 
@@ -113,8 +115,10 @@ allocate <- function(centroids, hex_grid, sf_id = names(centroids)[1], hex_size,
 
         centroid_allocation <- bind_rows(centroid_allocation, dplyr::bind_cols(cent, hex)) %>% as.tibble()
     }
-
-    # Returnall allocations to the data frame
+    
+    message(paste("\nFilter distance was expanded for ", expanded_times, "area(s)."))
+    
+    # Return all allocations to the data frame
     return(centroid_allocation)
 }
 
