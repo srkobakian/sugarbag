@@ -4,12 +4,14 @@
 \alias{fortify_hexagon}
 \title{Creates the points that define a hexagon polygon for plotting}
 \usage{
-fortify_hexagon(data, hex_size)
+fortify_hexagon(data, sf_id = names(centroids)[1], hex_size)
 }
 \arguments{
-\item{data}{data frame containing the longitude, latitude of a hexagon centroid}
+\item{data}{a data frame created by the allocate function}
 
-\item{hex_size}{the distance between the hexagon centroids}
+\item{sf_id}{a string to indicate the column to identify individual polygons}
+
+\item{hex_size}{a float value in degrees for the diameter of the hexagons}
 }
 \value{
 a data frame of the seven points used to draw a hexagon
@@ -23,14 +25,14 @@ centroids <- create_centroids(tas_lga, "LGA_CODE16")
 # Create hexagon location grid
 grid <- create_grid(centroids = centroids, hex_size = 0.2, buffer_dist = 1.2)
 # Allocate polygon centroids to hexagon grid points
-hex_allocated <- allocate(centroids = centroids,
+allocated <- allocate(centroids = centroids,
 sf_id = "LGA_CODE16",
 hex_grid = grid,
 hex_size = 0.2, # same size used in create_grid
 hex_filter = 1,
 width = 30,
-focal_points = capital_cities, verbose = TRUE) 
+focal_points = capital_cities,
+verbose = TRUE) 
 # same column used in create_centroids
-
-fortify_hexagon(hex_allocated[1,], 0.1)
+fortify_hexagon(data = allocated, sf_id = "LGA_CODE16", hex_size = 0.2)
 }

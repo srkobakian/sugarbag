@@ -32,7 +32,11 @@
 #' focal_points = capital_cities,
 #' width = 30, verbose = TRUE)
 #' # same column used in create_centroids
-#'
+#' # create a set of hexagon points for plotting
+#' fort_hex <- fortify_hexagon(data = hex_allocated, sf_id = "LGA_CODE16", hex_size = 0.2)
+#' # plot the hexagons
+#' 
+#' 
 allocate <- function(centroids, hex_grid, sf_id = names(centroids)[1], hex_size, hex_filter, focal_points = NULL, width, verbose) {
 
     if (!is.null(focal_points)) {
@@ -117,6 +121,11 @@ allocate <- function(centroids, hex_grid, sf_id = names(centroids)[1], hex_size,
     }
     
     message(paste("\nFilter distance was expanded for ", expanded_times, "area(s)."))
+    
+    # give more appropriate variable names
+    centroid_allocation <- centroid_allocation %>%
+        dplyr::rename(focal_long = longitude1, 
+            focal_lat = latitude1)
     
     # Return all allocations to the data frame
     return(centroid_allocation)

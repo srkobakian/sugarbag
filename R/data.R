@@ -57,3 +57,15 @@
 #'   \item{geometry}{describes where on Earth the polygon is located}
 #' }
 "tas_lga"
+
+
+#' The amount of homeless people in each Local Government Areas in 2016.
+#'
+#' A data frame of the Local Government Area names and amount of homeless.
+#'
+#' @format A data frame with 545 rows and 2 variables:
+#' \describe{
+#'   \item{homeless}{amount of homeless people}
+#'   \item{LGA_NAME16}{name of the Local Government Area}
+#' }
+"homeless"

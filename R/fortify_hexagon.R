@@ -1,11 +1,12 @@
 #' Creates the points that define a hexagon polygon for plotting
 #'
-#' @param data data frame containing the longitude, latitude of a hexagon centroid
-#' @param hex_size the distance between the hexagon centroids
+#' @param data a data frame created by the allocate function
+#' @param sf_id a string to indicate the column to identify individual polygons
+#' @param hex_size a float value in degrees for the diameter of the hexagons
 #'
 #' @return a data frame of the seven points used to draw a hexagon
 #' @export
-#'
+#' @importFrom tidyr unnest
 #'
 #' @examples
 #' # Create centroids set
@@ -13,33 +14,50 @@
 #' # Create hexagon location grid
 #' grid <- create_grid(centroids = centroids, hex_size = 0.2, buffer_dist = 1.2)
 #' # Allocate polygon centroids to hexagon grid points
-#' hex_allocated <- allocate(centroids = centroids,
+#' allocated <- allocate(centroids = centroids,
 #' sf_id = "LGA_CODE16",
 #' hex_grid = grid,
 #' hex_size = 0.2, # same size used in create_grid
 #' hex_filter = 1,
 #' width = 30,
-#' focal_points = capital_cities, verbose = TRUE) 
+#' focal_points = capital_cities,
+#' verbose = TRUE) 
 #' # same column used in create_centroids
-#'
-#' fortify_hexagon(hex_allocated[1,], 0.1)
+#' fortify_hexagon(data = allocated, sf_id = "LGA_CODE16", hex_size = 0.2)
 
-fortify_hexagon <- function(data, hex_size) {
-
-  # create a model hexagon, with centre at (0,0)
-  c_x <- 0
-  c_y <- 0
-  c_hex <- tibble::tibble(hexv_long = c(
-      c_x + 0, c_x + 0.5*hex_size,
-      c_x + 0.5*hex_size, c_x + 0,
-      c_x - 0.5*hex_size, c_x - 0.5*hex_size),
-    hexv_lat = c(c_y - hex_size/(sqrt(3)), c_y - hex_size/(2*sqrt(3)), c_y + hex_size/(2*sqrt(3)), c_y + hex_size/(sqrt(3)), c_y + hex_size/(2*sqrt(3)), c_y - hex_size/(2*sqrt(3))))
-
-  # translate to hexagon centroid location
-  c_hex <- c_hex %>%
-      mutate(hexv_long = hexv_long + data$hex_long,
-    hexv_lat = hexv_lat + data$hex_lat,
-        hexv_id = 1:6)
-
-  return(c_hex)
+fortify_hexagon <- function(data, sf_id = names(centroids)[1], hex_size) {
+  
+  # Split data by sf_id 
+  hexagons <- data %>%
+    group_nest(!!sf_id := as.character(!!sym(sf_id)), .key = "grouped") %>%
+    mutate(hex = purrr::map(.x = grouped,
+      .f = function(hexdata = .x, size = hex_size){
+        # create a model hexagon, with centre at (0,0)
+        c_x <- 0
+        c_y <- 0
+        c_hex <- tibble::tibble(long = c(
+          c_x + 0, c_x + 0.5*size,
+          c_x + 0.5*size, c_x + 0,
+          c_x - 0.5*size, c_x - 0.5*size),
+          lat = c(c_y - size/(sqrt(3)), c_y - size/(2*sqrt(3)), c_y + size/(2*sqrt(3)), c_y + size/(sqrt(3)), c_y + size/(2*sqrt(3)), c_y - size/(2*sqrt(3))))
+        
+        # translate to hexagon centroid location
+        c_hex <- c_hex %>%
+          mutate(long = long + hexdata$hex_long,
+            lat = lat + hexdata$hex_lat,
+            id = 1:6)
+        
+        return(c_hex)
+        # close map function
+      } 
+      # close mutate 
+    )) %>% 
+    unnest(grouped) %>%
+    unnest(hex) %>%
+    mutate(poly_type = "hex")
+  
+  return(hexagons)
 }
+
+
+utils::globalVariables(c("grouped", ".x", "long", "lat","hex", "centroids"))

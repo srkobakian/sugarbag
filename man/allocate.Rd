@@ -46,5 +46,9 @@ hex_filter = 10,
 focal_points = capital_cities,
 width = 30, verbose = TRUE)
 # same column used in create_centroids
+# create a set of hexagon points for plotting
+fort_hex <- fortify_hexagon(data = hex_allocated, sf_id = "LGA_CODE16", hex_size = 0.2)
+# plot the hexagons
+
 
 }

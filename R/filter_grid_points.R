@@ -79,7 +79,11 @@ filter_grid_points <- function(f_grid, f_centroid, focal_points = NULL, f_dist =
                 hex_angle = (atan*180/pi),
                 hex_angle = ifelse(hex_angle<0, hex_angle +360, hex_angle))
 
-
+        # Check that there were available points within hyp distance
+        if (NROW(grid) == 0) {
+            return(grid)
+        }
+        
         if (grid$angle_minus[1] < grid$angle_plus[1]) {
             grid <- grid %>%
                 # create slice of width *2 degrees from centroid
@@ -93,8 +97,7 @@ filter_grid_points <- function(f_grid, f_centroid, focal_points = NULL, f_dist =
 
     }
 
-
     return(grid)
 }
 
-utils::globalVariables(c("hex_lat", "hex_long", ".", "assigned"))
+utils::globalVariables(c("hex_lat", "hex_long", ".", "assigned", "filter_dist"))
