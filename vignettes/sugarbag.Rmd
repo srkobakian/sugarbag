@@ -87,6 +87,3 @@ ggplot(mapping = aes(fill = SA4_NAME16)) +
   geom_polygon(data = p1, aes(x=long, lat, group = group), alpha = 0.1) +
   geom_polygon(data = h1, aes(x=long, lat, group = SA2_5DIG16))
 ```
-
-
-
