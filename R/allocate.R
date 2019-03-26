@@ -42,7 +42,7 @@ allocate <- function(centroids, hex_grid, sf_id = names(centroids)[1], hex_size,
     if (!is.null(focal_points)) {
         if(!("focal_distance" %in% colnames(centroids))) {
             s_centroids <- centroids %>%
-                group_nest(!!sf_id := as.character(!!sym(sf_id))) %>%
+                dplyr::group_nest(!!sf_id := as.character(!!sym(sf_id))) %>%
                 mutate(closest = purrr::map(data, closest_focal_point, focal_points = focal_points)) %>%
                 tidyr::unnest(data, closest) %>% arrange(focal_distance)
             
