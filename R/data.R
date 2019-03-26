@@ -59,13 +59,13 @@
 "tas_lga"
 
 
-#' The amount of homeless people in each Local Government Areas in 2016.
+#' The amount of homeless people in each Statistical Area at Level 2 in 2016.
 #'
-#' A data frame of the Local Government Area names and amount of homeless.
+#' A data frame of the Statistical Area at Level 2 names and amount of homeless
 #'
 #' @format A data frame with 545 rows and 2 variables:
 #' \describe{
 #'   \item{homeless}{amount of homeless people}
-#'   \item{LGA_NAME16}{name of the Local Government Area}
+#'   \item{SA2_NAME16}{name of the Statistical Area at Level 2}
 #' }
 "homeless"
