@@ -39,5 +39,9 @@ create_centroids <- function(shp_sf, sf_id, verbose = FALSE) {
                 dplyr::select(longitude = X, latitude = Y))
     }
 
+    # remove empty geometries
+    centroids <- centroids %>%
+        filter(!is.na(longitude)) %>%
+        filter(!is.na(latitude))
     return(centroids)
 }
