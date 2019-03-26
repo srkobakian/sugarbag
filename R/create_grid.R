@@ -31,12 +31,12 @@ create_grid <- function(centroids, hex_size, buffer_dist, verbose = FALSE) {
 
     grid <- tibble::as.tibble(
         expand.grid(hex_long = seq(
-            (min(centroids$longitude) - buffer_dist),
-            (max(centroids$longitude) + buffer_dist),
+            (min(centroids$longitude, na.rm = TRUE) - buffer_dist),
+            (max(centroids$longitude, na.rm = TRUE) + buffer_dist),
         hex_size),
         hex_lat = seq(
-            (min(centroids$latitude) - buffer_dist),
-            (max(centroids$latitude) + buffer_dist),
+            (min(centroids$latitude, na.rm = TRUE) - buffer_dist),
+            (max(centroids$latitude, na.rm = TRUE) + buffer_dist),
             hex_size)
             )
         )
