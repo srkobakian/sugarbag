@@ -132,7 +132,6 @@ create_hexmap <- function(shp, sf_id, hex_size = NULL, buffer_dist = NULL, hex_f
 
     ###########################################################################
     # Allocate polygons to a hexagon
-    #browser()
     hexmap_allocation <- allocate(centroids = centroids,
         sf_id = sf_id,
         hex_grid = hex_grid,
