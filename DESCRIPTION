@@ -19,7 +19,6 @@ Imports:
     dplyr (>= 0.7.8),
     geosphere (>= 1.5),
     ggplot2 (>= 3.1.0),
-    magrittr (>= 1.5),
     purrr(>= 0.2.5),
     rmapshaper(>= 0.4.1),
     sp (>= 1.3),
