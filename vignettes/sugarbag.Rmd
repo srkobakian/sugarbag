@@ -83,7 +83,9 @@ h1 <- hex_allocated %>%
 
 p1 <- fortify_sfc(tas_sa2) %>% mutate(poly_type = "geo")
 
-ggplot(mapping = aes(fill = SA4_NAME16)) +
-  geom_polygon(data = p1, aes(x=long, lat, group = group), alpha = 0.1) +
-  geom_polygon(data = h1, aes(x=long, lat, group = SA2_5DIG16))
+h1
+
+ggplot(NULL, aes(x=long, y=lat, fill = SA4_NAME16, group = interaction(polygon, SA2_5DIG16))) +
+  geom_polygon(data = p1, aes(group = interaction(polygon, SA2_5DIG16)), alpha = 0.1) +
+  geom_polygon(data = h1 %>% mutate(polygon = 1), alpha =0.4)
 ```
