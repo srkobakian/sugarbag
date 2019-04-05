@@ -3,6 +3,9 @@
 
 # sugarbag
 
+[![Travis-CI Build
+Status](https://travis-ci.org/srkobakian/sugarbag.svg?branch=master)](https://travis-ci.org/srkobakian/sugarbag)
+
 The **sugarbag** package implements tesselated hexagon maps for
 visualising geo-spatial data. Hexagons of equal size are positioned to
 best preserve angles and minimise distance from their actual location.
