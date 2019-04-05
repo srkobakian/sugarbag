@@ -8,6 +8,7 @@ addons:
       - libprotoc-dev
       - protobuf-compiler
       - libudunits2-dev
+      - libv8-dev
 
 after_success:
   - Rscript -e 'pkgdown::build_site()'
