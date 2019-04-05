@@ -23,7 +23,7 @@ fortify_sfc <- function(sfc_df, keep = NULL) {
         set_names(as_tibble(y[[1]]), c("long", "lat"))
       }, .id = "polygon")
     })) %>%
-    unnest(geom) %>%
+    unnest(!!sym("geom")) %>%
     mutate(poly_type = "geo")
 
   sf::st_geometry(sf_tbl) <- NULL
