@@ -26,7 +26,7 @@
 #' )
 #' # same column used in create_centroids
 #' fortify_hexagon(data = allocated, sf_id = "LGA_CODE16", hex_size = 0.2)
-fortify_hexagon <- function(data, sf_id = names(centroids)[1], hex_size) {
+fortify_hexagon <- function(data, sf_id, hex_size) {
 
   # Split data by sf_id
   hexagons <- data %>%

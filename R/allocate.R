@@ -106,7 +106,7 @@ allocate <- function(centroids, hex_grid, sf_id = names(centroids)[1], hex_size,
     }
 
     # Choose first avaiable point
-    cent <- centroid %>% dplyr::rename(focal_point = points, focal_dist = focal_distance, focal_angle = angle)
+    cent <- centroid %>% dplyr::rename(focal_dist = focal_distance, focal_angle = angle)
 
     # Filter should give one hex point
     hex <- f_grid %>%
