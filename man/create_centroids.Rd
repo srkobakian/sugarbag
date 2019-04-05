@@ -21,5 +21,4 @@ Create a data frame of longitude and latitude centroids of each polygon
 }
 \examples{
 centroids <- create_centroids(tas_lga, "LGA_CODE16")
-
 }

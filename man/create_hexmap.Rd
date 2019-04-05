@@ -41,8 +41,9 @@ the geographic chape of each area is lost.
 
 data(tas_sa2)
 data(capital_cities)
-hexmap <- create_hexmap(shp = tas_lga,
- sf_id = "LGA_CODE16",
-focal_points = capital_cities, verbose = TRUE)
-
+hexmap <- create_hexmap(
+  shp = tas_lga,
+  sf_id = "LGA_CODE16",
+  focal_points = capital_cities, verbose = TRUE
+)
 }

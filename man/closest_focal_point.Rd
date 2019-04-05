@@ -23,5 +23,5 @@ point. Return the name of the focal point, and the angle between focal point and
 centroids <- create_centroids(tas_sa2, "SA2_5DIG16")
 
 # Find the closest capital city for the first centroid
-closest_focal_point(centroids[1,], capital_cities)
+closest_focal_point(centroids[1, ], capital_cities)
 }

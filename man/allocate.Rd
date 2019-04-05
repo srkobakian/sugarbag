@@ -39,16 +39,16 @@ centroids <- create_centroids(tas_lga, sf_id = "LGA_CODE16")
 data(capital_cities)
 grid <- create_grid(centroids = centroids, hex_size = 0.2, buffer_dist = 1.2)
 # Allocate polygon centroids to hexagon grid points
-hex_allocated <- allocate(centroids = centroids,
-hex_grid = grid,
-hex_size = 0.2, # same size used in create_grid
-hex_filter = 10,
-focal_points = capital_cities,
-width = 30, verbose = TRUE)
+hex_allocated <- allocate(
+  centroids = centroids,
+  hex_grid = grid,
+  hex_size = 0.2, # same size used in create_grid
+  hex_filter = 10,
+  focal_points = capital_cities,
+  width = 30, verbose = TRUE
+)
 # same column used in create_centroids
 # create a set of hexagon points for plotting
 fort_hex <- fortify_hexagon(data = hex_allocated, sf_id = "LGA_CODE16", hex_size = 0.2)
 # plot the hexagons
-
-
 }
