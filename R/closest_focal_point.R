@@ -22,6 +22,10 @@ closest_focal_point <- function(centroid, focal_points) {
   if ("lat" %in% colnames(focal_points)) {
     colnames(focal_points)[which(colnames(focal_points) == "lat")] <- "latitude"
   }
+  
+  if(!all(c("longitude", "latitude") %in% colnames(focal_points))){
+    abort('The `focal_points` must contain the columns "longitude", and "latitude"')
+  }
 
   # When applying to hexagon grid
   if ("hex_long" %in% colnames(focal_points)) {
@@ -43,7 +47,9 @@ closest_focal_point <- function(centroid, focal_points) {
   focal_distance_df <- focal_points %>% dplyr::bind_cols(., focal_distance = focal_distance) %>% top_n(-1, wt = focal_distance)
 
   # angle from city to centroid
-  focal_distance_df$angle <- geosphere::finalBearing(focal_distance_df[, 2:3], c(centroid$longitude, centroid$latitude),
+  focal_distance_df$angle <- geosphere::finalBearing(
+    focal_distance_df[, c("longitude", "latitude")],
+    c(centroid$longitude, centroid$latitude),
     a = 6378160, f = 0
   )
 
