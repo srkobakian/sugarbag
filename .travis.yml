@@ -10,6 +10,7 @@ addons:
       - libudunits2-dev
       - libv8-dev
       - libjq-dev
+      - libgdal1-dev
 
 after_success:
   - Rscript -e 'pkgdown::build_site()'
@@ -22,3 +23,4 @@ deploy:
   local-dir: docs
   on:
     branch: master
+
