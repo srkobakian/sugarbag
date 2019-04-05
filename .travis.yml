@@ -1,8 +1,12 @@
 language: r
 cache: packages
 
-before_install:
-  - sudo apt-get install -y libprotobuf-dev
+addons:
+  apt:
+    packages:
+      - libprotobuf-dev
+      - libprotoc-dev
+      - protobuf-compiler
 
 after_success:
   - Rscript -e 'pkgdown::build_site()'
