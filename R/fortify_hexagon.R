@@ -14,50 +14,61 @@
 #' # Create hexagon location grid
 #' grid <- create_grid(centroids = centroids, hex_size = 0.2, buffer_dist = 1.2)
 #' # Allocate polygon centroids to hexagon grid points
-#' allocated <- allocate(centroids = centroids,
-#' sf_id = "LGA_CODE16",
-#' hex_grid = grid,
-#' hex_size = 0.2, # same size used in create_grid
-#' hex_filter = 1,
-#' width = 30,
-#' focal_points = capital_cities,
-#' verbose = TRUE) 
+#' allocated <- allocate(
+#'   centroids = centroids,
+#'   sf_id = "LGA_CODE16",
+#'   hex_grid = grid,
+#'   hex_size = 0.2, # same size used in create_grid
+#'   hex_filter = 1,
+#'   width = 30,
+#'   focal_points = capital_cities,
+#'   verbose = TRUE
+#' )
 #' # same column used in create_centroids
 #' fortify_hexagon(data = allocated, sf_id = "LGA_CODE16", hex_size = 0.2)
-
 fortify_hexagon <- function(data, sf_id = names(centroids)[1], hex_size) {
-  
-  # Split data by sf_id 
+
+  # Split data by sf_id
   hexagons <- data %>%
     group_nest(!!sf_id := as.character(!!sym(sf_id)), .key = "grouped") %>%
-    mutate(hex = purrr::map(.x = grouped,
-      .f = function(hexdata = .x, size = hex_size){
+    mutate(hex = purrr::map(
+      .x = grouped,
+      .f = function(hexdata = .x, size = hex_size) {
         # create a model hexagon, with centre at (0,0)
         c_x <- 0
         c_y <- 0
-        c_hex <- tibble::tibble(long = c(
-          c_x + 0, c_x + 0.5*size,
-          c_x + 0.5*size, c_x + 0,
-          c_x - 0.5*size, c_x - 0.5*size),
-          lat = c(c_y - size/(sqrt(3)), c_y - size/(2*sqrt(3)), c_y + size/(2*sqrt(3)), c_y + size/(sqrt(3)), c_y + size/(2*sqrt(3)), c_y - size/(2*sqrt(3))))
-        
+        c_hex <- tibble::tibble(
+          long = c(
+            c_x + 0, c_x + 0.5 * size,
+            c_x + 0.5 * size, c_x + 0,
+            c_x - 0.5 * size, c_x - 0.5 * size
+          ),
+          lat = c(
+            c_y - size / (sqrt(3)), c_y - size / (2 * sqrt(3)), 
+            c_y + size / (2 * sqrt(3)), c_y + size / (sqrt(3)), 
+            c_y + size / (2 * sqrt(3)), c_y - size / (2 * sqrt(3)
+          ))
+        )
+
         # translate to hexagon centroid location
         c_hex <- c_hex %>%
-          mutate(long = long + hexdata$hex_long,
+          mutate(
+            long = long + hexdata$hex_long,
             lat = lat + hexdata$hex_lat,
-            id = 1:6)
-        
+            id = 1:6
+          )
+
         return(c_hex)
         # close map function
-      } 
-      # close mutate 
-    )) %>% 
+      }
+      # close mutate
+    )) %>%
     unnest(grouped) %>%
     unnest(hex) %>%
     mutate(poly_type = "hex")
-  
+
   return(hexagons)
 }
 
 
-utils::globalVariables(c("grouped", ".x", "long", "lat","hex", "centroids"))
+utils::globalVariables(c("grouped", ".x", "long", "lat", "hex", "centroids"))

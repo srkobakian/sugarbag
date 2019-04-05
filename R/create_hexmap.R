@@ -20,132 +20,145 @@
 #' @export
 #'
 #' @examples
-#'
+#' 
 #' data(tas_sa2)
 #' data(capital_cities)
-#' hexmap <- create_hexmap(shp = tas_lga,
-#'  sf_id = "LGA_CODE16",
-#' focal_points = capital_cities, verbose = TRUE)
-#'
+#' hexmap <- create_hexmap(
+#'   shp = tas_lga,
+#'   sf_id = "LGA_CODE16",
+#'   focal_points = capital_cities, verbose = TRUE
+#' )
 create_hexmap <- function(shp, sf_id, hex_size = NULL, buffer_dist = NULL, hex_filter = 10, f_width = 30, focal_points = NULL, export_shp = FALSE, verbose = FALSE) {
-
-
-    if (!is.null(shp)){
-        if ("SpatialPolygonsDataFrame" %in% class(shp)){
-            shp_sf <- sf::st_as_sf(shp)
-        }
-        else if ("geometry" %in% colnames(shp))  {
-            shp_sf <- sf::st_as_sf(shp)
-        }
-
-        else {
-            shp_sf <- shp}
+  if (!is.null(shp)) {
+    if ("SpatialPolygonsDataFrame" %in% class(shp)) {
+      shp_sf <- sf::st_as_sf(shp)
     }
+    else if ("geometry" %in% colnames(shp)) {
+      shp_sf <- sf::st_as_sf(shp)
+    }
+
     else {
-        return(message("Provide an sf object, see read_shape()."))
-        }
-    
+      shp_sf <- shp
+    }
+  }
+  else {
+    return(message("Provide an sf object, see read_shape()."))
+  }
 
-    sf::st_agr(shp_sf) <- "constant"
+
+  sf::st_agr(shp_sf) <- "constant"
 
 
-    ###########################################################################
-    # First make sure all levels have been dropped if not being used
-    # Check to be sure column exists
-    if (!(sf_id %in% colnames(shp_sf))){
-        return(message("sf_id does not exist in this data set."))
-    } else {
+  ###########################################################################
+  # First make sure all levels have been dropped if not being used
+  # Check to be sure column exists
+  if (!(sf_id %in% colnames(shp_sf))) {
+    return(message("sf_id does not exist in this data set."))
+  } else {
     shp_sf[[sf_id]] <- droplevels(as.factor(shp_sf[[sf_id]]))
-    }
+  }
 
-    # check for duplicated id values
-    if (any(duplicated(shp_sf[[sf_id]]))) {
-        message("The id variable chosen contains duplicates.\nThe shape file has been returned, please choose an identifying variable without duplicates.")
-        return(shp_sf)
-    }
-
-
-    # Derive centroids from geometry column, do something about warning message
-    centroids <- create_centroids(shp_sf = shp_sf, sf_id = sf_id, verbose = FALSE)
-
-    # Creating a bounding box around all centroids
-    bbox <- tibble::tibble(min = c(min(centroids$longitude),
-        min(centroids$latitude)),
-        max = c(max(centroids$longitude),
-            max(centroids$latitude)))
-
-    # create a buffer distance if not supplied
-    if (is.null(buffer_dist)){
-        buffer_dist <- max((bbox$max[1] - bbox$min[1]), (bbox$max[2] - bbox$min[2]))*0.3
-        message(paste0("Buffer set to ", round(buffer_dist,4), " degrees."))
-    }
-
-    # Consider a buffer distance above 5 to be a mistake
-    if (buffer_dist > 100) {
-        # convert metres to degrees
-        buffer_dist = buffer_dist/111139
-        message(paste0("Converted buffer distance to ", round(buffer_dist, 4), "metres"))
-    }
+  # check for duplicated id values
+  if (any(duplicated(shp_sf[[sf_id]]))) {
+    message("The id variable chosen contains duplicates.\nThe shape file has been returned, please choose an identifying variable without duplicates.")
+    return(shp_sf)
+  }
 
 
-    # if hex_size was not provided
-    if (is.null(hex_size)){
-        hex_size <- (bbox$max[1] - bbox$min[1])/(bbox$max[2] - bbox$min[2]) / 10
-        message(paste0("Converted hexagon size to ", round(hex_size, 4), " degrees."))
-    }
+  # Derive centroids from geometry column, do something about warning message
+  centroids <- create_centroids(shp_sf = shp_sf, sf_id = sf_id, verbose = FALSE)
+
+  # Creating a bounding box around all centroids
+  bbox <- tibble::tibble(
+    min = c(
+      min(centroids$longitude),
+      min(centroids$latitude)
+    ),
+    max = c(
+      max(centroids$longitude),
+      max(centroids$latitude)
+    )
+  )
+
+  # create a buffer distance if not supplied
+  if (is.null(buffer_dist)) {
+    buffer_dist <- max((bbox$max[1] - bbox$min[1]), (bbox$max[2] - bbox$min[2])) * 0.3
+    message(paste0("Buffer set to ", round(buffer_dist, 4), " degrees."))
+  }
+
+  # Consider a buffer distance above 5 to be a mistake
+  if (buffer_dist > 100) {
+    # convert metres to degrees
+    buffer_dist <- buffer_dist / 111139
+    message(paste0("Converted buffer distance to ", round(buffer_dist, 4), "metres"))
+  }
 
 
-    # filter according to amount of hexagons
-    if (is.null(hex_filter)){
-        hex_filter <- (hex_size)*10
+  # if hex_size was not provided
+  if (is.null(hex_size)) {
+    hex_size <- (bbox$max[1] - bbox$min[1]) / (bbox$max[2] - bbox$min[2]) / 10
+    message(paste0("Converted hexagon size to ", round(hex_size, 4), " degrees."))
+  }
+
+
+  # filter according to amount of hexagons
+  if (is.null(hex_filter)) {
+    hex_filter <- (hex_size) * 10
+  }
+  else {
+    if (hex_filter < hex_size) {
+      hex_filter <- (hex_size) * 10
     }
     else {
-        if (hex_filter < hex_size){
-        hex_filter <- (hex_size)*10
-        }
-        else {hex_filter <- (hex_size)*hex_filter}
+      hex_filter <- (hex_size) * hex_filter
+    }
+  }
+
+  message(paste0("Filter set to ", round(hex_filter, 4), " degrees."))
+
+
+  ###########################################################################
+  # Create grid for hexagons
+  hex_grid <- create_grid(
+    centroids = centroids, hex_size = hex_size,
+    buffer_dist = buffer_dist
+  )
+
+  # consider focal point distance if they were provided
+  if (!is.null(focal_points)) {
+
+    # distance between centroids and all focal points
+    if (verbose) {
+      message("Finding closest point in focal_points data set.")
     }
 
-    message(paste0("Filter set to ", round(hex_filter,4), " degrees."))
+    centroids <- centroids %>%
+      group_nest(!!sym(names(centroids)[1])) %>%
+      mutate(closest = purrr::map(data, closest_focal_point, focal_points = focal_points)) %>%
+      tidyr::unnest(data, closest) %>%
+      arrange(focal_distance)
 
-
-    ###########################################################################
-    # Create grid for hexagons
-    hex_grid <- create_grid(centroids = centroids, hex_size = hex_size, 
-        buffer_dist = buffer_dist)
-
-    # consider focal point distance if they were provided
-    if (!is.null(focal_points)) {
-
-        # distance between centroids and all focal points
-        if (verbose) {message("Finding closest point in focal_points data set.")}
-
-        centroids <- centroids %>%
-            group_nest(!!sym(names(centroids)[1])) %>%
-            mutate(closest = purrr::map(data, closest_focal_point, focal_points = focal_points)) %>%
-            tidyr::unnest(data, closest) %>%
-            arrange(focal_distance)
-
-        if (verbose) {message("Closest points found.")}
-
+    if (verbose) {
+      message("Closest points found.")
     }
+  }
 
-    ###########################################################################
-    # Allocate polygons to a hexagon
-    hexmap_allocation <- allocate(centroids = centroids,
-        sf_id = sf_id,
-        hex_grid = hex_grid,
-        hex_size = hex_size,
-        hex_filter = hex_filter,
-        width = f_width,
-        focal_points = focal_points,
-        verbose = verbose)
+  ###########################################################################
+  # Allocate polygons to a hexagon
+  hexmap_allocation <- allocate(
+    centroids = centroids,
+    sf_id = sf_id,
+    hex_grid = hex_grid,
+    hex_size = hex_size,
+    hex_filter = hex_filter,
+    width = f_width,
+    focal_points = focal_points,
+    verbose = verbose
+  )
 
-    if (export_shp) {
-        return(list(hexmap_allocation, shp_sf))
-    } else {
-        return(hexmap_allocation)
-
-    }
-
+  if (export_shp) {
+    return(list(hexmap_allocation, shp_sf))
+  } else {
+    return(hexmap_allocation)
+  }
 }
