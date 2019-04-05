@@ -19,6 +19,8 @@ shape. The technique implemented in this package is particularly useful
 for these
 regions.
 
+<img src="man/figures/README-tas-anim-1.gif" width="100%" />
+
 ## Installation
 
 <!-- You can install the released version of sugarbag from [CRAN](https://CRAN.R-project.org) with: -->
