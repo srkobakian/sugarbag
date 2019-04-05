@@ -15,7 +15,6 @@
 #' @param sf_id a string to indicate the column to identify individual polygons
 #'
 #' @return a data frame of one allocation
-#' @importFrom ggplot2 sym
 #' @export
 #'
 #' @examples
