@@ -11,12 +11,6 @@
 #' @param verbose a boolean to indicate whether to show function progress
 #'
 #' @return data frame of hexagon centroids
-#'
-#' @import dplyr
-#'
-#'
-#'
-
 create_buffer <- function(centroids, grid, hex_size, buffer_dist, verbose = FALSE) {
     ###########################################################################
     # filter grid points to be within buffer_dist

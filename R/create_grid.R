@@ -12,8 +12,6 @@
 #' @return grid
 #' @export
 #'
-#' @import dplyr
-#'
 #' @examples
 #' # Create a set of centroids for grid to overlay
 #' centroids <- create_centroids(tas_lga, "LGA_CODE16")
