@@ -33,7 +33,7 @@ create_grid <- function(centroids, hex_size, buffer_dist, verbose = FALSE) {
       hex_lat = seq(
         (min(centroids$latitude, na.rm = TRUE) - buffer_dist),
         (max(centroids$latitude, na.rm = TRUE) + buffer_dist),
-        hex_size
+        hex_size*sqrt(3)/2
       )
     )
   )
