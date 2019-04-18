@@ -25,7 +25,7 @@ The **sugarbag** package implements tesselated hexagon maps for visualising geo-
 Maps containing regions with a few small and densely populated areas are extremely distorted in cartograms. An example of this is a population cartogram of Australia, which distorts the map into an unrecognisable shape. The technique implemented in this package is particularly useful for these regions.
 
 
-```{r aus-anim, echo = FALSE, warning = FALSE, message = FALSE, cache = TRUE}
+```{r aus-anim, echo = FALSE, warning = FALSE, message = FALSE, cache = TRUE, eval=FALSE}
 download.file("https://github.com/wfmackey/absmapsdata/raw/master/data/sa22011.rda",
               aus_map <- tempfile())
 load(aus_map)
