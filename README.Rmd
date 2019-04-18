@@ -106,7 +106,7 @@ anim_usa %>%
 ```
 
 
-```{r tas-anim, echo = FALSE, eval = FALSE, message = FALSE, cache = TRUE}
+```{r tas-anim, echo = FALSE, message = FALSE, cache = TRUE}
 centroids <- create_centroids(tas_sa2, sf_id = "SA2_5DIG16")
 
 grid <- create_grid(centroids = centroids, hex_size = 0.2, buffer_dist = 1.2)
@@ -133,6 +133,10 @@ geo_anim <- p1 %>%
 anim_tas <- bind_rows(hex_anim, geo_anim)
 
 library(gganimate)
+library(png)
+library(transformr)
+library(magick)
+library(htmltools)
 anim_tas %>% 
   ggplot(aes(x=long, y=lat, group = interaction(polygon, SA2_5DIG16))) +
   geom_polygon(aes(fill = SA4_NAME16)) +
