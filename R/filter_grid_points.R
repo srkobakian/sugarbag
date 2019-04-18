@@ -70,7 +70,7 @@ filter_grid_points <- function(f_grid, f_centroid, focal_points = NULL, f_dist =
         angle = (atan * 180 / pi),
         pangle = ifelse(angle < 0, angle + 360, angle)
       ) %>%
-      pull()
+      pull(pangle)
 
 
     grid <- grid %>%
