@@ -98,7 +98,7 @@ allocate <- function(centroids, hex_grid, sf_id = names(centroids)[1], hex_size,
           width <- width + 5
         }
         else {
-          return("This hexmap could not be completed. Try expanding the buffer distance.")
+          stop("This hexmap could not be completed. Try expanding the buffer distance.")
         }
         message(paste("Issue at ", pull(centroid[, 1]), ": Cannot expand further, trying a wider angle of ", width, " degrees."))
       }
