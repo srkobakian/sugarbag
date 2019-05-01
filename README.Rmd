@@ -160,7 +160,7 @@ anim_usa %>%
 ```
 
 
-```{r tas-anim, echo = FALSE, message = FALSE, cache = TRUE, eval = FALSE}
+```{r tas-anim, echo = FALSE, message = FALSE, eval = FALSE}
 centroids <- create_centroids(tas_sa2, sf_id = "SA2_5DIG16")
 
 grid <- create_grid(centroids = centroids, hex_size = 0.2, buffer_dist = 1.2)
