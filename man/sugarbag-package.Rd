@@ -26,7 +26,7 @@ Useful links:
 
 Authors:
 \itemize{
-  \item Dianne Cook \email{dicook@monash.edu}
+  \item Dianne Cook [thesis advisor]
 }
 
 }

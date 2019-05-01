@@ -2,7 +2,7 @@ Package: sugarbag
 Title: Create Tessellated Hexagon Maps
 Version: 0.0.0.9000
 Authors@R: c(person("Stephanie", "Kobakian", email = "stephanie.kobakian@gmail.com", role = c("aut", "cre")),
-             person("Dianne", "Cook", email = "dicook@monash.edu", role = c("aut")))
+             person("Dianne", "Cook", role = c("aut", "ths")))
 Description: Create a hexagon tilegram from spatial polygons. Each polygon is
     represented by a hexagon tile, placed as close to it's original centroid
     as possible, with a focus on maintaining spatial relationship to a focal

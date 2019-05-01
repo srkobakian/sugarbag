@@ -114,7 +114,8 @@ anim_aus %>%
   ggplot(aes(x=long, y=lat, group = interaction(elect_div))) +
   geom_polygon(aes(fill = CurrentlyStudying)) + 
   coord_equal() + 
-  theme_void() + 
+  theme_void() +
+  scale_fill_continuous(type = "viridis") +
   guides(fill = guide_legend(title = NULL)) + 
   theme(legend.position = "bottom") +
   transition_states(poly_type)
