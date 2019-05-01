@@ -14,23 +14,23 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Depends:
-    R (>= 3.5.2)
+    R (>= 3.5.0)
 Imports: 
     dplyr (>= 0.7.8),
     geosphere (>= 1.5),
     purrr (>= 0.2.5),
-    rlang
+    rlang,
     rmapshaper (>= 0.4.1),
     sf (>= 0.7),
     tibble (>= 1.4.2),
-    tidyr (>= 0.8),
+    tidyr (>= 0.8)
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.1.1
 Suggests: 
     ggplot2 (>= 3.1.0),
     knitr,
-    pkgdown
+    pkgdown,
     rmarkdown,
     spData,
-    testthat (>= 2.1.0),
+    testthat (>= 2.1.0)
 VignetteBuilder: knitr
