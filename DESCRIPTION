@@ -1,36 +1,36 @@
 Package: sugarbag
-Title: Create Tessellated Hexagon Maps of Australia
+Title: Create Tessellated Hexagon Maps
 Version: 0.0.0.9000
 Authors@R: c(person("Stephanie", "Kobakian", email = "stephanie.kobakian@gmail.com", role = c("aut", "cre")),
              person("Dianne", "Cook", email = "dicook@monash.edu", role = c("aut")))
-Description: Create a hexagon tiling from spatial polygons. Each polygon is 
-    represented by a hexagon tile, placed as
-    close to it's original centroid as possible with a focus on maintaining
-    spatial relationships with neighbours. Developed for the visualisation and analysis 
-    of spatial distributions across Australia, which can be challenging due to
-    the concentration of population on the coast and wide open interior.
+Description: Create a hexagon tilegram from spatial polygons. Each polygon is
+    represented by a hexagon tile, placed as close to it's original centroid
+    as possible, with a focus on maintaining spatial relationship to a focal
+    point. Developed to aid visualisation and analysis of spatial distributions
+    across Australia, which can be challenging due to the concentration of the
+    population on the coast and wide open interior.
 URL: https://srkobakian.github.io/sugaRbag/, https://github.com/srkobakian/sugaRbag
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Depends:
-    R (>= 3.5.0)
+    R (>= 3.5.2)
 Imports: 
     dplyr (>= 0.7.8),
     geosphere (>= 1.5),
     purrr (>= 0.2.5),
+    rlang
     rmapshaper (>= 0.4.1),
     sf (>= 0.7),
     tibble (>= 1.4.2),
     tidyr (>= 0.8),
-    rlang
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.1.1
 Suggests: 
     ggplot2 (>= 3.1.0),
-    spData,
-    testthat,
     knitr,
-    rmarkdown,
     pkgdown
+    rmarkdown,
+    spData,
+    testthat (>= 2.1.0),
 VignetteBuilder: knitr
