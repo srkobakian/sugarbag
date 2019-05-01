@@ -4,14 +4,14 @@
 \name{sugarbag-package}
 \alias{sugarbag}
 \alias{sugarbag-package}
-\title{sugarbag: Create Tessellated Hexagon Maps of Australia}
+\title{sugarbag: Create Tessellated Hexagon Maps}
 \description{
-Create a hexagon tiling from spatial polygons. Each polygon is 
-    represented by a hexagon tile, placed as
-    close to it's original centroid as possible with a focus on maintaining
-    spatial relationships with neighbours. Developed for the visualisation and analysis 
-    of spatial distributions across Australia, which can be challenging due to
-    the concentration of population on the coast and wide open interior.
+Create a hexagon tilegram from spatial polygons. Each polygon is
+    represented by a hexagon tile, placed as close to it's original centroid
+    as possible, with a focus on maintaining spatial relationship to a focal
+    point. Developed to aid visualisation and analysis of spatial distributions
+    across Australia, which can be challenging due to the concentration of the
+    population on the coast and wide open interior.
 }
 \seealso{
 Useful links:
