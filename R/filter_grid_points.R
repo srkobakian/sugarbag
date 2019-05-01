@@ -106,4 +106,4 @@ filter_grid_points <- function(f_grid, f_centroid, focal_points = NULL, f_dist =
   return(grid)
 }
 
-utils::globalVariables(c("hex_lat", "hex_long", ".", "assigned", "filter_dist"))
+utils::globalVariables(c("hex_lat", "hex_long", ".", "pangle", "assigned", "filter_dist"))
