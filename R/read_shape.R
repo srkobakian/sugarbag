@@ -4,7 +4,7 @@
 #'
 #' @param shp_path character vector location of shape file, extension .shp
 #' @param simplify a boolean to decide whether to simplify the shape file
-#' using rmapshaper
+#' using rmapshaper, keeping all shapes.
 #' @param keep ratio of points to keep
 #'
 #' @return an sf data frame, with a column of non null geometries
@@ -37,12 +37,15 @@ read_shape <- function(shp_path, simplify = TRUE, keep = 0.1) {
         expr = sf::st_read(shp_path),
         error = function(e) print("Argument for shp could not be read as sf object.")
       )
+      shp_obs <- nrow(shp)
       # Simplify polygons to have less detail
       if (simplify) {
         if (!is.null(keep)) {
-          shp <- rmapshaper::ms_simplify(shp, keep = keep)
-        } else {
-          shp <- rmapshaper::ms_simplify(shp, keep = 0.5)
+          shp <- rmapshaper::ms_simplify(shp, 
+            keep = keep, keep_shapes = TRUE)
+          } else {
+          shp <- rmapshaper::ms_simplify(shp, 
+            keep = 0.5, keep_shapes = TRUE)
         }
       }
     }
@@ -52,15 +55,13 @@ read_shape <- function(shp_path, simplify = TRUE, keep = 0.1) {
       shp <- get(load(file = shp_path, verbose = TRUE))
     }
   }
-
-
+  
   shp_polys <- shp %>%
     sf::st_as_sf() %>%
     dplyr::filter(!sf::st_is_empty(sf::st_geometry(.)))
 
-  # add message that polygons were dropped?
-  if (NROW(shp_polys) != NROW(shp)) {
-    message(paste0("Shape file now has ", (NROW(shp) - NROW(shp_polys)), " less rows. The rows that were dropped were likely null geometries."))
+  if (NROW(shp_obs) - NROW(shp_polys) > 0) {
+  message(paste0("Shape file now has ", (NROW(shp_obs) - NROW(shp_polys)), " less rows. The rows that were dropped during simplifying."))
   }
 
   return(shp_polys)

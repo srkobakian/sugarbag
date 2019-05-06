@@ -10,7 +10,7 @@ read_shape(shp_path, simplify = TRUE, keep = 0.1)
 \item{shp_path}{character vector location of shape file, extension .shp}
 
 \item{simplify}{a boolean to decide whether to simplify the shape file
-using rmapshaper}
+using rmapshaper, keeping all shapes.}
 
 \item{keep}{ratio of points to keep}
 }
