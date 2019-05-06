@@ -33,17 +33,15 @@ You can install the development version from GitHub using
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("srkobakian/sugarbag")
+# remotes::install_github("srkobakian/sugarbag")
 ```
 
 ## Getting started
 
-Refer to pkgdown site:
-<https://srkobakian.github.io/sugarbag/>
+Refer to pkgdown site: <https://srkobakian.github.io/sugarbag/>
 
 ``` r
-####### Need to be able to convert centroids to polygons with multiple points?
-  
+library(sugarbag)
 library(eechidna)
 
 # We could use create centroids to find centroid for each area.
@@ -87,13 +85,13 @@ anim_aus <- bind_rows(hex_anim, geo_anim)
 
 # Join demographics data from 2016 Census
 anim_aus <- anim_aus %>% 
-  left_join(abs2016 %>% select(elect_div = DivisionNm, AusCitizen, CurrentlyStudying, MedianFamilyIncome, Unemployed))
+  left_join(abs2016 %>% select(elect_div = DivisionNm, AusCitizen, CurrentlyStudying, MedianFamilyIncome, Unemployed, Renting))
 ```
 
 ``` r
 anim_aus %>% 
   ggplot(aes(x=long, y=lat, group = interaction(elect_div))) +
-  geom_polygon(aes(fill = CurrentlyStudying)) +
+  geom_polygon(aes(fill = Renting)) +
   coord_equal() + 
   theme_void() + 
   scale_fill_continuous(type = "viridis") +
@@ -108,12 +106,21 @@ anim_aus %>%
 library(gganimate)
 anim_aus %>% 
   ggplot(aes(x=long, y=lat, group = interaction(elect_div))) +
-  geom_polygon(aes(fill = CurrentlyStudying)) + 
+  geom_polygon(aes(fill = Renting)) + 
   coord_equal() + 
-  theme_void() + 
+  theme_void() +
+  scale_fill_continuous(type = "viridis") +
   guides(fill = guide_legend(title = NULL)) + 
   theme(legend.position = "bottom") +
   transition_states(poly_type)
 ```
 
-<img src="man/figures/README-unnamed-chunk-2-1.gif" width="100%" />
+<img src="man/figures/README-gganimate-1.gif" width="100%" />
+
+    #> Warning in st_centroid.sf(.): st_centroid assumes attributes are constant
+    #> over geometries of x
+    #> Warning in st_centroid.sfc(st_geometry(x), of_largest_polygon =
+    #> of_largest_polygon): st_centroid does not give correct centroids for
+    #> longitude/latitude data
+
+<img src="man/figures/README-usa-anim-1.gif" width="100%" />

@@ -37,7 +37,7 @@ Maps containing regions with a few small and densely populated areas are extreme
 
 You can install the development version from GitHub using
 
-```{r, eval = FALSE}
+```{r github, eval = FALSE}
 # install.packages("remotes")
 # remotes::install_github("srkobakian/sugarbag")
 ```
@@ -108,11 +108,11 @@ anim_aus %>%
 ```
 
 
-```{r}
+```{r gganimate}
 library(gganimate)
 anim_aus %>% 
   ggplot(aes(x=long, y=lat, group = interaction(elect_div))) +
-  geom_polygon(aes(fill = CurrentlyStudying)) + 
+  geom_polygon(aes(fill = Renting)) + 
   coord_equal() + 
   theme_void() +
   scale_fill_continuous(type = "viridis") +
@@ -121,83 +121,3 @@ anim_aus %>%
   transition_states(poly_type)
 ```
 
-```{r usa-anim, echo = FALSE, message = FALSE}
-# US states
-
-library(spData)
-library(sugarbag)
-library(tidyverse)
-
-# US centroids from https://www2.census.gov/geo/docs/reference/cenpop2010/CenPop2010_Mean_ST.txt
-
-us_states_c <- readr::read_csv("https://www2.census.gov/geo/docs/reference/cenpop2010/CenPop2010_Mean_ST.txt") %>%
-  dplyr::select(state = STNAME, longitude = LONGITUDE, latitude = LATITUDE, population = POPULATION)
-
-US_hex <- create_hexmap(us_states, sf_id = "NAME", focal_points = tibble(USA = "center", longitude = -99.4, latitude = 39.4), hex_size = 2.5)
-
-p1 <- fortify_sfc(us_states) %>% mutate(poly_type = "geo")
-
-h1 <- US_hex %>%
-  fortify_hexagon(hex_size = 2.5, sf_id = "NAME") %>%
-  left_join(us_states) %>% mutate(poly_type = "hex")
-
-hex_anim <- h1 %>% 
-  select(NAME, REGION, long, lat, poly_type) %>% 
-  left_join(p1 %>% distinct(NAME, polygon), by = "NAME")
-geo_anim <- p1 %>% 
-  select(NAME, REGION, long, lat, polygon, poly_type)
-anim_usa <- bind_rows(hex_anim, geo_anim)
-
-library(gganimate)
-anim_usa %>% 
-  ggplot(aes(x=long, y=lat, group = interaction(polygon, NAME))) +
-  geom_polygon(aes(fill = REGION)) +
-  geom_polygon(data = geo_anim %>% select(-poly_type), fill = "grey40", alpha = 0.05) + 
-  coord_equal() + 
-  theme_void() + 
-  guides(fill = guide_legend(title = NULL)) + 
-  theme(legend.position = "bottom") +
-  transition_states(poly_type)
-```
-
-
-```{r tas-anim, echo = FALSE, message = FALSE, eval = FALSE}
-centroids <- create_centroids(tas_sa2, sf_id = "SA2_5DIG16")
-
-grid <- create_grid(centroids = centroids, hex_size = 0.2, buffer_dist = 1.2)
-
-hex_allocated <- allocate(centroids = centroids,
-                          sf_id = "SA2_5DIG16",
-                          hex_grid = grid,
-                          hex_size = 0.2, # same size used in create_grid
-                          hex_filter = 10,
-                          focal_points = capital_cities,
-                          width = 30, verbose = TRUE) # same column used in create_centroids
-
-h1 <- hex_allocated %>%
-  fortify_hexagon(hex_size = 0.2, sf_id = "SA2_5DIG16") %>%
-  left_join(., tas_sa2) %>% mutate(poly_type = "hex")
-
-p1 <- fortify_sfc(tas_sa2) %>% mutate(poly_type = "geo")
-
-hex_anim <- h1 %>% 
-  select(SA4_NAME16, SA2_5DIG16, 	
-SA2_NAME16, long, lat, poly_type) %>% 
-  left_join(p1 %>% distinct(SA2_5DIG16, polygon), by = "SA2_5DIG16")
-geo_anim <- p1 %>% 
-  select(SA4_NAME16, SA2_5DIG16, 	
-SA2_NAME16, long, lat, polygon, poly_type)
-anim_tas <- bind_rows(hex_anim, geo_anim) %>% left_join(homeless)
-
-
-library(gganimate)
-anim_tas %>% 
-  ggplot(aes(x=long, y=lat, group = interaction(polygon, SA2_5DIG16))) +
-  geom_polygon(aes(fill = SA4_NAME16)) +
-  geom_polygon(data = geo_anim %>% select(-poly_type), fill = "grey40", alpha = 0.05) + 
-  coord_equal() + 
-  theme_void() + 
-  guides(fill = guide_legend(title = NULL)) + 
-  theme(legend.position = "bottom") +
-  transition_states(poly_type)
-```
