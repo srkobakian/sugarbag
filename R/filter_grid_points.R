@@ -24,29 +24,44 @@
 #'
 #'
 filter_grid_points <- function(f_grid, f_centroid, focal_points = NULL, f_dist = filter_dist, angle_width = width, h_size = hex_size) {
+  
+  # Initialise point to centre around, may be overwritten if using focal_points
+  flong <- f_centroid$longitude
+  flat <- f_centroid$latitude
+  
+  # Check if there is a focal point set to order allocation
+  if (!is.null(focal_points)) {
+    
+    # Filter distance in degrees for initial filter step
+    distance <-
+      (((
+        f_centroid$latitude - f_centroid$latitude1
+      ) ^ 2) + ((
+        f_centroid$longitude - f_centroid$longitude1
+      ) ^ 2)) ^ (1 / 2)
+    
+    if (distance > h_size) {
+      # Consider areas closer to capital city than centroid
+      angle_toward <-
+        geosphere::finalBearing(
+          c(f_centroid$longitude, f_centroid$latitude),
+          c(f_centroid$longitude1, f_centroid$latitude1),
+          a = 6378160,
+          f = 1 / 298.257222101
+        )
+      
+      close_centroid <- geosphere::destPoint(
+        p = c(f_centroid$longitude, f_centroid$latitude),
+        b = angle_toward,
+        d = h_size * 111139,
+        a = 6378160,
+        f = 1 / 298.257222101
+      )
+      
+      flong <- close_centroid[1]
+      flat <- close_centroid[2]
+    } }
 
-  # Filter distance in degrees for initial filter step
-  distance <- (((f_centroid$latitude - f_centroid$latitude1)^2) + ((f_centroid$longitude - f_centroid$longitude1)^2))^(1 / 2)
-
-  if (distance > h_size) {
-
-    # Consider areas closer to capital city than centroid
-    angle_toward <- geosphere::finalBearing(c(f_centroid$longitude, f_centroid$latitude), c(f_centroid$longitude1, f_centroid$latitude1),
-      a = 6378160,
-      f = 1 / 298.257222101
-    )
-
-    close_centroid <- geosphere::destPoint(
-      p = c(f_centroid$longitude, f_centroid$latitude), b = angle_toward, d = h_size * 111139,
-      a = 6378160, f = 1 / 298.257222101
-    )
-
-    flong <- close_centroid[1]
-    flat <- close_centroid[2]
-  } else {
-    flong <- f_centroid$longitude
-    flat <- f_centroid$latitude
-  }
 
   grid <- f_grid %>%
     ungroup() %>%

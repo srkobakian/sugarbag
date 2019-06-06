@@ -12,6 +12,7 @@
 #' @param f_width the angle used to filter the grid points around a centroid
 #' @param focal_points a data frame of reference locations when allocating
 #' hexagons, capital cities of Australia are used in the example
+#' @param order_sf_id a string name of a column to order by for allocating
 #' @param export_shp export the simple features set
 #' @param verbose a boolean to indicate whether to show function progress
 #'
@@ -28,7 +29,7 @@
 #'   sf_id = "LGA_CODE16",
 #'   focal_points = capital_cities, verbose = TRUE
 #' )
-create_hexmap <- function(shp, sf_id, hex_size = NULL, buffer_dist = NULL, hex_filter = 10, f_width = 30, focal_points = NULL, export_shp = FALSE, verbose = FALSE) {
+create_hexmap <- function(shp, sf_id, hex_size = NULL, buffer_dist = NULL, hex_filter = 10, f_width = 30, focal_points = NULL, order_sf_id = NULL, export_shp = FALSE, verbose = FALSE) {
   if (!is.null(shp)) {
     if ("SpatialPolygonsDataFrame" %in% class(shp)) {
       shp_sf <- sf::st_as_sf(shp)
@@ -140,6 +141,24 @@ create_hexmap <- function(shp, sf_id, hex_size = NULL, buffer_dist = NULL, hex_f
 
     if (verbose) {
       message("Closest points found.")
+    }
+  } else {
+    if (!is.null(order_sf_id)) {
+      # if no focal point data set is provided:
+      # Check if areas should be arranged by a variable
+      centroids <- centroids %>%
+        group_nest(!!sym(names(centroids)[1])) %>%
+        arrange(!!sym(order_sf_id))
+    } else{
+      centroids <- centroids %>%
+        group_nest(!!sym(names(centroids)[1])) %>%
+        mutate(closest = purrr::map(data, closest_focal_point, focal_points = 
+            tibble(mean = "mean", 
+              longitude = mean(centroids$longitude), 
+              latitude = mean(centroids$latitude)))) %>%
+        tidyr::unnest(data, closest) %>%
+        arrange(focal_distance)
+      
     }
   }
 

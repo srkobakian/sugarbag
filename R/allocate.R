@@ -37,21 +37,21 @@
 #' fort_hex <- fortify_hexagon(data = hex_allocated, sf_id = "LGA_CODE16", hex_size = 0.2)
 #' # plot the hexagons
 allocate <- function(centroids, hex_grid, sf_id = names(centroids)[1], hex_size, hex_filter, focal_points = NULL, width, verbose) {
-  if (!is.null(focal_points)) {
-    if (!("focal_distance" %in% colnames(centroids))) {
+  
+  # If there are no focal points
+    if (!(is.null(focal_points))) {
       s_centroids <- centroids %>%
         dplyr::group_nest(!!sf_id := as.character(!!sym(sf_id))) %>%
         mutate(closest = purrr::map(data, closest_focal_point, focal_points = focal_points)) %>%
         tidyr::unnest(data, closest) %>%
-        arrange(focal_distance)
-    } else {
-      s_centroids <- centroids %>% arrange(focal_distance)
-    }
+        arrange(focal_distance) %>% mutate(rownumber = row_number())
 
-    s_centroids <- split(s_centroids, s_centroids[["focal_distance"]])
+    s_centroids <- split(s_centroids, s_centroids$rownumber)
+    
     message("Allocating centroids, in order of distance to closest focal point.")
   } else {
-    s_centroids <- split(centroids, centroids[[sf_id]])
+    centroids <- centroids %>% mutate(rownumber = row_number())
+    s_centroids <- split(centroids, centroids$rownumber)
   }
 
   # Set up allocation data frame
@@ -63,7 +63,7 @@ allocate <- function(centroids, hex_grid, sf_id = names(centroids)[1], hex_size,
 
   ###########################################################################
   p <- progress_estimated(NROW(centroids), min_time = 3)
-
+  
   for (centroid in s_centroids) {
 
     # Indicate progression
@@ -103,10 +103,20 @@ allocate <- function(centroids, hex_grid, sf_id = names(centroids)[1], hex_size,
         message(paste("Issue at ", pull(centroid[, 1]), ": Cannot expand further, trying a wider angle of ", width, " degrees."))
       }
     }
-
+    
     # Choose first avaiable point
-    cent <- centroid %>% dplyr::rename(focal_dist = focal_distance, focal_angle = angle)
-
+    cent <- centroid 
+    if ("focal_distance" %in% colnames(cent)) {
+      cent <- cent %>% dplyr::rename(focal_dist = focal_distance, focal_angle = angle)
+      
+      # give more appropriate variable names
+      cent <- cent %>%
+        dplyr::rename(
+          focal_long = longitude1,
+          focal_lat = latitude1
+        )
+      }
+    
     # Filter should give one hex point
     hex <- f_grid %>%
       ungroup() %>%
@@ -119,14 +129,9 @@ allocate <- function(centroids, hex_grid, sf_id = names(centroids)[1], hex_size,
     centroid_allocation <- bind_rows(centroid_allocation, dplyr::bind_cols(cent, hex)) %>% as.tibble()
   }
 
-  message(paste("\nFilter distance was expanded for ", expanded_times, "area(s)."))
-
-  # give more appropriate variable names
-  centroid_allocation <- centroid_allocation %>%
-    dplyr::rename(
-      focal_long = longitude1,
-      focal_lat = latitude1
-    )
+  if (expanded_times >0){
+   message(paste("\nFilter distance was expanded for ", expanded_times, "area(s)."))
+  }  
 
   # Return all allocations to the data frame
   return(centroid_allocation)
