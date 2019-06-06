@@ -6,6 +6,8 @@
 \alias{sugarbag-package}
 \title{sugarbag: Create Tessellated Hexagon Maps}
 \description{
+\if{html}{\figure{logo.png}{options: align='right'}}
+
 Create a hexagon tilegram from spatial polygons. Each polygon is
     represented by a hexagon tile, placed as close to it's original centroid
     as possible, with a focus on maintaining spatial relationship to a focal

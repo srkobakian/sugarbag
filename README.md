@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from this README.Rmd. Please edit this file -->
 
-# sugarbag
+# sugarbag <img src='man/figures/logo.png' align="right" height="138.5" />
 
 [![Travis-CI Build
 Status](https://travis-ci.org/srkobakian/sugarbag.svg?branch=master)](https://travis-ci.org/srkobakian/sugarbag)
