@@ -10,3 +10,4 @@ examples/$
 _pkgdown.yml
 docs/*
 .travis.yml
+^hex$
