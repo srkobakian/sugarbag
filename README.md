@@ -91,6 +91,7 @@ anim_aus <- anim_aus %>%
 ``` r
 anim_aus %>% 
   ggplot(aes(x=long, y=lat, group = interaction(elect_div))) +
+  geom_polygon(aes(x=long, y=lat, group = group),fill = "grey", alpha = 0.3, data= nat_map16) +
   geom_polygon(aes(fill = Renting)) +
   coord_equal() + 
   theme_void() + 
@@ -106,6 +107,7 @@ anim_aus %>%
 library(gganimate)
 anim_aus %>% 
   ggplot(aes(x=long, y=lat, group = interaction(elect_div))) +
+  geom_polygon(aes(x=long, y=lat, group = group),fill = "grey", alpha = 0.3, data= nat_map16) +
   geom_polygon(aes(fill = Renting)) + 
   coord_equal() + 
   theme_void() +
@@ -116,11 +118,3 @@ anim_aus %>%
 ```
 
 <img src="man/figures/README-gganimate-1.gif" width="100%" />
-
-    #> Warning in st_centroid.sf(.): st_centroid assumes attributes are constant
-    #> over geometries of x
-    #> Warning in st_centroid.sfc(st_geometry(x), of_largest_polygon =
-    #> of_largest_polygon): st_centroid does not give correct centroids for
-    #> longitude/latitude data
-
-<img src="man/figures/README-usa-anim-1.gif" width="100%" />

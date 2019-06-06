@@ -1,6 +1,6 @@
 Package: sugarbag
 Title: Create Tessellated Hexagon Maps
-Version: 0.0.0.9000
+Version: 0.1.0
 Authors@R: c(person("Stephanie", "Kobakian", email = "stephanie.kobakian@gmail.com", role = c("aut", "cre")),
              person("Dianne", "Cook", role = c("aut", "ths")))
 Description: Create a hexagon tilegram from spatial polygons. Each polygon is
@@ -9,7 +9,7 @@ Description: Create a hexagon tilegram from spatial polygons. Each polygon is
     point. Developed to aid visualisation and analysis of spatial distributions
     across Australia, which can be challenging due to the concentration of the
     population on the coast and wide open interior.
-URL: https://srkobakian.github.io/sugaRbag/, https://github.com/srkobakian/sugaRbag
+URL: https://srkobakian.github.io/sugarbag/, https://github.com/srkobakian/sugarbag
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true

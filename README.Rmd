@@ -98,6 +98,7 @@ anim_aus <- anim_aus %>%
 ```{r plot_facet, dpi = 300}
 anim_aus %>% 
   ggplot(aes(x=long, y=lat, group = interaction(elect_div))) +
+  geom_polygon(aes(x=long, y=lat, group = group),fill = "grey", alpha = 0.3, data= nat_map16) +
   geom_polygon(aes(fill = Renting)) +
   coord_equal() + 
   theme_void() + 
@@ -108,16 +109,21 @@ anim_aus %>%
 ```
 
 
-```{r gganimate}
+```{r gganimate-elections}
 library(gganimate)
-anim_aus %>% 
+
+fps <- bind_rows(fp01, fp04, fp07, fp10, fp13, fp16) %>%
+  filter(Elected == "Y")
+
+
+anim_aus %>% full_join(fps) %>%
   ggplot(aes(x=long, y=lat, group = interaction(elect_div))) +
+  geom_polygon(aes(x=long, y=lat, group = group),fill = "grey", alpha = 0.3, data= nat_map16) +
   geom_polygon(aes(fill = Renting)) + 
   coord_equal() + 
   theme_void() +
   scale_fill_continuous(type = "viridis") +
   guides(fill = guide_legend(title = NULL)) + 
-  theme(legend.position = "bottom") +
-  transition_states(poly_type)
+  theme(legend.position = "bottom") + facet_wrap()
 ```
 

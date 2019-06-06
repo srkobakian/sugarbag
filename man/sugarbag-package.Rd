@@ -16,8 +16,8 @@ Create a hexagon tilegram from spatial polygons. Each polygon is
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://srkobakian.github.io/sugaRbag/}
-  \item \url{https://github.com/srkobakian/sugaRbag}
+  \item \url{https://srkobakian.github.io/sugarbag/}
+  \item \url{https://github.com/srkobakian/sugarbag}
 }
 
 }

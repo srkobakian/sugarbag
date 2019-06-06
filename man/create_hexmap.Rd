@@ -6,7 +6,7 @@
 \usage{
 create_hexmap(shp, sf_id, hex_size = NULL, buffer_dist = NULL,
   hex_filter = 10, f_width = 30, focal_points = NULL,
-  export_shp = FALSE, verbose = FALSE)
+  order_sf_id = NULL, export_shp = FALSE, verbose = FALSE)
 }
 \arguments{
 \item{shp}{a shape file}
@@ -23,6 +23,8 @@ create_hexmap(shp, sf_id, hex_size = NULL, buffer_dist = NULL,
 
 \item{focal_points}{a data frame of reference locations when allocating
 hexagons, capital cities of Australia are used in the example}
+
+\item{order_sf_id}{a string name of a column to order by for allocating}
 
 \item{export_shp}{export the simple features set}
 
