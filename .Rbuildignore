@@ -12,3 +12,4 @@ docs/*
 .travis.yml
 ^hex$
 ^cran-comments\.md$
+^CRAN-RELEASE$
