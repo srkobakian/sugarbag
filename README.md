@@ -5,6 +5,9 @@
 
 [![Travis-CI Build
 Status](https://travis-ci.org/srkobakian/sugarbag.svg?branch=master)](https://travis-ci.org/srkobakian/sugarbag)
+[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/sugarbag)](https://cran.r-project.org/package=sugarbag)
+[![Downloads](http://cranlogs.r-pkg.org/badges/sugarbag?color=brightgreen)](https://cran.r-project.org/package=sugarbag)
+
 
 The **sugarbag** package creates tesselated hexagon maps for visualising
 geo-spatial data. Hexagons of equal size are positioned to best preserve
@@ -19,7 +22,8 @@ shape. The technique implemented in this package is particularly useful
 for these
 regions.
 
-## Installation
+
+ # Installation
 
 <!-- You can install the released version of sugarbag from [CRAN](https://CRAN.R-project.org) with: -->
 
@@ -118,3 +122,7 @@ anim_aus %>%
 ```
 
 <img src="man/figures/README-gganimate-1.gif" width="100%" />
+
+
+This project has been developed as part of a research masters program at Queensland University of Technology.
+I would like to thank my supervisory team Kerrie Mengersen, Dianne Cook and Earl Duncan.
