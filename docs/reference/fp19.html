@@ -6,7 +6,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Filter full set of grid points for those within range of original point — filter_grid_points • sugarbag</title>
+<title>2019 Australian Federal election data: First preference votes for candidates
+(House of Representatives) in each electorate. — fp19 • sugarbag</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,10 +31,13 @@
 
 
 
-<meta property="og:title" content="Filter full set of grid points for those within range of original point — filter_grid_points" />
+<meta property="og:title" content="2019 Australian Federal election data: First preference votes for candidates
+(House of Representatives) in each electorate. — fp19" />
 
-<meta property="og:description" content="Takes only the closest available gridpoints as possible hexagon centroids
-to allocate polygons." />
+<meta property="og:description" content="A dataset containing first preference vote counts, candidate names, and
+other results for the House of Representatives from the 2016 Australian federal election.
+The data were obtained from the Australian Electoral Commission, and downloaded
+from https://tallyroom.aec.gov.au/Downloads/HouseFirstPrefsByPartyDownload-24310.csv and" />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -114,68 +118,50 @@ to allocate polygons." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Filter full set of grid points for those within range of original point</h1>
-    <small class="dont-index">Source: <a href='https://github.com/srkobakian/sugarbag/blob/master/R/filter_grid_points.R'><code>R/filter_grid_points.R</code></a></small>
-    <div class="hidden name"><code>filter_grid_points.Rd</code></div>
+    <h1>2019 Australian Federal election data: First preference votes for candidates
+(House of Representatives) in each electorate.</h1>
+    <small class="dont-index">Source: <a href='https://github.com/srkobakian/sugarbag/blob/master/R/data.R'><code>R/data.R</code></a></small>
+    <div class="hidden name"><code>fp19.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Takes only the closest available gridpoints as possible hexagon centroids
-to allocate polygons.</p>
+    <p>A dataset containing first preference vote counts, candidate names, and
+other results for the House of Representatives from the 2016 Australian federal election.
+The data were obtained from the Australian Electoral Commission, and downloaded
+from <a href='https://tallyroom.aec.gov.au/Downloads/HouseFirstPrefsByPartyDownload-24310.csv'>https://tallyroom.aec.gov.au/Downloads/HouseFirstPrefsByPartyDownload-24310.csv</a> and</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>filter_grid_points</span>(<span class='no'>f_grid</span>, <span class='no'>f_centroid</span>, <span class='kw'>focal_points</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>f_dist</span> <span class='kw'>=</span> <span class='no'>filter_dist</span>, <span class='kw'>angle_width</span> <span class='kw'>=</span> <span class='no'>width</span>, <span class='kw'>h_size</span> <span class='kw'>=</span> <span class='no'>hex_size</span>)</pre>
-    
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>f_grid</th>
-      <td><p>complete grid of hexagon centroids</p></td>
-    </tr>
-    <tr>
-      <th>f_centroid</th>
-      <td><p>the longitude and latitude values for the current centroid</p></td>
-    </tr>
-    <tr>
-      <th>focal_points</th>
-      <td><p>a tibble of focal locations, an optional argument that
-allows allocation of polygons to hexagon centroids in ascending order of
-the distance to the closest focal point. It also filters the grid points to
-those within a 30 degree range of the angle from focal point to centroid.
-The default "capitals" uses the locations of the Australian capital cities
-as focal points.</p></td>
-    </tr>
-    <tr>
-      <th>f_dist</th>
-      <td><p>a distance in degrees, used as a boundary to filter
-the hexagon centroids considered for each polygon centroid to be allocated.</p></td>
-    </tr>
-    <tr>
-      <th>angle_width</th>
-      <td><p>a numeric used to filter the hexagon grid</p></td>
-    </tr>
-    <tr>
-      <th>h_size</th>
-      <td><p>a float value in degrees for the diameter of the hexagons</p></td>
-    </tr>
-    </table>
-    
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <pre class="usage"><span class='no'>fp19</span></pre>
+        
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>a tibble of filtered grid points</p>
+    <p>A data frame with the following variables:</p><ul>
+<li><p>StateAbAbbreviation for state name</p></li>
+<li><p>UniqueIDnumeric identifier that links the electoral division
+with Census and other election datasets.</p></li>
+<li><p>DivisionNmElectoral division name</p></li>
+<li><p>BallotPositionCandidate's position on the ballot</p></li>
+<li><p>CandidateIDCandidate ID</p></li>
+<li><p>SurnameCandidate surname</p></li>
+<li><p>GivenNmCandidate given name</p></li>
+<li><p>PartyAbAbbreviation for political party name</p></li>
+<li><p>PartyNmPolitical party name</p></li>
+<li><p>ElectedWhether the candidate was elected (Y/N)</p></li>
+<li><p>HistoricElectedWhether the candidate is the incumbent member</p></li>
+<li><p>OrdinaryVotesNumber of ordinary votes cast at the electorate
+for the candidate</p></li>
+<li><p>PercentPercentage of ordinary votes for the candidate</p></li>
+</ul>
     
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#value">Value</a></li>
+      <li><a href="#format">Format</a></li>
           </ul>
 
   </div>

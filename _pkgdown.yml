@@ -20,32 +20,21 @@ reference:
   - '`read_shape`'
   - '`fortify_hexagon`'
   - '`fortify_sfc`'
-articles:
-- title: All vignettes
-  desc: ~
-  contents: '`abs-data`'
+
+
 navbar:
-  structure:
-    left:
-    - home
-    - reference
-    - data
-    - news
-    right: github
-  components:
-    home:
-      icon: fa-home fa-lg
-      href: index.html
-    reference:
-      text: "Reference"
-      href: reference/index.html
-    articles:
-      text: "Articles"
-      menu: 
-      - text: ABS shape files
-        href: articles/abs-data.html
-      - text: Tasmania  
-        href: articles/tasmania.html
-    github:
-      icon: fa-github fa-lg
-      href: https://github.com/srkobakian/sugaRbag
+  type: default
+  left:
+  - text: Reference
+    href: reference/index.html
+  - text: Vignettes
+    menu:
+    - text: ABS Data
+      href: articles/abs-data.html
+    - text: Tasmania
+      href: articles/tasmania.html
+  - text: News
+    href: news/index.html
+  right:
+  - icon: fa-github fa-lg
+href: https://github.com/srkobakian/sugarbag/

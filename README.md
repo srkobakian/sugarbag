@@ -175,7 +175,7 @@ anim <- anim_aus %>%
   guides(fill = guide_legend(title = NULL)) + 
   theme(legend.position = "bottom") +
   transition_states(poly_type)
-animate(anim, duration = 6, fps = 5)
+animate(anim, duration = 6, nframes = 60)
 ```
 
 <img src="man/figures/README-animated-1.gif" width="100%" />

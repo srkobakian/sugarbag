@@ -150,7 +150,7 @@ We can move between the two plots using the `transition_states` function from th
 
 ```{r animated}
 library(gganimate)
-anim_aus %>% 
+anim <- anim_aus %>% 
   ggplot(aes(x=long, y=lat, group = interaction(elect_div))) +
   geom_polygon(aes(x=long, y=lat, group = group),fill = "grey", alpha = 0.3, data= nat_map16) +
   geom_polygon(aes(fill = PartyAb)) + 
@@ -160,5 +160,6 @@ anim_aus %>%
   guides(fill = guide_legend(title = NULL)) + 
   theme(legend.position = "bottom") +
   transition_states(poly_type)
+animate(anim, duration = 6, nframes = 60)
 ```
 
