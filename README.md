@@ -5,6 +5,8 @@
 
 [![Travis-CI Build
 Status](https://travis-ci.org/srkobakian/sugarbag.svg?branch=master)](https://travis-ci.org/srkobakian/sugarbag)
+[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/sugarbag)](https://cran.r-project.org/package=sugarbag)
+[![Downloads](http://cranlogs.r-pkg.org/badges/sugarbag?color=brightgreen)](https://cran.r-project.org/package=sugarbag)
 
 The **sugarbag** package creates tesselated hexagon maps for visualising
 geo-spatial data. Hexagons of equal size are positioned to best preserve
@@ -128,23 +130,31 @@ geo_anim <- p1 %>%
   select(elect_div, long, lat, poly_type)
 anim_aus <- bind_rows(hex_anim, geo_anim)
 
-# Join demographics data from 2016 Census
+# Join election data from 2016
 anim_aus <- anim_aus %>% 
-  left_join(abs2016 %>% select(elect_div = DivisionNm, AusCitizen, CurrentlyStudying, MedianFamilyIncome, Unemployed, Renting), by = "elect_div")
+  left_join(fp16 %>% filter(Elected == "Y") %>% select(elect_div = DivisionNm, PartyAb, PartyNm, Percent), by = "elect_div")
 ```
 
 Here we show the two sets of areas they can be plotted separately using
 `geom_facet`.
 
 ``` r
+auscolours <- c(
+  "ALP" = "#DE3533",
+  "LNP" = "#080CAB",
+  "KAP" = "#b50204",
+  "GRN" = "#10C25B",
+  "XEN" = "#ff6300",
+  "LNP" = "#0047AB",
+  "IND" = "#307560")
+
 anim_aus %>% 
   ggplot(aes(x=long, y=lat, group = interaction(elect_div))) +
   geom_polygon(aes(x=long, y=lat, group = group),fill = "grey", alpha = 0.3, data= nat_map16) +
-  geom_polygon(aes(fill = Renting)) +
+  geom_polygon(aes(fill = PartyAb)) +
   coord_equal() + 
   theme_void() + 
-  scale_fill_continuous(type = "viridis") +
-  guides(fill = guide_colourbar(title = NULL)) + 
+  scale_fill_manual(values = auscolours) +
   facet_wrap(~poly_type)
 ```
 
@@ -158,14 +168,13 @@ library(gganimate)
 anim <- anim_aus %>% 
   ggplot(aes(x=long, y=lat, group = interaction(elect_div))) +
   geom_polygon(aes(x=long, y=lat, group = group),fill = "grey", alpha = 0.3, data= nat_map16) +
-  geom_polygon(aes(fill = log(focal_dist), label = elect_div)) + 
+  geom_polygon(aes(fill = PartyAb)) + 
   coord_equal() + 
   theme_void() +
-  scale_fill_continuous(type = "viridis") +
+  scale_fill_manual(values = auscolours) +
   guides(fill = guide_legend(title = NULL)) + 
-#  theme(legend.position = "bottom") +
+  theme(legend.position = "bottom") +
   transition_states(poly_type)
-#> Warning: Ignoring unknown aesthetics: label
 animate(anim, duration = 6, fps = 5)
 ```
 
