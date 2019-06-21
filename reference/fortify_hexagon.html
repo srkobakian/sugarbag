@@ -33,6 +33,8 @@
 <meta property="og:title" content="Creates the points that define a hexagon polygon for plotting — fortify_hexagon" />
 
 <meta property="og:description" content="Creates the points that define a hexagon polygon for plotting" />
+
+<meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -63,24 +65,18 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sugarbag</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
+    Vignettes
      
     <span class="caret"></span>
   </a>
@@ -89,15 +85,18 @@
       <a href="../articles/abs-data.html">ABS Data</a>
     </li>
     <li>
-      <a href="../articles/tasmania.html">UNKNOWN TITLE</a>
+      <a href="../articles/tasmania.html">Tasmania</a>
     </li>
   </ul>
+</li>
+<li>
+  <a href="../news/index.html">News</a>
 </li>
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/srkobakian/sugaRbag">
+  <a>
     <span class="fa fa-github fa-lg"></span>
      
   </a>
@@ -115,7 +114,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Creates the points that define a hexagon polygon for plotting</h1>
-    <small class="dont-index">Source: <a href='https://github.com/srkobakian/sugaRbag/blob/master/R/fortify_hexagon.R'><code>R/fortify_hexagon.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/srkobakian/sugarbag/blob/master/R/fortify_hexagon.R'><code>R/fortify_hexagon.R</code></a></small>
     <div class="hidden name"><code>fortify_hexagon.Rd</code></div>
     </div>
 
@@ -165,7 +164,7 @@
   <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
 )</div><div class='output co'>#&gt; <span class='message'>Allocating centroids, in order of distance to closest focal point.</span></div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>Filter distance was expanded for  9 area(s).</span></div><div class='input'><span class='co'># same column used in create_centroids</span>
-<span class='fu'>fortify_hexagon</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>allocated</span>, <span class='kw'>sf_id</span> <span class='kw'>=</span> <span class='st'>"LGA_CODE16"</span>, <span class='kw'>hex_size</span> <span class='kw'>=</span> <span class='fl'>0.2</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 174 x 15</span><span>
+<span class='fu'>fortify_hexagon</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>allocated</span>, <span class='kw'>sf_id</span> <span class='kw'>=</span> <span class='st'>"LGA_CODE16"</span>, <span class='kw'>hex_size</span> <span class='kw'>=</span> <span class='fl'>0.2</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 174 x 16</span><span>
 #&gt;    LGA_CODE16 longitude latitude points focal_long focal_lat focal_dist
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'> 1</span><span> 60210           148.    -</span><span style='color: #BB0000;'>41.4</span><span> Hobart       147.     -</span><span style='color: #BB0000;'>42.9</span><span>    </span><span style='text-decoration: underline;'>170</span><span>110.
@@ -178,9 +177,9 @@
 #&gt; </span><span style='color: #555555;'> 8</span><span> 60410           147.    -</span><span style='color: #BB0000;'>42.7</span><span> Hobart       147.     -</span><span style='color: #BB0000;'>42.9</span><span>     </span><span style='text-decoration: underline;'>14</span><span>776.
 #&gt; </span><span style='color: #555555;'> 9</span><span> 60410           147.    -</span><span style='color: #BB0000;'>42.7</span><span> Hobart       147.     -</span><span style='color: #BB0000;'>42.9</span><span>     </span><span style='text-decoration: underline;'>14</span><span>776.
 #&gt; </span><span style='color: #555555;'>10</span><span> 60410           147.    -</span><span style='color: #BB0000;'>42.7</span><span> Hobart       147.     -</span><span style='color: #BB0000;'>42.9</span><span>     </span><span style='text-decoration: underline;'>14</span><span>776.
-#&gt; </span><span style='color: #555555;'># ... with 164 more rows, and 8 more variables: focal_angle </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,
-#&gt; #   hex_long </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, hex_lat </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, hex_id </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>, long </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, lat </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,
-#&gt; #   id </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>, poly_type </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span></div></span></pre>
+#&gt; </span><span style='color: #555555;'># ... with 164 more rows, and 9 more variables: focal_angle </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,
+#&gt; #   rownumber </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>, hex_long </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, hex_lat </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, hex_id </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>, long </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,
+#&gt; #   lat </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, id </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>, poly_type </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

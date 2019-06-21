@@ -34,6 +34,8 @@
 
 <meta property="og:description" content="Chooses a hexagon centroid for each polygon in the shape file, from a grid
 spanning the longitudes and latitudes in the expanded bounding box." />
+
+<meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -64,24 +66,18 @@ spanning the longitudes and latitudes in the expanded bounding box." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sugarbag</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
+    Vignettes
      
     <span class="caret"></span>
   </a>
@@ -90,15 +86,18 @@ spanning the longitudes and latitudes in the expanded bounding box." />
       <a href="../articles/abs-data.html">ABS Data</a>
     </li>
     <li>
-      <a href="../articles/tasmania.html">UNKNOWN TITLE</a>
+      <a href="../articles/tasmania.html">Tasmania</a>
     </li>
   </ul>
+</li>
+<li>
+  <a href="../news/index.html">News</a>
 </li>
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/srkobakian/sugaRbag">
+  <a>
     <span class="fa fa-github fa-lg"></span>
      
   </a>
@@ -116,7 +115,7 @@ spanning the longitudes and latitudes in the expanded bounding box." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Allocate polygon centroids to hexagons in a grid</h1>
-    <small class="dont-index">Source: <a href='https://github.com/srkobakian/sugaRbag/blob/master/R/allocate.R'><code>R/allocate.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/srkobakian/sugarbag/blob/master/R/allocate.R'><code>R/allocate.R</code></a></small>
     <div class="hidden name"><code>allocate.Rd</code></div>
     </div>
 
@@ -186,8 +185,7 @@ hexagons, capital cities of Australia are used in the example</p></td>
   <span class='kw'>hex_filter</span> <span class='kw'>=</span> <span class='fl'>10</span>,
   <span class='kw'>focal_points</span> <span class='kw'>=</span> <span class='no'>capital_cities</span>,
   <span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>30</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
-)</div><div class='output co'>#&gt; <span class='message'>Allocating centroids, in order of distance to closest focal point.</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Filter distance was expanded for  0 area(s).</span></div><div class='input'><span class='co'># same column used in create_centroids</span>
+)</div><div class='output co'>#&gt; <span class='message'>Allocating centroids, in order of distance to closest focal point.</span></div><div class='input'><span class='co'># same column used in create_centroids</span>
 <span class='co'># create a set of hexagon points for plotting</span>
 <span class='no'>fort_hex</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='fortify_hexagon.html'>fortify_hexagon</a></span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>hex_allocated</span>, <span class='kw'>sf_id</span> <span class='kw'>=</span> <span class='st'>"LGA_CODE16"</span>, <span class='kw'>hex_size</span> <span class='kw'>=</span> <span class='fl'>0.2</span>)
 <span class='co'># plot the hexagons</span></div></pre>
