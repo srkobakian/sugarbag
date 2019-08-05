@@ -136,7 +136,7 @@ create_hexmap <- function(shp, sf_id, hex_size = NULL, buffer_dist = NULL, hex_f
     centroids <- centroids %>%
       group_nest(!!sym(names(centroids)[1])) %>%
       mutate(closest = purrr::map(data, closest_focal_point, focal_points = focal_points)) %>%
-      tidyr::unnest(data, closest) %>%
+      unnest_tbl(c("data", "closest")) %>%
       arrange(focal_distance)
 
     if (verbose) {
@@ -156,7 +156,7 @@ create_hexmap <- function(shp, sf_id, hex_size = NULL, buffer_dist = NULL, hex_f
             tibble(mean = "mean", 
               longitude = mean(centroids$longitude), 
               latitude = mean(centroids$latitude)))) %>%
-        tidyr::unnest(data, closest) %>%
+        unnest_tbl(c("data", "closest")) %>%
         arrange(focal_distance)
       
     }

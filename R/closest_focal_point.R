@@ -16,6 +16,7 @@
 #' # Find the closest capital city for the first centroid
 #' closest_focal_point(centroids[1, ], capital_cities)
 closest_focal_point <- function(centroid, focal_points) {
+
   if ("long" %in% colnames(focal_points)) {
     colnames(focal_points)[which(colnames(focal_points) == "long")] <- "longitude"
   }
@@ -44,14 +45,19 @@ closest_focal_point <- function(centroid, focal_points) {
   )
 
   # closest point
-  focal_distance_df <- focal_points %>% dplyr::bind_cols(., focal_distance = focal_distance) %>% top_n(-1, wt = focal_distance)
+  focal_distance_df <- focal_points %>% 
+    dplyr::bind_cols(., focal_distance = focal_distance) %>% 
+    top_n(-1, wt = focal_distance)
 
   # angle from city to centroid
   focal_distance_df$angle <- geosphere::finalBearing(
     focal_distance_df[, c("longitude", "latitude")],
     c(centroid$longitude, centroid$latitude),
-    a = 6378160, f = 0
-  )
-
+    a = 6378160, f = 0)
+  
+  # ensure no name clashes
+  focal_distance_df <- focal_distance_df %>% 
+    rename(focal_longitude = longitude, focal_latitude = latitude)
+  
   return(focal_distance_df)
 }

@@ -29,7 +29,7 @@ create_centroids <- function(shp_sf, sf_id, verbose = FALSE) {
   # return with id column as specified
   if (is.null(sf_id)) {
     centroids <- centroids %>%
-      mutate(sf_id = as.factor(dplyr::row_number())) %>%
+      mutate(sf_id = as.character(dplyr::row_number())) %>%
       dplyr::select(sf_id, longitude = X, latitude = Y)
   } else {
     centroids <- bind_cols(ids, centroids %>%

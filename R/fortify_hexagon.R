@@ -63,8 +63,8 @@ fortify_hexagon <- function(data, sf_id, hex_size) {
       }
       # close mutate
     )) %>%
-    unnest(grouped) %>%
-    unnest(hex) %>%
+    unnest_tbl("grouped") %>%
+    unnest_tbl("hex") %>%
     mutate(poly_type = "hex")
 
   return(hexagons)

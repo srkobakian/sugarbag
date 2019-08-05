@@ -38,7 +38,7 @@ utils::globalVariables(c("X", "Y", "projstring"))
 
 # filter_grid_points function
 utils::globalVariables(c(
-  "hex_filter", "width", "hex_size", "hex_lat_c", "hex_long_c", "latitude1", "longitude1", "angle", "hyp", "hex_angle",
+  "hex_filter", "width", "hex_size", "hex_lat_c", "hex_long_c", "focal_latitude", "focal_longitude", "angle", "hyp", "hex_angle",
   "angle_minus", "angle_plus"
 ))
 
