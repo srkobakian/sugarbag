@@ -20,11 +20,15 @@ knitr::opts_chunk$set(
 
 The sugarbag package can be downloaded directly from github:
 
-```{r}
+```{r sugarbag}
 #remotes::install_github("srkobakian/sugarbag")
 library(sugarbag)
+```
+
+```{r libraries}
 library(dplyr)
 library(tidyr)
+library(tibble)
 library(ggplot2)
 ```
 

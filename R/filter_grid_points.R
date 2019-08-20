@@ -62,17 +62,17 @@ filter_grid_points <- function(f_grid, f_centroid, focal_points = NULL, f_dist =
       flat <- close_centroid[2]
     } }
 
-
+  
   grid <- f_grid %>%
     ungroup() %>%
-    filter(flat - f_dist < hex_lat & hex_lat < flat + f_dist) %>%
-    filter(flong - f_dist < hex_long & hex_long < flong + f_dist)
+    filter((flat - f_dist) < hex_lat & hex_lat < (flat + f_dist)) %>%
+    filter((flong - f_dist) < hex_long & hex_long < (flong + f_dist))
 
   grid <- grid %>%
-    rowwise() %>%
+    group_by(id) %>%
     mutate(
-      hex_lat_c = hex_lat - flat,
-      hex_long_c = hex_long - flong
+      hex_lat_c = (hex_lat - flat),
+      hex_long_c = (hex_long - flong)
     ) %>%
     mutate(hyp = ((hex_lat_c^2) + (hex_long_c^2))^(1 / 2))
 
@@ -117,8 +117,8 @@ filter_grid_points <- function(f_grid, f_centroid, focal_points = NULL, f_dist =
         filter(hex_angle < angle_plus | angle_minus > hex_angle)
     }
   }
-
+  
   return(grid)
 }
 
-utils::globalVariables(c("hex_lat", "hex_long", ".", "pangle", "assigned", "filter_dist"))
+utils::globalVariables(c("hex_lat", "hex_long", ".", "pangle", "assigned", "filter_dist", "rownumber"))

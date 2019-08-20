@@ -13,7 +13,7 @@ create_centroids <- function(shp_sf, sf_id, verbose = FALSE) {
   if (verbose) {
     message("Deriving polygon centroids")
   }
-
+  
   # have an option to pass id column
   ids <- shp_sf %>%
     sf::st_as_sf() %>%

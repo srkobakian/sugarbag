@@ -26,7 +26,7 @@ hexagons, capital cities of Australia are used in the example}
 \item{verbose}{a boolean to indicate whether to show polygon id}
 }
 \value{
-a data frame of one allocation
+a data frame of all allocated hexagon points
 }
 \description{
 Chooses a hexagon centroid for each polygon in the shape file, from a grid

@@ -6,7 +6,6 @@
 #'
 #' @return a data frame of the seven points used to draw a hexagon
 #' @export
-#' @importFrom tidyr unnest
 #'
 #' @examples
 #' # Create centroids set
