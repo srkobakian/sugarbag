@@ -30,6 +30,6 @@ fp19
 A dataset containing first preference vote counts, candidate names, and
 other results for the House of Representatives from the 2016 Australian federal election.
 The data were obtained from the Australian Electoral Commission, and downloaded
-from \url{https://tallyroom.aec.gov.au/Downloads/HouseFirstPrefsByPartyDownload-24310.csv} and
+from \url{https://results.aec.gov.au/24310/Website/Downloads/HouseFirstPrefsByPartyDownload-24310.csv}
 }
 \keyword{datasets}

@@ -37,7 +37,7 @@ points for each non null geometry passed in the shape file
 \description{
 Allocates each polygon in a shape file to a grid point to create a map of
 tesselated hexagons. The spatial relationships of areas are preserved while
-the geographic chape of each area is lost.
+the geographic shape of each area is lost.
 }
 \examples{
 

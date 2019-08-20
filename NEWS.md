@@ -1,4 +1,6 @@
-# sugarbag 0.1.0.9000 (DEV)
+# sugarbag 0.1.1
+
+* Changed uses of nest and unnest due to tidyr changes (#11)
 
 # sugarbag 0.1.0
 

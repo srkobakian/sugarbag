@@ -2,7 +2,7 @@
 #'
 #' Allocates each polygon in a shape file to a grid point to create a map of
 #' tesselated hexagons. The spatial relationships of areas are preserved while
-#' the geographic chape of each area is lost.
+#' the geographic shape of each area is lost.
 #'
 #' @param shp a shape file
 #' @param sf_id name of a unique column that distinguishes areas
