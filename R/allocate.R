@@ -55,7 +55,7 @@ allocate <- function(centroids, hex_grid, sf_id = names(centroids)[1], hex_size,
     centroids <- centroids %>% 
       ungroup() %>% 
       mutate(rownumber = row_number())
-    
+      s_centroids <- split(centroids, centroids$rownumber)
   }
 
   # Set up allocation data frame
