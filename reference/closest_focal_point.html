@@ -8,21 +8,32 @@
 
 <title>For the polygon provided, find the closest focal point in the set provided — closest_focal_point • sugarbag</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -30,13 +41,13 @@
 
 
 
-<meta property="og:title" content="For the polygon provided, find the closest focal point in the set provided — closest_focal_point" />
 
+<meta property="og:title" content="For the polygon provided, find the closest focal point in the set provided — closest_focal_point" />
 <meta property="og:description" content="For one row of an sf data frame, calculate the distance to the closest focal
 point. Return the name of the focal point, and the angle between focal point and centroid." />
-
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -48,6 +59,7 @@ point. Return the name of the focal point, and the angle between focal point and
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
 
 
   </head>
@@ -66,7 +78,7 @@ point. Return the name of the focal point, and the angle between focal point and
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sugarbag</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
       </span>
     </div>
 
@@ -94,7 +106,6 @@ point. Return the name of the focal point, and the angle between focal point and
   <a href="../news/index.html">News</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a>
@@ -109,6 +120,7 @@ point. Return the name of the focal point, and the angle between focal point and
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -120,14 +132,12 @@ point. Return the name of the focal point, and the angle between focal point and
     </div>
 
     <div class="ref-description">
-    
     <p>For one row of an sf data frame, calculate the distance to the closest focal
 point. Return the name of the focal point, and the angle between focal point and centroid.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>closest_focal_point</span>(<span class='no'>centroid</span>, <span class='no'>focal_points</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -140,33 +150,31 @@ point. Return the name of the focal point, and the angle between focal point and
       <td><p>a data frame of the longitude and latitude values</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>data frame containing the name and location of the closest focal</p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Create a set of polygon centroids</span>
-<span class='no'>centroids</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='create_centroids.html'>create_centroids</a></span>(<span class='no'>tas_sa2</span>, <span class='st'>"SA2_5DIG16"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: st_centroid assumes attributes are constant over geometries of x</span></div><div class='output co'>#&gt; <span class='warning'>Warning: st_centroid does not give correct centroids for longitude/latitude data</span></div><div class='input'>
+<span class='no'>centroids</span> <span class='kw'>&lt;-</span> <span class='fu'>create_centroids</span>(<span class='no'>tas_sa2</span>, <span class='st'>"SA2_5DIG16"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: st_centroid assumes attributes are constant over geometries of x</span></div><div class='output co'>#&gt; <span class='warning'>Warning: st_centroid does not give correct centroids for longitude/latitude data</span></div><div class='input'>
 <span class='co'># Find the closest capital city for the first centroid</span>
-<span class='fu'>closest_focal_point</span>(<span class='no'>centroids</span>[<span class='fl'>1</span>, ], <span class='no'>capital_cities</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1 x 5</span><span>
-#&gt;   points longitude latitude focal_distance angle
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> Hobart      147.    -</span><span style='color: #BB0000;'>42.9</span><span>         </span><span style='text-decoration: underline;'>16</span><span>504. -</span><span style='color: #BB0000;'>34.9</span><span></div></span></pre>
+<span class='fu'>closest_focal_point</span>(<span class='no'>centroids</span>[<span class='fl'>1</span>, ], <span class='no'>capital_cities</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 5
+#&gt;   points focal_longitude focal_latitude focal_distance angle
+#&gt;   &lt;chr&gt;            &lt;dbl&gt;          &lt;dbl&gt;          &lt;dbl&gt; &lt;dbl&gt;
+#&gt; 1 Hobart            147.          -42.9         16504. -34.9</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -174,13 +182,16 @@ point. Return the name of the focal point, and the angle between focal point and
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

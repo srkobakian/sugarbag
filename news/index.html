@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Filter full set of grid points for those within range of original point — filter_grid_points • sugarbag</title>
+<title>Changelog • sugarbag</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -42,9 +42,7 @@
 
 
 
-<meta property="og:title" content="Filter full set of grid points for those within range of original point — filter_grid_points" />
-<meta property="og:description" content="Takes only the closest available gridpoints as possible hexagon centroids
-to allocate polygons." />
+<meta property="og:title" content="Changelog" />
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -65,7 +63,7 @@ to allocate polygons." />
   </head>
 
   <body>
-    <div class="container template-reference-topic">
+    <div class="container template-news">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -126,67 +124,47 @@ to allocate polygons." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Filter full set of grid points for those within range of original point</h1>
-    <small class="dont-index">Source: <a href='https://github.com/srkobakian/sugarbag/blob/master/R/filter_grid_points.R'><code>R/filter_grid_points.R</code></a></small>
-    <div class="hidden name"><code>filter_grid_points.Rd</code></div>
+      <h1>Changelog <small></small></h1>
+      <small>Source: <a href='https://github.com/srkobakian/sugarbag/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div class="ref-description">
-    <p>Takes only the closest available gridpoints as possible hexagon centroids
-to allocate polygons.</p>
-    </div>
-
-    <pre class="usage"><span class='fu'>filter_grid_points</span>(<span class='no'>f_grid</span>, <span class='no'>f_centroid</span>, <span class='kw'>focal_points</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>f_dist</span> <span class='kw'>=</span> <span class='no'>filter_dist</span>, <span class='kw'>angle_width</span> <span class='kw'>=</span> <span class='no'>width</span>, <span class='kw'>h_size</span> <span class='kw'>=</span> <span class='no'>hex_size</span>)</pre>
-
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>f_grid</th>
-      <td><p>complete grid of hexagon centroids</p></td>
-    </tr>
-    <tr>
-      <th>f_centroid</th>
-      <td><p>the longitude and latitude values for the current centroid</p></td>
-    </tr>
-    <tr>
-      <th>focal_points</th>
-      <td><p>a tibble of focal locations, an optional argument that
-allows allocation of polygons to hexagon centroids in ascending order of
-the distance to the closest focal point. It also filters the grid points to
-those within a 30 degree range of the angle from focal point to centroid.
-The default "capitals" uses the locations of the Australian capital cities
-as focal points.</p></td>
-    </tr>
-    <tr>
-      <th>f_dist</th>
-      <td><p>a distance in degrees, used as a boundary to filter
-the hexagon centroids considered for each polygon centroid to be allocated.</p></td>
-    </tr>
-    <tr>
-      <th>angle_width</th>
-      <td><p>a numeric used to filter the hexagon grid</p></td>
-    </tr>
-    <tr>
-      <th>h_size</th>
-      <td><p>a float value in degrees for the diameter of the hexagons</p></td>
-    </tr>
-    </table>
-
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>a tibble of filtered grid points</p>
-
+    <div id="sugarbag-0-1-2" class="section level1">
+<h1 class="page-header">
+<a href="#sugarbag-0-1-2" class="anchor"></a>sugarbag 0.1.2<small> Unreleased </small>
+</h1>
+<ul>
+<li>Allow for no focal points to be used</li>
+</ul>
+</div>
+    <div id="sugarbag-0-1-1" class="section level1">
+<h1 class="page-header">
+<a href="#sugarbag-0-1-1" class="anchor"></a>sugarbag 0.1.1<small> 2019-08-20 </small>
+</h1>
+<ul>
+<li>Changed uses of nest and unnest due to tidyr changes (<a href='https://github.com/srkobakian/sugarbag/issues/11'>#11</a>)</li>
+</ul>
+</div>
+    <div id="sugarbag-0-1-0" class="section level1">
+<h1 class="page-header">
+<a href="#sugarbag-0-1-0" class="anchor"></a>sugarbag 0.1.0<small> 2019-06-14 </small>
+</h1>
+<ul>
+<li>First release</li>
+</ul>
+</div>
   </div>
+
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
-    </ul>
-
+    <div id="tocnav">
+      <h2>Contents</h2>
+      <ul class="nav nav-pills nav-stacked">
+        <li><a href="#sugarbag-0-1-2">0.1.2</a></li>
+        <li><a href="#sugarbag-0-1-1">0.1.1</a></li>
+        <li><a href="#sugarbag-0-1-0">0.1.0</a></li>
+      </ul>
+    </div>
   </div>
+
 </div>
 
 
