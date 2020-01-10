@@ -138,16 +138,26 @@ tesselated hexagons. The spatial relationships of areas are preserved while
 the geographic shape of each area is lost.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>create_hexmap</span>(<span class='no'>shp</span>, <span class='no'>sf_id</span>, <span class='kw'>hex_size</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>buffer_dist</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>hex_filter</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>f_width</span> <span class='kw'>=</span> <span class='fl'>30</span>, <span class='kw'>focal_points</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>order_sf_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>export_shp</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>create_hexmap</span>(
+  <span class='no'>shp</span>,
+  <span class='no'>sf_id</span>,
+  <span class='kw'>hex_size</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>buffer_dist</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>hex_filter</span> <span class='kw'>=</span> <span class='fl'>10</span>,
+  <span class='kw'>neighbours</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>f_width</span> <span class='kw'>=</span> <span class='fl'>30</span>,
+  <span class='kw'>focal_points</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>order_sf_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>export_shp</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>shp</th>
-      <td><p>a shape file</p></td>
+      <td><p>a shape file, if class is SPDF, will be converted to sf</p></td>
     </tr>
     <tr>
       <th>sf_id</th>
@@ -164,6 +174,10 @@ the geographic shape of each area is lost.</p>
     <tr>
       <th>hex_filter</th>
       <td><p>amount of hexagons around centroid to consider</p></td>
+    </tr>
+    <tr>
+      <th>neighbours</th>
+      <td><p>use the shp sf set to find spatial neighbours</p></td>
     </tr>
     <tr>
       <th>f_width</th>
@@ -201,8 +215,8 @@ points for each non null geometry passed in the shape file</p>
   <span class='kw'>shp</span> <span class='kw'>=</span> <span class='no'>tas_lga</span>,
   <span class='kw'>sf_id</span> <span class='kw'>=</span> <span class='st'>"LGA_CODE16"</span>,
   <span class='kw'>focal_points</span> <span class='kw'>=</span> <span class='no'>capital_cities</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
-)</div><div class='output co'>#&gt; <span class='warning'>Warning: st_centroid assumes attributes are constant over geometries of x</span></div><div class='output co'>#&gt; <span class='warning'>Warning: st_centroid does not give correct centroids for longitude/latitude data</span></div><div class='output co'>#&gt; <span class='message'>Buffer set to 1.2337 degrees.</span></div><div class='output co'>#&gt; <span class='message'>Converted hexagon size to 0.1214 degrees.</span></div><div class='output co'>#&gt; <span class='message'>Filter set to 1.214 degrees.</span></div><div class='output co'>#&gt; <span class='message'>Finding closest point in focal_points data set.</span></div><div class='output co'>#&gt; <span class='message'>Closest points found.</span></div><div class='output co'>#&gt; <span class='message'>Allocating centroids, in order of distance to closest focal point.</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Filter distance was expanded for  3 area(s).</span></div></pre>
+)</div><div class='output co'>#&gt; <span class='warning'>Warning: st_centroid assumes attributes are constant over geometries of x</span></div><div class='output co'>#&gt; <span class='warning'>Warning: st_centroid does not give correct centroids for longitude/latitude data</span></div><div class='output co'>#&gt; <span class='message'>Buffer set to 1.224 degrees.</span></div><div class='output co'>#&gt; <span class='message'>Converted hexagon size to 0.1205 degrees.</span></div><div class='output co'>#&gt; <span class='message'>Filter set to 1.2047 degrees.</span></div><div class='output co'>#&gt; <span class='message'>Finding closest point in focal_points data set.</span></div><div class='output co'>#&gt; <span class='message'>Closest points found.</span></div><div class='output co'>#&gt; <span class='message'>Allocating centroids, in order of distance to closest focal point.</span></div><div class='output co'>#&gt; <span class='message'>although coordinates are longitude/latitude, st_intersects assumes that they are planar</span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>Filter distance was expanded for  2 area(s).</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
