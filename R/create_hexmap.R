@@ -4,11 +4,12 @@
 #' tesselated hexagons. The spatial relationships of areas are preserved while
 #' the geographic shape of each area is lost.
 #'
-#' @param shp a shape file
+#' @param shp a shape file, if class is SPDF, will be converted to sf
 #' @param sf_id name of a unique column that distinguishes areas
 #' @param buffer_dist distance in degrees to extend beyond the geometry provided
 #' @param hex_size a float value in degrees for the diameter of the hexagons
 #' @param hex_filter amount of hexagons around centroid to consider
+#' @param neighbours use the shp sf set to find spatial neighbours
 #' @param f_width the angle used to filter the grid points around a centroid
 #' @param focal_points a data frame of reference locations when allocating
 #' hexagons, capital cities of Australia are used in the example
@@ -29,7 +30,7 @@
 #'   sf_id = "LGA_CODE16",
 #'   focal_points = capital_cities, verbose = TRUE
 #' )
-create_hexmap <- function(shp, sf_id, hex_size = NULL, buffer_dist = NULL, hex_filter = 10, f_width = 30, focal_points = NULL, order_sf_id = NULL, export_shp = FALSE, verbose = FALSE) {
+create_hexmap <- function(shp, sf_id, hex_size = NULL, buffer_dist = NULL, hex_filter = 10, neighbours = NULL, f_width = 30, focal_points = NULL, order_sf_id = NULL, export_shp = FALSE, verbose = FALSE) {
   if (!is.null(shp)) {
     if ("SpatialPolygonsDataFrame" %in% class(shp)) {
       shp_sf <- sf::st_as_sf(shp)
@@ -161,7 +162,8 @@ create_hexmap <- function(shp, sf_id, hex_size = NULL, buffer_dist = NULL, hex_f
       
     }
   }
-
+  
+  
   ###########################################################################
   # Allocate polygons to a hexagon
   hexmap_allocation <- allocate(
@@ -169,6 +171,7 @@ create_hexmap <- function(shp, sf_id, hex_size = NULL, buffer_dist = NULL, hex_f
     sf_id = sf_id,
     hex_grid = hex_grid,
     hex_size = hex_size,
+    use_neighbours = shp_sf,
     hex_filter = hex_filter,
     width = f_width,
     focal_points = focal_points,

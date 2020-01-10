@@ -4,12 +4,22 @@
 \alias{create_hexmap}
 \title{Create a tesselated hexagon map from a set of polygons}
 \usage{
-create_hexmap(shp, sf_id, hex_size = NULL, buffer_dist = NULL,
-  hex_filter = 10, f_width = 30, focal_points = NULL,
-  order_sf_id = NULL, export_shp = FALSE, verbose = FALSE)
+create_hexmap(
+  shp,
+  sf_id,
+  hex_size = NULL,
+  buffer_dist = NULL,
+  hex_filter = 10,
+  neighbours = NULL,
+  f_width = 30,
+  focal_points = NULL,
+  order_sf_id = NULL,
+  export_shp = FALSE,
+  verbose = FALSE
+)
 }
 \arguments{
-\item{shp}{a shape file}
+\item{shp}{a shape file, if class is SPDF, will be converted to sf}
 
 \item{sf_id}{name of a unique column that distinguishes areas}
 
@@ -18,6 +28,8 @@ create_hexmap(shp, sf_id, hex_size = NULL, buffer_dist = NULL,
 \item{buffer_dist}{distance in degrees to extend beyond the geometry provided}
 
 \item{hex_filter}{amount of hexagons around centroid to consider}
+
+\item{neighbours}{use the shp sf set to find spatial neighbours}
 
 \item{f_width}{the angle used to filter the grid points around a centroid}
 

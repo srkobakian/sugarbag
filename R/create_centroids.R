@@ -1,7 +1,10 @@
-#' Create a data frame of longitude and latitude centroids of each polygon
+#' Create a data frame of longitude and latitude centroids of each polygon.
+#' 
 #'
 #' @param shp_sf an sf object, a data set with a simple feature list column
 #' @param sf_id a string to indicate the column to identify individual polygons
+#' @param largest logical; for `st_centroid`: if `TRUE`, return centroid of the
+#' largest subpolygon of a `MULTIPOLYGON` rather than the whole `MULTIPOLYGON`
 #' @param verbose a boolean to indicate whether to show function progress
 #'
 #' @return a tibble containing longitude and latitude
@@ -9,7 +12,7 @@
 #'
 #' @examples
 #' centroids <- create_centroids(tas_lga, "LGA_CODE16")
-create_centroids <- function(shp_sf, sf_id, verbose = FALSE) {
+create_centroids <- function(shp_sf, sf_id, largest = TRUE, verbose = FALSE) {
   if (verbose) {
     message("Deriving polygon centroids")
   }
@@ -22,7 +25,7 @@ create_centroids <- function(shp_sf, sf_id, verbose = FALSE) {
     dplyr::select(!!sf_id)
 
   centroids <- shp_sf %>%
-    sf::st_centroid() %>%
+    sf::st_centroid(., of_largest_polygon = largest) %>%
     sf::st_coordinates() %>%
     tibble::as_tibble()
 
@@ -40,5 +43,5 @@ create_centroids <- function(shp_sf, sf_id, verbose = FALSE) {
   centroids <- centroids %>%
     filter(!is.na(longitude)) %>%
     filter(!is.na(latitude))
-  return(centroids)
+  return(suppressWarnings(centroids))
 }

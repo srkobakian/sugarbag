@@ -19,6 +19,7 @@
 #'   hex_grid = grid,
 #'   hex_size = 0.2, # same size used in create_grid
 #'   hex_filter = 1,
+#'   use_neighbours = tas_lga,
 #'   width = 30,
 #'   focal_points = capital_cities,
 #'   verbose = TRUE

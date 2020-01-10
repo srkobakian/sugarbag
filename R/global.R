@@ -3,6 +3,9 @@
 # allocate function
 utils::globalVariables(c(
   "focal_distance",
+  ".y",
+  "n_dist",
+  "head",
   "points",
   "angle",
   "hyp",
@@ -10,7 +13,9 @@ utils::globalVariables(c(
   ":=",
   "sf_id",
   "longitude",
-  "latitude", "assigned", "f_width"
+  "latitude",
+  "assigned",
+  "f_width"
 ))
 
 # create_buffer function

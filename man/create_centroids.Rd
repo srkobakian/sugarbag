@@ -2,14 +2,17 @@
 % Please edit documentation in R/create_centroids.R
 \name{create_centroids}
 \alias{create_centroids}
-\title{Create a data frame of longitude and latitude centroids of each polygon}
+\title{Create a data frame of longitude and latitude centroids of each polygon.}
 \usage{
-create_centroids(shp_sf, sf_id, verbose = FALSE)
+create_centroids(shp_sf, sf_id, largest = TRUE, verbose = FALSE)
 }
 \arguments{
 \item{shp_sf}{an sf object, a data set with a simple feature list column}
 
 \item{sf_id}{a string to indicate the column to identify individual polygons}
+
+\item{largest}{logical; for \code{st_centroid}: if \code{TRUE}, return centroid of the
+largest subpolygon of a \code{MULTIPOLYGON} rather than the whole \code{MULTIPOLYGON}}
 
 \item{verbose}{a boolean to indicate whether to show function progress}
 }
@@ -17,7 +20,7 @@ create_centroids(shp_sf, sf_id, verbose = FALSE)
 a tibble containing longitude and latitude
 }
 \description{
-Create a data frame of longitude and latitude centroids of each polygon
+Create a data frame of longitude and latitude centroids of each polygon.
 }
 \examples{
 centroids <- create_centroids(tas_lga, "LGA_CODE16")
