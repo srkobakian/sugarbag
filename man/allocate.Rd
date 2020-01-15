@@ -10,7 +10,7 @@ allocate(
   sf_id = names(centroids)[1],
   hex_size,
   hex_filter,
-  use_neighbours = neighbours,
+  use_neighbours = NULL,
   focal_points = NULL,
   width,
   verbose

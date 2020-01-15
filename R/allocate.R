@@ -38,7 +38,7 @@
 #' # create a set of hexagon points for plotting
 #' fort_hex <- fortify_hexagon(data = hex_allocated, sf_id = "LGA_CODE16", hex_size = 0.2)
 #' # plot the hexagons
-allocate <- function(centroids, hex_grid, sf_id = names(centroids)[1],  hex_size, hex_filter, use_neighbours = neighbours, focal_points = NULL, width, verbose) {
+allocate <- function(centroids, hex_grid, sf_id = names(centroids)[1],  hex_size, hex_filter, use_neighbours = NULL, focal_points = NULL, width, verbose) {
   
   # If there are no focal points
   if (!(is.null(focal_points))) {
