@@ -1,0 +1,8 @@
+citHeader("To cite sugarbag in publications, please use:")
+
+citEntry(entry = "misc",
+  author = "Stephanie Kobakian and Dianne Cook",
+  title = "sugarbag: Create Hexagon Tile Maps",
+  year = "2019",
+  url = "https://srkobakian.github.io/sugarbag/", 
+  textVersion = "Kobakian, S and Cook D (2019). sugarbag: Create Hexagon Tile Maps. https://srkobakian.github.io/sugarbag/")
