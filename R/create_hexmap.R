@@ -30,7 +30,7 @@
 #'   sf_id = "LGA_CODE16",
 #'   focal_points = capital_cities, verbose = TRUE
 #' )
-create_hexmap <- function(shp, sf_id, hex_size = NULL, buffer_dist = NULL, hex_filter = 10, neighbours = NULL, f_width = 30, focal_points = NULL, order_sf_id = NULL, export_shp = FALSE, verbose = FALSE) {
+create_hexmap <- function(shp, sf_id, hex_size = NULL, buffer_dist = NULL, hex_filter = 10, neighbours = TRUE, f_width = 30, focal_points = NULL, order_sf_id = NULL, export_shp = FALSE, verbose = FALSE) {
   if (!is.null(shp)) {
     if ("SpatialPolygonsDataFrame" %in% class(shp)) {
       shp_sf <- sf::st_as_sf(shp)

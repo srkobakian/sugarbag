@@ -51,7 +51,7 @@ We will use the `eechidna` package for Australian electorates and election data.
 
 ```{r aus-anim, warning = FALSE, message = FALSE}
 library(sugarbag)
-library(eechidna)
+library(absmapsdata)
 ```
 
 
@@ -60,14 +60,15 @@ The create_centroids function may have been used to find centroid for each area.
 
 ```{r centroids}
 # Find the longitude and latitude centroid for each region or area
-centroids <- nat_data16 %>% select(elect_div, longitude = long_c, latitude = lat_c)
+centroids <- create_centroids(shp_sf = ced2018,
+                              sf_id = "ced_name_2018")
 ```
 
 The `sugarbag` package operates by creating a grid of possible hexagons to allocate electorates. The buffer extends the grid beyond the geographical space, this is especially useful for densely populated coastal areas or cities, such as Brisbane and Sydney.
 
 ```{r grid}
 # Create a grid of hexagons to allocate centroids
-grid <- create_grid(centroids = centroids, hex_size = 0.9, buffer_dist = 5)
+grid <- create_grid(centroids = centroids, hex_size = 0.6, buffer_dist = 10)
 ```
 
 The two key pieces, the centroids and the grid can be used by the `allocate` function.
@@ -76,20 +77,13 @@ The two key pieces, the centroids and the grid can be used by the `allocate` fun
 # Allocate the centroids to the hexagon grid
 # We have the same amount of rows, as individual regions
 hex_allocated <- allocate(centroids = centroids,
-  sf_id = "elect_div",
+  sf_id = "ced_name_2018",
   hex_grid = grid,
-  hex_size = 0.9, # same size used in create_grid
+  hex_size = 0.6, # same size used in create_grid
   hex_filter = 10,
+  use_neighbours = ced2018,
   focal_points = capital_cities,
   width = 30, verbose = TRUE) # same column used in create_centroids
-```
-
-New England was located quite far from the focal point. Due to this it was placed in an unfortunate position. We can find where we would like to place it by finding neighbouring electorates and looking at their hexagon locations.
-
-```{r move}
-# Move hexagons if not placed in desirable hexagon tile
-hex_allocated <- hex_allocated %>% mutate(hex_long = ifelse(elect_div == "NEW ENGLAND", 150.6779 + 0.45, hex_long),
-  hex_lat = ifelse(elect_div == "NEW ENGLAND", -30.31636 +0.9, hex_lat))
 ```
 
 The function `fortify_hexagon` assists in plotting. We now have 6 points per region, one for each point of a hexagon. Connecting these points will allow actual hexagons to be plotted.
@@ -99,50 +93,56 @@ The additional demographic information or data can now be added. This can be use
 For animations to move between geography and hexagons the `sf_id` must match, there also needs to be an identifier to separate the states to animate between for `gganimate`.
 
 ```{r data}
-h1 <- hex_allocated %>%
-  fortify_hexagon(hex_size = 0.9, sf_id = "elect_div") %>%
-  left_join(nat_data16, by = "elect_div") %>% mutate(poly_type = "hex")
+h1 <- hex_allocated %>% 
+  fortify_hexagon(hex_size = 0.6, sf_id = "ced_name_2018") %>%
+  left_join(st_drop_geometry(ced2018), by = "ced_name_2018") %>%
+  mutate(ced_name_2018 = toupper(ced_name_2018))
 
 # When plotting, the polygons are needed, rather than single centroid points.
-# We can apply the same function as above, to find 6 points per centroid
-p1 <- nat_data16 %>% 
-  select(elect_div, hex_long = long_c, hex_lat = lat_c) %>%
-  fortify_hexagon(hex_size = 0.1, sf_id = "elect_div") %>%
-  left_join(nat_data16, by = "elect_div") %>%
-  mutate(poly_type = "geo")
+p1 <- ced2018 %>% 
+  fortify_sfc() %>%
+  mutate(ced_name_2018 = toupper(ced_name_2018))
 
 hex_anim <- h1 %>% 
-  select(state, elect_div, long, lat, id = id.x, poly_type, focal_dist) %>% 
-  left_join(p1 %>% distinct(elect_div, polygon), by = "elect_div")
+  select(ced_name_2018, long, lat, id, focal_dist) %>% 
+  left_join(p1 %>% distinct(ced_name_2018, polygon), by = "ced_name_2018")
+
 geo_anim <- p1 %>% 
-  select(elect_div, long, lat, poly_type)
-anim_aus <- bind_rows(hex_anim, geo_anim)
+  select(ced_name_2018, long, lat, polygon)
 
 # Join election data from 2016
-anim_aus <- anim_aus %>% 
-  left_join(fp16 %>% filter(Elected == "Y") %>% select(elect_div = DivisionNm, PartyAb, PartyNm, Percent), by = "elect_div")
+hex_anim <- eechidna::fp19 %>%
+  filter(Elected == "Y") %>%
+  select(ced_name_2018 = DivisionNm, PartyAb, PartyNm, Percent) %>%
+  right_join(hex_anim, ., by = "ced_name_2018")
+
+geo_anim <- eechidna::fp19 %>%
+  filter(Elected == "Y") %>%
+  select(ced_name_2018 = DivisionNm, PartyAb, PartyNm, Percent) %>%
+  right_join(geo_anim, ., by = "ced_name_2018")
+
+anim_aus <- bind_rows(hexagons = hex_anim, choropleth = geo_anim, .id = "poly_type")
 ```
 
-Here we show the two sets of areas they can be plotted separately using `geom_facet`. 
+Here we show the two sets of areas they can be plotted separately.
 
 ```{r plot_facet, dpi = 300}
 auscolours <- c(
   "ALP" = "#DE3533",
-  "LNP" = "#080CAB",
+  "LP" = "#080CAB",
+  "NP" = "#080CAB",
   "KAP" = "#b50204",
   "GRN" = "#10C25B",
   "XEN" = "#ff6300",
   "LNP" = "#0047AB",
   "IND" = "#307560")
 
-anim_aus %>% 
-  ggplot(aes(x=long, y=lat, group = interaction(elect_div))) +
-  geom_polygon(aes(x=long, y=lat, group = group),fill = "grey", alpha = 0.3, data= nat_map16) +
+hex_anim %>% 
+  ggplot(aes(x=long, y=lat, group = interaction(ced_name_2018, polygon))) +
   geom_polygon(aes(fill = PartyAb)) +
   coord_equal() + 
   theme_void() + 
-  scale_fill_manual(values = auscolours) +
-  facet_wrap(~poly_type)
+  scale_fill_manual(values = auscolours)
 ```
 
 We can move between the two plots using the `transition_states` function from the `gganimate` package. 
@@ -151,8 +151,8 @@ We can move between the two plots using the `transition_states` function from th
 ```{r animated}
 library(gganimate)
 anim <- anim_aus %>% 
-  ggplot(aes(x=long, y=lat, group = interaction(elect_div))) +
-  geom_polygon(aes(x=long, y=lat, group = group),fill = "grey", alpha = 0.3, data= nat_map16) +
+  ggplot(aes(x=long, y=lat, group = interaction(ced_name_2018))) +
+  geom_polygon(aes(x=long, y=lat, group = group),fill = "grey", alpha = 0.3, data= state2016) +
   geom_polygon(aes(fill = PartyAb)) + 
   coord_equal() + 
   theme_void() +
