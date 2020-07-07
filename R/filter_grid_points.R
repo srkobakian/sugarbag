@@ -19,7 +19,7 @@
 #' @return a tibble of filtered grid points
 #'
 #' @importFrom geosphere finalBearing destPoint
-#' @importFrom tibble tibble as.tibble
+#' @importFrom tibble tibble as_tibble
 #'
 #'
 #'

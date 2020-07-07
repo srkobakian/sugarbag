@@ -4,12 +4,14 @@
 \name{capital_cities}
 \alias{capital_cities}
 \title{The point locations of Australian capital cities.}
-\format{A data frame with 8 rows and 3 variables:
+\format{
+A data frame with 8 rows and 3 variables:
 \describe{
 \item{points}{name of cities}
 \item{longitude}{location of point in longitude degrees}
 \item{latitude}{location of point in latitude degrees}
-}}
+}
+}
 \usage{
 capital_cities
 }

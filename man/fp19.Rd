@@ -5,7 +5,8 @@
 \alias{fp19}
 \title{2019 Australian Federal election data: First preference votes for candidates
 (House of Representatives) in each electorate.}
-\format{A data frame with the following variables:
+\format{
+A data frame with the following variables:
 \itemize{
 \item{StateAb}{Abbreviation for state name}
 \item{UniqueID}{numeric identifier that links the electoral division
@@ -22,7 +23,8 @@ with Census and other election datasets.}
 \item{OrdinaryVotes}{Number of ordinary votes cast at the electorate
 for the candidate}
 \item{Percent}{Percentage of ordinary votes for the candidate }
-}}
+}
+}
 \usage{
 fp19
 }

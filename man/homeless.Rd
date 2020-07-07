@@ -4,11 +4,13 @@
 \name{homeless}
 \alias{homeless}
 \title{The amount of homeless people in each Statistical Area at Level 2 in 2016.}
-\format{A data frame with 545 rows and 2 variables:
+\format{
+A data frame with 545 rows and 2 variables:
 \describe{
 \item{homeless}{amount of homeless people}
 \item{SA2_NAME16}{name of the Statistical Area at Level 2}
-}}
+}
+}
 \usage{
 homeless
 }

@@ -10,7 +10,7 @@ create_hexmap(
   hex_size = NULL,
   buffer_dist = NULL,
   hex_filter = 10,
-  neighbours = NULL,
+  neighbours = TRUE,
   f_width = 30,
   focal_points = NULL,
   order_sf_id = NULL,

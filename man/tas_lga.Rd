@@ -4,7 +4,8 @@
 \name{tas_lga}
 \alias{tas_lga}
 \title{The polygons of Tasmanian Local Government Areas in 2016.}
-\format{A simple features data frame with 39 rows and 6 variables:
+\format{
+A simple features data frame with 39 rows and 6 variables:
 \describe{
 \item{LGA_CODE16}{code for the Local Government Area}
 \item{LGA_NAME16}{name of the Local Government Area}
@@ -12,7 +13,8 @@
 \item{STE_NAME16}{name of the state containing the Local Government Area}
 \item{AREA_SQKM}{area contained in the polygon}
 \item{geometry}{describes where on Earth the polygon is located}
-}}
+}
+}
 \usage{
 tas_lga
 }

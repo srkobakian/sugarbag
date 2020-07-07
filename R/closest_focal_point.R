@@ -16,7 +16,7 @@
 #' # Find the closest capital city for the first centroid
 #' closest_focal_point(centroids[1, ], capital_cities)
 closest_focal_point <- function(centroid, focal_points) {
-
+  
   if ("long" %in% colnames(focal_points)) {
     colnames(focal_points)[which(colnames(focal_points) == "long")] <- "longitude"
   }
@@ -35,7 +35,7 @@ closest_focal_point <- function(centroid, focal_points) {
     colnames(focal_points)[which(colnames(focal_points) == "hex_lat")] <- "latitude"
   }
 
-
+  
   # create a martix for distance calculations
   fp_matrix <- as.matrix(focal_points[c("longitude", "latitude")])
 

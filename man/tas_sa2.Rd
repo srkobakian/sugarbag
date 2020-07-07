@@ -4,7 +4,8 @@
 \name{tas_sa2}
 \alias{tas_sa2}
 \title{The polygons of Tasmanian Statistical Areas in 2016.}
-\format{A simple features data frame with 99 rows and 15 variables:
+\format{
+A simple features data frame with 99 rows and 15 variables:
 \describe{
 \item{SA2_MAIN16}{complete code of the Statistical Area}
 \item{SA2_5DIG16}{simple code for the Statistical Area}
@@ -23,7 +24,8 @@ the Statistical Area}
 \item{id}{distinguishes SA2 regions}
 \item{population}{amount of people living within the region}
 \item{SA2_CODE16}{code of the Statistical Area}
-}}
+}
+}
 \usage{
 tas_sa2
 }

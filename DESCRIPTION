@@ -15,10 +15,9 @@ Encoding: UTF-8
 LazyData: true
 Depends:
     R (>= 3.5.0),
-    dplyr (>= 0.7.8)
+    dplyr (>= 1.0.0)
 Imports: 
     geosphere (>= 1.5),
-    lwgeom(>= 0.1-7),
     purrr (>= 0.2.5),
     rlang,
     rmapshaper (>= 0.4.1),
@@ -26,7 +25,7 @@ Imports:
     tibble (>= 1.4.2),
     tidyr (>= 0.8)
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.1
 Suggests: 
     ggplot2 (>= 3.1.0),
     knitr,

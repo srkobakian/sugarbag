@@ -18,6 +18,8 @@
 #' @return a data frame of all allocated hexagon points
 #' @export
 #'
+#' @importFrom tidyr unnest
+#'
 #' @examples
 #' # Create centroids set
 #' centroids <- create_centroids(tas_lga, sf_id = "LGA_CODE16")
@@ -40,16 +42,29 @@
 #' # plot the hexagons
 allocate <- function(centroids, hex_grid, sf_id = names(centroids)[1],  hex_size, hex_filter, use_neighbours = NULL, focal_points = NULL, width, verbose) {
   
-  # If there are no focal points
+  # If there are focal points
   if (!(is.null(focal_points))) {
     s_centroids <- centroids %>%
-      dplyr::group_by(!!sf_id := !!sym(sf_id)) %>% 
-      tidyr::nest() %>%
-      mutate(closest = purrr::map(data, closest_focal_point, focal_points = focal_points)) %>%
-      unnest_tbl(c("data", "closest")) %>%
-      arrange(focal_distance) %>% 
-      dplyr::ungroup() %>% 
+      dplyr::group_by(!!sf_id := !!sym(sf_id)) 
+      # combine long/lat data for each centroid
+      s_centroids <- s_centroids %>% tidyr::nest()
+      # find the closest focal point
+      s_centroids <- s_centroids %>% mutate(closest = purrr::map(.x = data, 
+        .f = function(centroid, focals = focal_points){
+        cfp <- closest_focal_point(centroid, focal_points = focals)
+        return(cfp)
+    }))
+      
+      
+      s_centroids <- s_centroids %>% 
+      unnest(c(data, closest))
+      s_centroids <- s_centroids %>% 
+      arrange(focal_distance)
+      s_centroids <- s_centroids %>% 
+      dplyr::ungroup()
+      s_centroids <- s_centroids %>% 
       mutate(rownumber = row_number())
+    
     
     message("Allocating centroids, in order of distance to closest focal point.")
     
@@ -154,11 +169,10 @@ allocate <- function(centroids, hex_grid, sf_id = names(centroids)[1],  hex_size
             filter(hyp == min(hyp)) %>%
             select(hex_long, hex_lat, hex_id = id)
         } else {
-          if(centroid$rownumber ==5){
-            browser}
+          
           hex <- f_grid %>% 
-            mutate(n_dist = purrr::map2_dbl(hex_long, hex_lat,      function(long = .x, lat = .y, an = allocated_neighbours){
-              #browser()
+            mutate(n_dist = purrr::map2_dbl(hex_long, hex_lat, 
+              function(long = .x, lat = .y, an = allocated_neighbours){
                 hex_distance <- purrr::map2_dbl(
                   .x = an$hex_long, .y = an$hex_lat, 
                   function(along = .x, alat = .y){
@@ -194,7 +208,7 @@ allocate <- function(centroids, hex_grid, sf_id = names(centroids)[1],  hex_size
     hex_grid[which(hex_grid$id == hex$hex_id), ]$assigned <- TRUE
     
     centroid_allocation <- bind_rows(centroid_allocation, dplyr::bind_cols(cent, hex)) %>% 
-      as.tibble()
+      as_tibble()
   }
   
   

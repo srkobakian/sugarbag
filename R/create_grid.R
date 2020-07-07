@@ -11,6 +11,8 @@
 #'
 #' @return grid
 #' @export
+#' 
+#' @importFrom tibble tibble as_tibble
 #'
 #' @examples
 #' # Create a set of centroids for grid to overlay
@@ -23,7 +25,7 @@ create_grid <- function(centroids, hex_size, buffer_dist, verbose = FALSE) {
   }
   # filter grid points to be within buffer_dist
 
-  grid <- tibble::as.tibble(
+  grid <- tibble::as_tibble(
     expand.grid(
       hex_long = seq(
         (min(centroids$longitude, na.rm = TRUE) - buffer_dist),
