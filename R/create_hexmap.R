@@ -28,8 +28,8 @@
 #' hexmap <- create_hexmap(
 #'   shp = tas_lga,
 #'   sf_id = "LGA_CODE16",
-#'   focal_points = capital_cities, verbose = TRUE
-#' )
+#'   focal_points = capital_cities, verbose = TRUE)
+#' 
 create_hexmap <- function(shp, sf_id, hex_size = NULL, buffer_dist = NULL, hex_filter = 10, neighbours = TRUE, f_width = 30, focal_points = NULL, order_sf_id = NULL, export_shp = FALSE, verbose = FALSE) {
   if (!is.null(shp)) {
     if ("SpatialPolygonsDataFrame" %in% class(shp)) {
@@ -126,43 +126,6 @@ create_hexmap <- function(shp, sf_id, hex_size = NULL, buffer_dist = NULL, hex_f
     buffer_dist = buffer_dist
   )
 
-  # consider focal point distance if they were provided
-  if (!is.null(focal_points)) {
-
-    # distance between centroids and all focal points
-    if (verbose) {
-      message("Finding closest point in focal_points data set.")
-    }
-
-    centroids <- centroids %>%
-      group_nest(!!sym(names(centroids)[1])) %>%
-      mutate(closest = purrr::map(data, closest_focal_point, focal_points = focal_points)) %>%
-      unnest_tbl(c("data", "closest")) %>%
-      arrange(focal_distance)
-
-    if (verbose) {
-      message("Closest points found.")
-    }
-  } else {
-    if (!is.null(order_sf_id)) {
-      # if no focal point data set is provided:
-      # Check if areas should be arranged by a variable
-      centroids <- centroids %>%
-        group_nest(!!sym(names(centroids)[1])) %>%
-        arrange(!!sym(order_sf_id))
-    } else{
-      centroids <- centroids %>%
-        group_nest(!!sym(names(centroids)[1])) %>%
-        mutate(closest = purrr::map(data, closest_focal_point, focal_points = 
-            tibble(mean = "mean", 
-              longitude = mean(centroids$longitude), 
-              latitude = mean(centroids$latitude)))) %>%
-        unnest_tbl(c("data", "closest")) %>%
-        arrange(focal_distance)
-      
-    }
-  }
-  
   
   ###########################################################################
   # Allocate polygons to a hexagon

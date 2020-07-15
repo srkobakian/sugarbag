@@ -15,7 +15,8 @@ utils::globalVariables(c(
   "longitude",
   "latitude",
   "assigned",
-  "f_width"
+  "f_width",
+  "order_sf_id"
 ))
 
 # create_buffer function

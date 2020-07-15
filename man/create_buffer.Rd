@@ -21,7 +21,13 @@ create_buffer(centroids, grid, hex_size, buffer_dist, verbose = FALSE)
 data frame of hexagon centroids
 }
 \description{
-This function takes the bounding box of a group of polygons, or a specific
-table of minimum and maximum longitudes and latitudes to create points
-for each polygon to be allocated to that will tesselate into hexagons.
+Called from within create_grid function, this function takes the bounding
+box of a group of polygons, or a specific table of minimum and maximum
+longitudes and latitudes to create points for each polygon to be allocated
+to that will tessellate into hexagons.
+}
+\examples{
+lga_centroids <- create_centroids(sugarbag::tas_lga, "LGA_CODE16")
+lga_grid <- create_grid(lga_centroids, hex_size = 0.2, buffer_dist = 1.2)
+
 }

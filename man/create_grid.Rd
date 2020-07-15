@@ -4,14 +4,26 @@
 \alias{create_grid}
 \title{Create a grid of evenly spaced points to allow hexagons to tesselate}
 \usage{
-create_grid(centroids, hex_size, buffer_dist, verbose = FALSE)
+create_grid(
+  centroids,
+  hex_size,
+  buffer_dist,
+  latitude = "latitude",
+  longitude = "longitude",
+  verbose = FALSE
+)
 }
 \arguments{
-\item{centroids}{data frame of centroids to be allocated}
+\item{centroids}{data frame of centroids to be allocated, this should have
+columns for longitude and latitude value of centroids, as}
 
 \item{hex_size}{a float value in degrees for the diameter of the hexagons}
 
 \item{buffer_dist}{distance to extend beyond the geometry provided}
+
+\item{latitude}{the column name for the latitude values of the centroids}
+
+\item{longitude}{the column name for the longitude values of the centroids}
 
 \item{verbose}{a boolean to indicate whether to show function progress}
 }
@@ -19,13 +31,13 @@ create_grid(centroids, hex_size, buffer_dist, verbose = FALSE)
 grid
 }
 \description{
-This function takes the bounding box of a group of polygons, or a specific
-table of minimum and maximum longitudes and latitudes to create points
-for each polygon to be allocated to that will tesselate into hexagons.
+This function takes the output from the create_centroids function, or a
+set of centroids in a table with the columns latitude and longitude
 }
 \examples{
 # Create a set of centroids for grid to overlay
 centroids <- create_centroids(tas_lga, "LGA_CODE16")
 # Create the grid
 grid <- create_grid(centroids = centroids, hex_size = 0.2, buffer_dist = 1.2, verbose = FALSE)
+
 }

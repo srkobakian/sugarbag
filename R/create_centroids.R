@@ -25,9 +25,9 @@ create_centroids <- function(shp_sf, sf_id, largest = TRUE, verbose = FALSE) {
     dplyr::select(!!sf_id)
 
   # derive the central point of each of the polygons
-  centroids <- st_geometry(shp_sf) %>%
-    st_centroid(., of_largest_polygon = largest) %>%
-    st_coordinates() %>%
+  centroids <- sf::st_geometry(shp_sf) %>%
+    sf::st_centroid(., of_largest_polygon = largest) %>%
+    sf::st_coordinates() %>%
     tibble::as_tibble()
 
   # return with id column as specified

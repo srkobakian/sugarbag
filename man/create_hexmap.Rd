@@ -58,6 +58,6 @@ data(capital_cities)
 hexmap <- create_hexmap(
   shp = tas_lga,
   sf_id = "LGA_CODE16",
-  focal_points = capital_cities, verbose = TRUE
-)
+  focal_points = capital_cities, verbose = TRUE)
+
 }

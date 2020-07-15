@@ -40,183 +40,219 @@
 #' # create a set of hexagon points for plotting
 #' fort_hex <- fortify_hexagon(data = hex_allocated, sf_id = "LGA_CODE16", hex_size = 0.2)
 #' # plot the hexagons
-allocate <- function(centroids, hex_grid, sf_id = names(centroids)[1],  hex_size, hex_filter, use_neighbours = NULL, focal_points = NULL, width, verbose) {
-  
-  # If there are focal points
-  if (!(is.null(focal_points))) {
-    s_centroids <- centroids %>%
-      dplyr::group_by(!!sf_id := !!sym(sf_id)) 
-      # combine long/lat data for each centroid
-      s_centroids <- s_centroids %>% tidyr::nest()
-      # find the closest focal point
-      s_centroids <- s_centroids %>% mutate(closest = purrr::map(.x = data, 
-        .f = function(centroid, focals = focal_points){
-        cfp <- closest_focal_point(centroid, focal_points = focals)
-        return(cfp)
-    }))
+allocate <-
+  function(centroids, hex_grid, sf_id = names(centroids)[1], hex_size, hex_filter, use_neighbours = NULL, focal_points = NULL, width, verbose) {
+    # If there are focal points
+    
+    
+    # consider focal point distance - if they were provided
+    if (!is.null(focal_points)) {
       
-      
-      s_centroids <- s_centroids %>% 
-      unnest(c(data, closest))
-      s_centroids <- s_centroids %>% 
-      arrange(focal_distance)
-      s_centroids <- s_centroids %>% 
-      dplyr::ungroup()
-      s_centroids <- s_centroids %>% 
-      mutate(rownumber = row_number())
-    
-    
-    message("Allocating centroids, in order of distance to closest focal point.")
-    
-  } else {
-    centroids <- centroids %>% 
-      ungroup() %>% 
-      mutate(rownumber = row_number())
-    s_centroids <- split(centroids, centroids$rownumber)
-  }
-  
-  # Set up allocation data frame
-  centroid_allocation <- NULL
-  
-  # keep value to reset expand distance to half of original given distance
-  expand_dist <- (hex_filter * hex_size) / 2
-  expanded_times <- 0
-  
-  # Find neighbouring areas
-  if (!(is.null(use_neighbours))){
-    neighbours <- sf::st_intersects(use_neighbours, use_neighbours)
-  }
-  ###########################################################################
-  p <- progress_estimated(NROW(centroids), min_time = 3)
-  
-  for (centroidnum in s_centroids$rownumber) {
-    
-    centroid <- filter(s_centroids, rownumber == centroidnum)
-    
-    # Indicate progression
-    if (verbose) {
-      p$tick()$print()
-    }
-    
-    f_grid <- NULL # filter the grid for appropriate hex positions
-    
-    # filter for only the available hex grid points
-    if (!is.null(centroid_allocation)) {
-      hex_grid <- hex_grid %>% filter(!assigned)
-    }
-    
-    # Make this find if the grid boundary point was reached, expand angle?
-    max_dist <- hex_filter * hex_size * 10
-    filter_dist <- hex_filter * hex_size
-    
-    # filter grid for available points
-    while (NROW(f_grid) == 0) {
-      if (filter_dist < max_dist) {
-        f_grid <- filter_grid_points(f_grid = hex_grid, f_centroid = centroid, focal_points = focal_points, f_dist = filter_dist, angle_width = width, h_size = hex_size)
-        if (NROW(f_grid) == 0) {
-          filter_dist <- filter_dist + expand_dist
-          expanded_times <- expanded_times + 1
-        }
+      # distance between centroids and all focal points
+      if (verbose) {
+        message("Finding closest point in focal_points data set.")
       }
-      # prevent endless loop
-      else {
-        # Too much loss of spatial pattern beyond 80 degrees
-        if (width < 80) {
-          width <- width + 5
-        }
-        else {
-          stop("This hexmap could not be completed. Try expanding the buffer distance.")
-        }
-        message(paste("Issue at ", pull(centroid[, 1]), ": Cannot expand further, trying a wider angle of ", width, " degrees."))
-      }
-    }
-    
-    
-    # Filter for the geographical neighbours of the area
-    if (is.null(use_neighbours)){
-      # If not using neighbours, filter should give one hex point
-      hex <- f_grid %>%
-        ungroup() %>%
-        filter(hyp == min(hyp)) %>%
-        select(hex_long, hex_lat, hex_id = id)
       
+      centroids <- centroids %>%
+        group_nest(!!sym(names(centroids)[1])) %>%
+        mutate(closest = purrr::map(data, closest_focal_point, focal_points = focal_points)) %>%
+        unnest_tbl(c("data", "closest")) %>%
+        arrange(focal_distance) %>% 
+        mutate(rownumber = row_number()) 
+      
+      if (verbose) {
+        message("Allocating centroids, in order of distance to closest focal point.")
+      }
     } else {
-      # Only if other points have already been allocated
-      # check for location of neighbours
-      hex <- f_grid %>%
-        ungroup() %>%
-        filter(hyp == min(hyp)) %>%
-        select(hex_long, hex_lat, hex_id = id)
       
-      if (centroid$rownumber > 1){
-        # Find the geographic neighbours
-        n_list <- as.vector(neighbours[[centroidnum]])
-        # Check if any have been allocated already
-        n_list <- n_list[which(n_list < centroidnum)]
-        # Find the allocated areas in centroid_allocation set
-        allocated_neighbours <- centroid_allocation[n_list,]
-        # Find only hexagon areas located next to neighbours
+      if (!is.null(order_sf_id)) {
+        # if no focal point data set is provided:
+        # Check if areas should be arranged by a variable
+        centroids <- centroids %>%
+          group_nest(!!sym(names(centroids)[1])) %>%
+          arrange(!!sym(order_sf_id)) %>% 
+          mutate(rownumber = row_number()) 
         
-          
-        # if there is only one option to choose from
-        if (nrow(f_grid) == 1){
-          hex <- f_grid %>% ungroup() %>%
-            filter(hyp == min(hyp)) %>%
-            select(hex_long, hex_lat, hex_id = id)
-        } else if (nrow(allocated_neighbours) == 0){
-        # if more than one hexagon option, but no neighbours
-          hex <- f_grid %>% ungroup() %>% 
-            filter(hyp == min(hyp)) %>%
-            select(hex_long, hex_lat, hex_id = id)
-        } else {
-          
-          hex <- f_grid %>% 
-            mutate(n_dist = purrr::map2_dbl(hex_long, hex_lat, 
-              function(long = .x, lat = .y, an = allocated_neighbours){
-                hex_distance <- purrr::map2_dbl(
-                  .x = an$hex_long, .y = an$hex_lat, 
-                  function(along = .x, alat = .y){
-                    geosphere::distVincentyEllipsoid(
-                    # Distance from 
-                    c(long, lat), 
-                    c(along, 
-                      alat),
-                    a = 6378160, b = 6356774.719, 
-                      f = 1 / 298.257222101)
-                    
-                    })
-                
-                #for multiple possible neighbours, choose closest
-                return(min(hex_distance))
-              }))
-          
-          hex <- hex %>% ungroup() %>% 
-            arrange(n_dist) %>% 
-            head(1) %>% 
-            select(hex_long, hex_lat, hex_id = id)
+      } else{
+        centroids <- centroids %>%
+          group_nest(!!sym(names(centroids)[1])) %>%
+          mutate(closest = purrr::map(data, closest_focal_point, focal_points = 
+                                        tibble(mean = "mean", 
+                                               longitude = mean(centroids$longitude), 
+                                               latitude = mean(centroids$latitude)))) %>%
+          unnest_tbl(c("data", "closest")) %>%
+          arrange(focal_distance) %>% 
+          mutate(rownumber = row_number()) 
+        
+      }
+    }  
+    
+    # Set up allocation data frame
+    centroid_allocation <- NULL
+    
+    # keep value to reset expand distance to half of original given distance
+    expand_dist <- (hex_filter * hex_size) / 2
+    expanded_times <- 0
+    
+    # Find neighbouring areas
+    if (!(is.null(use_neighbours))) {
+      neighbours <- sf::st_intersects(use_neighbours, use_neighbours)
+    }
+    ###########################################################################
+    p <- progress_estimated(NROW(centroids), min_time = 3)
+    
+    for (centroidnum in centroids$rownumber) {
+      centroid <- filter(centroids, rownumber == centroidnum)
+      
+      # Indicate progression
+      if (verbose) {
+        p$tick()$print()
+      }
+      
+      f_grid <- NULL # filter the grid for appropriate hex positions
+      
+      # filter for only the available hex grid points
+      if (!is.null(centroid_allocation)) {
+        hex_grid <- hex_grid %>% filter(!assigned)
+      }
+      
+      # Make this find if the grid boundary point was reached, expand angle?
+      max_dist <- hex_filter * hex_size * 10
+      filter_dist <- hex_filter * hex_size
+      
+      # filter grid for available points
+      while (NROW(f_grid) == 0) {
+        if (filter_dist < max_dist) {
+          f_grid <-
+            filter_grid_points(
+              f_grid = hex_grid,
+              f_centroid = centroid,
+              focal_points = focal_points,
+              f_dist = filter_dist,
+              angle_width = width,
+              h_size = hex_size
+            )
+          if (NROW(f_grid) == 0) {
+            filter_dist <- filter_dist + expand_dist
+            expanded_times <- expanded_times + 1
+          }
+        }
+        # prevent endless loop
+        else {
+          # Too much loss of spatial pattern beyond 80 degrees
+          if (width < 80) {
+            width <- width + 5
+          }
+          else {
+            stop("This hexmap could not be completed. Try expanding the buffer distance.")
+          }
+          message(
+            paste(
+              "Issue at ",
+              pull(centroid[, 1]),
+              ": Cannot expand further, trying a wider angle of ",
+              width,
+              " degrees."
+            )
+          )
         }
       }
+      
+      
+      # Filter for the geographical neighbours of the area
+      if (is.null(use_neighbours)) {
+        # If not using neighbours, filter should give one hex point
+        hex <- f_grid %>%
+          ungroup() %>%
+          filter(hyp == min(hyp)) %>%
+          select(hex_long, hex_lat, hex_id = id)
+        
+      } else {
+        # Only if other points have already been allocated
+        # check for location of neighbours
+        hex <- f_grid %>%
+          ungroup() %>%
+          filter(hyp == min(hyp)) %>%
+          select(hex_long, hex_lat, hex_id = id)
+        
+        if (centroid$rownumber > 1) {
+          # Find the geographic neighbours
+          n_list <- as.vector(neighbours[[centroidnum]])
+          # Check if any have been allocated already
+          n_list <- n_list[which(n_list < centroidnum)]
+          # Find the allocated areas in centroid_allocation set
+          allocated_neighbours <- centroid_allocation[n_list, ]
+          # Find only hexagon areas located next to neighbours
+          
+          
+          # if there is only one option to choose from
+          if (nrow(f_grid) == 1) {
+            hex <- f_grid %>% ungroup() %>%
+              filter(hyp == min(hyp)) %>%
+              select(hex_long, hex_lat, hex_id = id)
+          } else if (nrow(allocated_neighbours) == 0) {
+            # if more than one hexagon option, but no neighbours
+            hex <- f_grid %>% ungroup() %>%
+              filter(hyp == min(hyp)) %>%
+              select(hex_long, hex_lat, hex_id = id)
+          } else {
+            hex <- f_grid %>%
+              mutate(n_dist = purrr::map2_dbl(hex_long, hex_lat,
+                                              function(long = .x,
+                                                       lat = .y,
+                                                       an = allocated_neighbours) {
+                                                hex_distance <- purrr::map2_dbl(.x = an$hex_long, .y = an$hex_lat,
+                                                                                function(along = .x,
+                                                                                         alat = .y) {
+                                                                                  geosphere::distVincentyEllipsoid(
+                                                                                    # Distance from
+                                                                                    c(long, lat),
+                                                                                    c(along,
+                                                                                      alat),
+                                                                                    a = 6378160,
+                                                                                    b = 6356774.719,
+                                                                                    f = 1 / 298.257222101
+                                                                                  )
+                                                                                  
+                                                                                })
+                                                
+                                                #for multiple possible neighbours, choose closest
+                                                return(min(hex_distance))
+                                              }))
+            
+            hex <- hex %>% ungroup() %>%
+              arrange(n_dist) %>%
+              head(1) %>%
+              select(hex_long, hex_lat, hex_id = id)
+          }
+        }
+      }
+      
+      # Choose first available point
+      cent <- centroid
+      if ("focal_distance" %in% colnames(cent)) {
+        cent <-
+          cent %>% dplyr::rename(focal_dist = focal_distance, focal_angle = angle)
+      }
+      
+      # update grid to show this centroid as assigned
+      hex_grid[which(hex_grid$id == hex$hex_id),]$assigned <- TRUE
+      
+      centroid_allocation <-
+        bind_rows(centroid_allocation, dplyr::bind_cols(cent, hex)) %>%
+        as_tibble()
     }
     
-    # Choose first avaiable point
-    cent <- centroid 
-    if ("focal_distance" %in% colnames(cent)) {
-      cent <- cent %>% dplyr::rename(focal_dist = focal_distance, focal_angle = angle)
+    
+    if (expanded_times > 0) {
+      message(paste(
+        "\nFilter distance was expanded for ",
+        expanded_times,
+        "area(s)."
+      ))
     }
     
-    # update grid to show this centroid as assigned
-    hex_grid[which(hex_grid$id == hex$hex_id), ]$assigned <- TRUE
+    # Return all allocations to the data frame
+    return(centroid_allocation)
     
-    centroid_allocation <- bind_rows(centroid_allocation, dplyr::bind_cols(cent, hex)) %>% 
-      as_tibble()
   }
-  
-  
-  if (expanded_times > 0){
-    message(paste("\nFilter distance was expanded for ", expanded_times, "area(s)."))
-  }  
-  
-  # Return all allocations to the data frame
-  return(centroid_allocation)
-  
-}
