@@ -24,7 +24,7 @@ fortify_sfc <- function(sfc_df, keep = NULL) {
         purrr::set_names(as_tibble(y[[1]]), c("long", "lat"))
       }, .id = "polygon")
     })) %>%
-    unnest_tbl("geom") %>%
+    unnest("geom") %>%
     mutate(poly_type = "geo")
 
   sf::st_geometry(sf_tbl) <- NULL

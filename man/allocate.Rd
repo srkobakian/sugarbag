@@ -10,7 +10,6 @@ allocate(
   sf_id = names(centroids)[1],
   hex_size,
   hex_filter,
-  use_neighbours = NULL,
   focal_points = NULL,
   width,
   verbose
@@ -26,8 +25,6 @@ allocate(
 \item{hex_size}{a float value in degrees for the diameter of the hexagons}
 
 \item{hex_filter}{amount of hexagons around centroid to consider}
-
-\item{use_neighbours}{providing the sf data set to find spatial neighbours}
 
 \item{focal_points}{a data frame of reference locations when allocating
 hexagons, capital cities of Australia are used in the example}
@@ -55,7 +52,6 @@ hex_allocated <- allocate(
   hex_grid = grid,
   hex_size = 0.2, # same size used in create_grid
   hex_filter = 10,
-  use_neighbours = tas_lga,
   focal_points = capital_cities,
   width = 30, verbose = TRUE
 )

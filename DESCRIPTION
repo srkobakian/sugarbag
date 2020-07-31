@@ -18,12 +18,14 @@ Depends:
     dplyr (>= 1.0.0)
 Imports: 
     geosphere (>= 1.5),
-    purrr (>= 0.2.5),
-    rlang,
-    rmapshaper (>= 0.4.1),
-    sf (>= 0.7),
-    tibble (>= 1.4.2),
-    tidyr (>= 0.8)
+    lwgeom (>= 0.2),
+    progress (>= 1.2.2),
+    purrr (>= 0.3.4),
+    rlang  (>= 0.4.6),
+    rmapshaper (>= 0.4.4),
+    sf (>= 0.9),
+    tibble (>= 3.0.1),
+    tidyr (>= 1.1.0)
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 Suggests: 

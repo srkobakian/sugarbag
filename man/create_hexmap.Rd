@@ -10,7 +10,6 @@ create_hexmap(
   hex_size = NULL,
   buffer_dist = NULL,
   hex_filter = 10,
-  neighbours = TRUE,
   f_width = 30,
   focal_points = NULL,
   order_sf_id = NULL,
@@ -28,8 +27,6 @@ create_hexmap(
 \item{buffer_dist}{distance in degrees to extend beyond the geometry provided}
 
 \item{hex_filter}{amount of hexagons around centroid to consider}
-
-\item{neighbours}{use the shp sf set to find spatial neighbours}
 
 \item{f_width}{the angle used to filter the grid points around a centroid}
 

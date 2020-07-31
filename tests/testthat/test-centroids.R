@@ -1,7 +1,7 @@
 test_that('centroid dimensions correct', {
   
-  lga_centroids <- sugarbag::create_centroids(sugarbag::tas_lga, "LGA_CODE16")
-  sa2_centroids <- sugarbag::create_centroids(sugarbag::tas_sa2, "SA2_NAME16")
+  expect_warning(lga_centroids <- sugarbag::create_centroids(sugarbag::tas_lga, "LGA_CODE16"))
+  expect_warning(sa2_centroids <- sugarbag::create_centroids(sugarbag::tas_sa2, "SA2_NAME16"))
   
   # check projection returned correct latitude and longitudes
   # will need to be changed when extended for nothings and eastings
