@@ -11,7 +11,8 @@ allocate(
   hex_size,
   hex_filter,
   focal_points = NULL,
-  width,
+  order_sf_id = NULL,
+  width = 30,
   verbose
 )
 }
@@ -28,6 +29,8 @@ allocate(
 
 \item{focal_points}{a data frame of reference locations when allocating
 hexagons, capital cities of Australia are used in the example}
+
+\item{order_sf_id}{a string to indicate the column used to order polygons}
 
 \item{width}{a numeric indicating the angle used to filter the hexagon grid}
 

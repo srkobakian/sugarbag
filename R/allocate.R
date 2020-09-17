@@ -11,8 +11,9 @@
 #' @param hex_filter amount of hexagons around centroid to consider
 #' @param focal_points a data frame of reference locations when allocating
 #' hexagons, capital cities of Australia are used in the example
-#' @param verbose a boolean to indicate whether to show polygon id
+#' @param order_sf_id a string to indicate the column used to order polygons
 #' @param width a numeric indicating the angle used to filter the hexagon grid
+#' @param verbose a boolean to indicate whether to show polygon id
 #'
 #' @return a data frame of all allocated hexagon points
 #' @export
@@ -40,7 +41,7 @@
 #' fort_hex <- fortify_hexagon(data = hex_allocated, sf_id = "LGA_CODE16", hex_size = 0.2)
 #' # plot the hexagons
 allocate <-
-  function(centroids, hex_grid, sf_id = names(centroids)[1], hex_size, hex_filter, focal_points = NULL, width, verbose) {
+  function(centroids, hex_grid, sf_id = names(centroids)[1], hex_size, hex_filter, focal_points = NULL, order_sf_id = NULL, width = 30, verbose) {
     
     # If there are focal points
     

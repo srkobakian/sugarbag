@@ -26,7 +26,8 @@
 #' # same column used in create_centroids
 #' fortify_hexagon(data = allocated, sf_id = "LGA_CODE16", hex_size = 0.2)
 fortify_hexagon <- function(data, sf_id, hex_size) {
-
+  
+  
   # Split data by sf_id
   hexagons <- data %>%
     group_nest(!!sf_id := as.character(!!sym(sf_id)), .key = "grouped") %>%
@@ -54,7 +55,7 @@ fortify_hexagon <- function(data, sf_id, hex_size) {
           mutate(
             long = long + hexdata$hex_long,
             lat = lat + hexdata$hex_lat,
-            id = 1:6
+            point_id = 1:6
           )
 
         return(c_hex)
