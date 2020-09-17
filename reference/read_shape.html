@@ -137,7 +137,7 @@
     <p>read_shape</p>
     </div>
 
-    <pre class="usage"><span class='fu'>read_shape</span>(<span class='no'>shp_path</span>, <span class='kw'>simplify</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>keep</span> <span class='kw'>=</span> <span class='fl'>0.1</span>)</pre>
+    <pre class="usage"><span class='fu'>read_shape</span>(<span class='kw'>shp_path</span>, simplify = <span class='fl'>TRUE</span>, keep = <span class='fl'>0.1</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -162,12 +162,14 @@ using rmapshaper, keeping all shapes.</p></td>
     <p>an sf data frame, with a column of non null geometries</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='co'># Download resource from sugarbag site</span>
 <span class='co'># https://srkobakian.github.io/sugarbag/articles/abs-data.html</span>
 <span class='co'># Find the location of extracted shape data</span>
-<span class='no'>shape</span> <span class='kw'>&lt;-</span> <span class='fu'>read_shape</span>(<span class='kw'>shp_path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/file.choose.html'>file.choose</a></span>())
-}</div></pre>
+<span class='kw'>shape</span> <span class='op'>&lt;-</span> <span class='fu'>read_shape</span>(shp_path = <span class='fu'><a href='https://rdrr.io/r/base/file.choose.html'>file.choose</a></span>())
+}
+
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -183,7 +185,7 @@ using rmapshaper, keeping all shapes.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

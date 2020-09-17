@@ -1,6 +1,7 @@
 pandoc: '2.2'
-pkgdown: 1.5.1
+pkgdown: 1.6.1
 pkgdown_sha: ~
-articles: []
-last_built: 2020-07-31T02:15Z
+articles:
+  abs-data: abs-data.html
+last_built: 2020-09-17T01:44Z
 

@@ -142,16 +142,16 @@ the geographic shape of each area is lost.</p>
     </div>
 
     <pre class="usage"><span class='fu'>create_hexmap</span>(
-  <span class='no'>shp</span>,
-  <span class='no'>sf_id</span>,
-  <span class='kw'>hex_size</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>buffer_dist</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>hex_filter</span> <span class='kw'>=</span> <span class='fl'>10</span>,
-  <span class='kw'>f_width</span> <span class='kw'>=</span> <span class='fl'>30</span>,
-  <span class='kw'>focal_points</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>order_sf_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>export_shp</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+  <span class='kw'>shp</span>,
+  <span class='kw'>sf_id</span>,
+  hex_size = <span class='kw'>NULL</span>,
+  buffer_dist = <span class='kw'>NULL</span>,
+  hex_filter = <span class='fl'>10</span>,
+  f_width = <span class='fl'>30</span>,
+  focal_points = <span class='kw'>NULL</span>,
+  order_sf_id = <span class='kw'>NULL</span>,
+  export_shp = <span class='fl'>FALSE</span>,
+  verbose = <span class='fl'>FALSE</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -207,12 +207,13 @@ points for each non null geometry passed in the shape file</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>tas_sa2</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>capital_cities</span>)
-<span class='no'>hexmap</span> <span class='kw'>&lt;-</span> <span class='fu'>create_hexmap</span>(
-  <span class='kw'>shp</span> <span class='kw'>=</span> <span class='no'>tas_lga</span>,
-  <span class='kw'>sf_id</span> <span class='kw'>=</span> <span class='st'>"LGA_CODE16"</span>,
-  <span class='kw'>focal_points</span> <span class='kw'>=</span> <span class='no'>capital_cities</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: st_centroid does not give correct centroids for longitude/latitude data</span></div><div class='output co'>#&gt; <span class='warning'>Warning: st_crs&lt;- : replacing crs does not reproject data; use st_transform for that</span></div><div class='output co'>#&gt; <span class='warning'>Warning: st_crs&lt;- : replacing crs does not reproject data; use st_transform for that</span></div><div class='output co'>#&gt; <span class='message'>Buffer set to 1.224 degrees.</span></div><div class='output co'>#&gt; <span class='message'>Converted hexagon size to 0.1205 degrees.</span></div><div class='output co'>#&gt; <span class='message'>Filter set to 1.2047 degrees.</span></div><div class='output co'>#&gt; <span class='message'>Finding closest point in focal_points data set.</span></div><div class='output co'>#&gt; <span class='message'>Allocating centroids, in order of distance to closest focal point.</span></div><div class='output co'>#&gt; <span class='message'></span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>tas_sa2</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>capital_cities</span>)
+<span class='kw'>hexmap</span> <span class='op'>&lt;-</span> <span class='fu'>create_hexmap</span>(
+  shp = <span class='kw'>tas_lga</span>,
+  sf_id = <span class='st'>"LGA_CODE16"</span>,
+  focal_points = <span class='kw'>capital_cities</span>, verbose = <span class='fl'>TRUE</span>)
+</div><div class='output co'>#&gt; <span class='warning'>Warning: st_centroid does not give correct centroids for longitude/latitude data</span></div><div class='output co'>#&gt; <span class='warning'>Warning: st_crs&lt;- : replacing crs does not reproject data; use st_transform for that</span></div><div class='output co'>#&gt; <span class='warning'>Warning: st_crs&lt;- : replacing crs does not reproject data; use st_transform for that</span></div><div class='output co'>#&gt; <span class='message'>Buffer set to 1.224 degrees.</span></div><div class='output co'>#&gt; <span class='message'>Converted hexagon size to 0.1205 degrees.</span></div><div class='output co'>#&gt; <span class='message'>Filter set to 1.2047 degrees.</span></div><div class='output co'>#&gt; <span class='message'>Finding closest point in focal_points data set.</span></div><div class='output co'>#&gt; <span class='message'>Allocating centroids, in order of distance to closest focal point.</span></div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>Filter distance was expanded for  2 area(s).</span></div><div class='input'>
 </div></pre>
   </div>
@@ -230,7 +231,7 @@ points for each non null geometry passed in the shape file</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

@@ -101,20 +101,26 @@
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>You can install the CRAN release version of sugarbag from <a href="https://CRAN.R-project.org">CRAN</a> with:</p>
-<div class="sourceCode" id="cb1"><pre class="r"># install.packages("sugarbag")</pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit">
+<span class="co"># install.packages("sugarbag")</span>
+</pre></div>
 <p>You can install the development version from GitHub using:</p>
-<div class="sourceCode" id="cb2"><pre class="r"># install.packages("remotes")
-# remotes::install_github("srkobakian/sugarbag")</pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit">
+<span class="co"># install.packages("remotes")</span>
+<span class="co"># remotes::install_github("srkobakian/sugarbag")</span>
+</pre></div>
 </div>
 <div id="getting-started" class="section level2">
 <h2 class="hasAnchor">
 <a href="#getting-started" class="anchor"></a>Getting started</h2>
 <p>Refer to pkgdown site: <a href="https://srkobakian.github.io/sugarbag/" class="uri">https://srkobakian.github.io/sugarbag/</a></p>
-<div class="sourceCode" id="cb3"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">sugarbag</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">dplyr</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">tidyr</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">tibble</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ggplot2</span>)</pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://srkobakian.github.io/sugarbag">sugarbag</a></span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://dplyr.tidyverse.org">dplyr</a></span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://tidyr.tidyverse.org">tidyr</a></span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://tibble.tidyverse.org">tibble</a></span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="http://ggplot2.tidyverse.org">ggplot2</a></span>)
+</pre></div>
 </div>
 <div id="creating-a-hexagon-map-of-tasmania" class="section level2">
 <h2 class="hasAnchor">
@@ -124,14 +130,15 @@
 <h3 class="hasAnchor">
 <a href="#data" class="anchor"></a>Data</h3>
 <p>We will use the Australian Bureau of Statistics’ ESRI shape files to build our map.</p>
-<p>The set has been filtered for only Tasmanian areas. The data set of Tasmanian Statistical Areas at level two has been provided as a package data set, <code><a href="https://rdrr.io/pkg/sugarbag/man/tas_sa2.html">?tas_sa2</a></code>.</p>
+<p>The set has been filtered for only Tasmanian areas. The data set of Tasmanian Statistical Areas at level two has been provided as a package data set, <code><a href="reference/tas_sa2.html">?tas_sa2</a></code>.</p>
 </div>
 <div id="centroids" class="section level3">
 <h3 class="hasAnchor">
 <a href="#centroids" class="anchor"></a>Centroids</h3>
 <p>The function <code>create_centroids</code> finds the central points of the polygons provided as an argument.</p>
-<div class="sourceCode" id="cb4"><pre class="r"><span class="co"># Find the longitude and latitude centroid for each region or area</span>
-<span class="no">centroids</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/sugarbag/man/create_centroids.html">create_centroids</a></span>(<span class="no">tas_sa2</span>, <span class="kw">sf_id</span> <span class="kw">=</span> <span class="st">"SA2_NAME16"</span>)
+<div class="sourceCode" id="cb4"><pre class="downlit">
+<span class="co"># Find the longitude and latitude centroid for each region or area</span>
+<span class="kw">centroids</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_centroids.html">create_centroids</a></span>(<span class="kw">tas_sa2</span>, sf_id = <span class="st">"SA2_NAME16"</span>)
 <span class="co">#&gt; Warning in st_centroid.sf(., of_largest_polygon = largest): st_centroid assumes</span>
 <span class="co">#&gt; attributes are constant over geometries of x</span>
 <span class="co">#&gt; Warning in st_centroid.sfc(st_geometry(x), of_largest_polygon =</span>
@@ -141,86 +148,97 @@
 <span class="co">#&gt; that</span>
 
 <span class="co">#&gt; Warning: st_crs&lt;- : replacing crs does not reproject data; use st_transform for</span>
-<span class="co">#&gt; that</span></pre></div>
+<span class="co">#&gt; that</span>
+</pre></div>
 </div>
 <div id="hexagon-grid" class="section level3">
 <h3 class="hasAnchor">
 <a href="#hexagon-grid" class="anchor"></a>Hexagon grid</h3>
 <p>To tesselate correctly, all the hexagons must be evenly spaced. This function creates a grid of possible locations for the polygons.</p>
-<div class="sourceCode" id="cb5"><pre class="r"><span class="no">grid</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/sugarbag/man/create_grid.html">create_grid</a></span>(<span class="kw">centroids</span> <span class="kw">=</span> <span class="no">centroids</span>, <span class="kw">hex_size</span> <span class="kw">=</span> <span class="fl">0.2</span>, <span class="kw">buffer_dist</span> <span class="kw">=</span> <span class="fl">1.2</span>)</pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit">
+<span class="kw">grid</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_grid.html">create_grid</a></span>(centroids = <span class="kw">centroids</span>, hex_size = <span class="fl">0.2</span>, buffer_dist = <span class="fl">1.2</span>)
+</pre></div>
 <p>The <code>sugarbag</code> package operates by creating a grid of possible hexagons to allocate electorates. The buffer extends the grid beyond the geographical space, this is especially useful for densely populated coastal areas or cities, such as Brisbane and Sydney in this case, Hobart.</p>
 </div>
 <div id="allocate-areas" class="section level3">
 <h3 class="hasAnchor">
 <a href="#allocate-areas" class="anchor"></a>Allocate areas</h3>
 <p>Each polygon centroid will be allocated to the closest available hexagon grid point. The capital cities data set will be used to preserve neighbourly relationships. The <code>allocate</code> function requires two inputs, the centroids and the grid.</p>
-<div class="sourceCode" id="cb6"><pre class="r"><span class="co"># Allocate the centroids to the hexagon grid</span>
+<div class="sourceCode" id="cb6"><pre class="downlit">
+<span class="co"># Allocate the centroids to the hexagon grid</span>
 <span class="co"># We have the same amount of rows, as individual regions</span>
-<span class="no">hex_allocated</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/sugarbag/man/allocate.html">allocate</a></span>(<span class="kw">centroids</span> <span class="kw">=</span> <span class="no">centroids</span>,
-                          <span class="kw">sf_id</span> <span class="kw">=</span> <span class="st">"SA2_NAME16"</span>,
-                          <span class="kw">hex_grid</span> <span class="kw">=</span> <span class="no">grid</span>,
-                          <span class="kw">hex_size</span> <span class="kw">=</span> <span class="fl">0.2</span>, <span class="co"># same size used in create_grid</span>
-                          <span class="kw">hex_filter</span> <span class="kw">=</span> <span class="fl">10</span>,
-                          <span class="kw">use_neighbours</span> <span class="kw">=</span> <span class="no">tas_sa2</span>,
-                          <span class="kw">focal_points</span> <span class="kw">=</span> <span class="no">capital_cities</span>,
+<span class="kw">hex_allocated</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/allocate.html">allocate</a></span>(centroids = <span class="kw">centroids</span>,
+                          sf_id = <span class="st">"SA2_NAME16"</span>,
+                          hex_grid = <span class="kw">grid</span>,
+                          hex_size = <span class="fl">0.2</span>, <span class="co"># same size used in create_grid</span>
+                          hex_filter = <span class="fl">10</span>,
+                          use_neighbours = <span class="kw">tas_sa2</span>,
+                          focal_points = <span class="kw">capital_cities</span>,
                           <span class="co"># same column used in create_centroids</span>
-                          <span class="kw">width</span> <span class="kw">=</span> <span class="fl">30</span>, <span class="kw">verbose</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></div>
+                          width = <span class="fl">30</span>, verbose = <span class="fl">TRUE</span>) 
+</pre></div>
 <p>The function <code>fortify_hexagon</code> assists in plotting. We now have 6 points per region, one for each point of a hexagon. Connecting these points will allow actual hexagons to be plotted.</p>
 <p>The additional demographic information or data can now be added. This can be used to allow plots to be coloured by region.</p>
 <p>For animations to move between geography and hexagons the <code>sf_id</code> must match, there also needs to be an identifier to separate the states to animate between for <code>gganimate</code>.</p>
-<div class="sourceCode" id="cb7"><pre class="r"><span class="no">hexagons</span> <span class="kw">&lt;-</span> <span class="no">hex_allocated</span> <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://rdrr.io/pkg/sugarbag/man/fortify_hexagon.html">fortify_hexagon</a></span>(<span class="kw">hex_size</span> <span class="kw">=</span> <span class="fl">0.2</span>, <span class="kw">sf_id</span> <span class="kw">=</span> <span class="st">"SA2_NAME16"</span>) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span>(<span class="no">.</span>, <span class="no">tas_sa2</span>) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="kw">poly_type</span> <span class="kw">=</span> <span class="st">"hex"</span>)
+<div class="sourceCode" id="cb7"><pre class="downlit">
+<span class="kw">hexagons</span> <span class="op">&lt;-</span> <span class="kw">hex_allocated</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="reference/fortify_hexagon.html">fortify_hexagon</a></span>(hex_size = <span class="fl">0.2</span>, sf_id = <span class="st">"SA2_NAME16"</span>) <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span>(<span class="kw">.</span>, <span class="kw">tas_sa2</span>) <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(poly_type = <span class="st">"hex"</span>)
 
-<span class="no">polygons</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/sugarbag/man/fortify_sfc.html">fortify_sfc</a></span>(<span class="no">tas_sa2</span>) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="kw">poly_type</span> <span class="kw">=</span> <span class="st">"geo"</span>)
+<span class="kw">polygons</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/fortify_sfc.html">fortify_sfc</a></span>(<span class="kw">tas_sa2</span>) <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(poly_type = <span class="st">"geo"</span>)
 <span class="co">#&gt; Warning: The `x` argument of `as_tibble.matrix()` must have column names if `.name_repair` is omitted as of tibble 2.0.0.</span>
 <span class="co">#&gt; Using compatibility `.name_repair`.</span>
 <span class="co">#&gt; This warning is displayed once every 8 hours.</span>
 <span class="co">#&gt; Call `lifecycle::last_warnings()` to see where this warning was generated.</span>
 
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="kw">mapping</span> <span class="kw">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">fill</span> <span class="kw">=</span> <span class="no">SA4_NAME16</span>)) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_polygon.html">geom_polygon</a></span>(<span class="kw">data</span> <span class="kw">=</span> <span class="no">polygons</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">x</span><span class="kw">=</span><span class="no">long</span>, <span class="no">lat</span>, <span class="kw">group</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/interaction.html">interaction</a></span>(<span class="no">SA2_NAME16</span>,<span class="no">polygon</span>)), <span class="kw">alpha</span> <span class="kw">=</span> <span class="fl">0.4</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_polygon.html">geom_polygon</a></span>(<span class="kw">data</span> <span class="kw">=</span> <span class="no">hexagons</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">x</span><span class="kw">=</span><span class="no">long</span>, <span class="no">lat</span>, <span class="kw">group</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/interaction.html">interaction</a></span>(<span class="no">SA2_NAME16</span>))) + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html">scale_fill_viridis_d</a></span>()</pre></div>
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(mapping = <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(fill = <span class="kw">SA4_NAME16</span>)) <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_polygon.html">geom_polygon</a></span>(data = <span class="kw">polygons</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(x=<span class="kw">long</span>, <span class="kw">lat</span>, group = <span class="fu"><a href="https://rdrr.io/r/base/interaction.html">interaction</a></span>(<span class="kw">SA2_NAME16</span>,<span class="kw">polygon</span>)), alpha = <span class="fl">0.4</span>) <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_polygon.html">geom_polygon</a></span>(data = <span class="kw">hexagons</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(x=<span class="kw">long</span>, <span class="kw">lat</span>, group = <span class="fu"><a href="https://rdrr.io/r/base/interaction.html">interaction</a></span>(<span class="kw">SA2_NAME16</span>))) <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html">scale_fill_viridis_d</a></span>()
+</pre></div>
 <p><img src="reference/figures/README-ggplot-1.png" width="100%"></p>
-<div class="sourceCode" id="cb8"><pre class="r"><span class="no">hexagon_points</span> <span class="kw">&lt;-</span> <span class="no">hexagons</span> <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="no">SA4_NAME16</span>, <span class="no">SA2_NAME16</span>,
-<span class="no">SA2_NAME16</span>, <span class="no">long</span>, <span class="no">lat</span>, <span class="no">poly_type</span>) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span>(<span class="no">polygons</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/distinct.html">distinct</a></span>(<span class="no">SA2_NAME16</span>, <span class="no">polygon</span>), <span class="kw">by</span> <span class="kw">=</span> <span class="st">"SA2_NAME16"</span>)
-<span class="no">polygon_points</span> <span class="kw">&lt;-</span> <span class="no">polygons</span> <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="no">SA4_NAME16</span>, <span class="no">SA2_NAME16</span>,
-<span class="no">SA2_NAME16</span>, <span class="no">long</span>, <span class="no">lat</span>, <span class="no">polygon</span>, <span class="no">poly_type</span>)
-<span class="no">animate_tas</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html">bind_rows</a></span>(<span class="no">hexagon_points</span>, <span class="no">polygon_points</span>) <span class="kw">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span>(<span class="no">homeless</span>)
+<div class="sourceCode" id="cb8"><pre class="downlit">
+<span class="kw">hexagon_points</span> <span class="op">&lt;-</span> <span class="kw">hexagons</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="kw">SA4_NAME16</span>, <span class="kw">SA2_NAME16</span>,    
+<span class="kw">SA2_NAME16</span>, <span class="kw">long</span>, <span class="kw">lat</span>, <span class="kw">poly_type</span>) <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span>(<span class="kw">polygons</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/distinct.html">distinct</a></span>(<span class="kw">SA2_NAME16</span>, <span class="kw">polygon</span>), by = <span class="st">"SA2_NAME16"</span>)
+<span class="kw">polygon_points</span> <span class="op">&lt;-</span> <span class="kw">polygons</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="kw">SA4_NAME16</span>, <span class="kw">SA2_NAME16</span>,    
+<span class="kw">SA2_NAME16</span>, <span class="kw">long</span>, <span class="kw">lat</span>, <span class="kw">polygon</span>, <span class="kw">poly_type</span>)
+<span class="kw">animate_tas</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html">bind_rows</a></span>(<span class="kw">hexagon_points</span>, <span class="kw">polygon_points</span>) <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span>(<span class="kw">homeless</span>)
 
-<span class="no">animate_tas</span> <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">x</span><span class="kw">=</span><span class="no">long</span>, <span class="kw">y</span><span class="kw">=</span><span class="no">lat</span>, <span class="kw">group</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/interaction.html">interaction</a></span>(<span class="no">polygon</span>, <span class="no">SA2_NAME16</span>))) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_polygon.html">geom_polygon</a></span>(<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">fill</span> <span class="kw">=</span> <span class="no">SA4_NAME16</span>)) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_polygon.html">geom_polygon</a></span>(<span class="kw">data</span> <span class="kw">=</span> <span class="no">polygon_points</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(-<span class="no">poly_type</span>), <span class="kw">fill</span> <span class="kw">=</span> <span class="st">"grey40"</span>, <span class="kw">alpha</span> <span class="kw">=</span> <span class="fl">0.05</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html">coord_equal</a></span>() +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_void</a></span>() +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html">guides</a></span>(<span class="kw">fill</span> <span class="kw">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guide_legend.html">guide_legend</a></span>(<span class="kw">title</span> <span class="kw">=</span> <span class="kw">NULL</span>)) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span>(<span class="kw">legend.position</span> <span class="kw">=</span> <span class="st">"bottom"</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span>(~<span class="no">poly_type</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html">scale_fill_viridis_d</a></span>()</pre></div>
+<span class="kw">animate_tas</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(x=<span class="kw">long</span>, y=<span class="kw">lat</span>, group = <span class="fu"><a href="https://rdrr.io/r/base/interaction.html">interaction</a></span>(<span class="kw">polygon</span>, <span class="kw">SA2_NAME16</span>))) <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_polygon.html">geom_polygon</a></span>(<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(fill = <span class="kw">SA4_NAME16</span>)) <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_polygon.html">geom_polygon</a></span>(data = <span class="kw">polygon_points</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="op">-</span><span class="kw">poly_type</span>), fill = <span class="st">"grey40"</span>, alpha = <span class="fl">0.05</span>) <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html">coord_equal</a></span>() <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_void</a></span>() <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html">guides</a></span>(fill = <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guide_legend.html">guide_legend</a></span>(title = <span class="kw">NULL</span>)) <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span>(legend.position = <span class="st">"bottom"</span>) <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span>(<span class="op">~</span><span class="kw">poly_type</span>) <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html">scale_fill_viridis_d</a></span>()
+</pre></div>
 <p><img src="reference/figures/README-prepareanimation-1.png" width="100%"></p>
-<div class="sourceCode" id="cb9"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">gganimate</span>)
+<div class="sourceCode" id="cb9"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw">gganimate</span>)
 
-<span class="no">animation</span> <span class="kw">&lt;-</span> <span class="no">animate_tas</span> <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">x</span><span class="kw">=</span><span class="no">long</span>, <span class="kw">y</span><span class="kw">=</span><span class="no">lat</span>, <span class="kw">group</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/interaction.html">interaction</a></span>(<span class="no">polygon</span>, <span class="no">SA2_NAME16</span>))) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_polygon.html">geom_polygon</a></span>(<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">fill</span> <span class="kw">=</span> <span class="no">SA4_NAME16</span>)) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_polygon.html">geom_polygon</a></span>(<span class="kw">data</span> <span class="kw">=</span> <span class="no">polygon_points</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(-<span class="no">poly_type</span>), <span class="kw">fill</span> <span class="kw">=</span> <span class="st">"grey40"</span>, <span class="kw">alpha</span> <span class="kw">=</span> <span class="fl">0.05</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html">coord_equal</a></span>() +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_void</a></span>() +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html">guides</a></span>(<span class="kw">fill</span> <span class="kw">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guide_legend.html">guide_legend</a></span>(<span class="kw">title</span> <span class="kw">=</span> <span class="kw">NULL</span>)) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span>(<span class="kw">legend.position</span> <span class="kw">=</span> <span class="st">"bottom"</span>) +
-  <span class="fu">transition_states</span>(<span class="kw">states</span> <span class="kw">=</span> <span class="no">poly_type</span>) +
+<span class="kw">animation</span> <span class="op">&lt;-</span> <span class="kw">animate_tas</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(x=<span class="kw">long</span>, y=<span class="kw">lat</span>, group = <span class="fu"><a href="https://rdrr.io/r/base/interaction.html">interaction</a></span>(<span class="kw">polygon</span>, <span class="kw">SA2_NAME16</span>))) <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_polygon.html">geom_polygon</a></span>(<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(fill = <span class="kw">SA4_NAME16</span>)) <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_polygon.html">geom_polygon</a></span>(data = <span class="kw">polygon_points</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="op">-</span><span class="kw">poly_type</span>), fill = <span class="st">"grey40"</span>, alpha = <span class="fl">0.05</span>) <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html">coord_equal</a></span>() <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_void</a></span>() <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html">guides</a></span>(fill = <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guide_legend.html">guide_legend</a></span>(title = <span class="kw">NULL</span>)) <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span>(legend.position = <span class="st">"bottom"</span>) <span class="op">+</span>
+  <span class="fu">transition_states</span>(states = <span class="kw">poly_type</span>) <span class="op">+</span> 
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html">scale_fill_viridis_d</a></span>()
 
-<span class="no">animated</span> <span class="kw">&lt;-</span> <span class="fu">animate</span>(<span class="no">animation</span>, <span class="kw">fps</span> <span class="kw">=</span> <span class="fl">10</span>, <span class="kw">duration</span> <span class="kw">=</span> <span class="fl">15</span>,
-                    <span class="kw">start_pause</span> <span class="kw">=</span> <span class="fl">5</span>, <span class="kw">end_pause</span> <span class="kw">=</span> <span class="fl">5</span>, <span class="kw">rewind</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
+<span class="kw">animated</span> <span class="op">&lt;-</span> <span class="fu">animate</span>(<span class="kw">animation</span>, fps = <span class="fl">10</span>, duration = <span class="fl">15</span>, 
+                    start_pause = <span class="fl">5</span>, end_pause = <span class="fl">5</span>, rewind = <span class="fl">FALSE</span>)
 
-<span class="fu">anim_save</span>(<span class="kw">filename</span> <span class="kw">=</span> <span class="st">"tasmania_animation.gif"</span>, <span class="no">animated</span>)</pre></div>
+<span class="fu">anim_save</span>(filename = <span class="st">"tasmania_animation.gif"</span>, <span class="kw">animated</span>)
+</pre></div>
 <p><img src="https://raw.githubusercontent.com/srkobakian/sugarbag/master/vignettes/tasmania_animation.gif" alt="Animation of Tasmanian SA2s coloured by the SA4s."></p>
 </div>
 </div>
@@ -275,7 +293,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
