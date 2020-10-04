@@ -8,12 +8,11 @@ Status](https://travis-ci.org/srkobakian/sugarbag.svg?branch=master)](https://tr
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/sugarbag)](https://cran.r-project.org/package=sugarbag)
 [![Downloads](http://cranlogs.r-pkg.org/badges/sugarbag?color=brightgreen)](https://cran.r-project.org/package=sugarbag)
 
-The **sugarbag** package creates tesselated hexagon maps for visualising
+The **sugarbag** package creates tessellated hexagon maps for visualising
 geo-spatial data. Hexagons of equal size are positioned to best preserve
 relationships between individual areas and the closest focal point, and
-minimise distance from their actual location. This method allows all
-regions to be compared on the same visual scale, and provides an
-alternative to cartograms.
+minimise distance from their actual location. This method provides an
+alternative to cartograms that allows all regions to be compared on the same visual scale.
 
 Maps containing regions with a few small and densely populated areas are
 extremely distorted in cartograms. An example of this is a population
