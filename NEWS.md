@@ -1,3 +1,7 @@
+# sugarbag 0.1.3
+
+* Refactor for the dplyr update to version 1.0.2
+
 # sugarbag 0.1.2
 
 * Allow for no focal points to be used
