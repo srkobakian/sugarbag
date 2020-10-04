@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sugarbag</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2.999</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.3</span>
       </span>
     </div>
 
@@ -137,7 +137,7 @@
     <p>read_shape</p>
     </div>
 
-    <pre class="usage"><span class='fu'>read_shape</span>(<span class='kw'>shp_path</span>, simplify = <span class='fl'>TRUE</span>, keep = <span class='fl'>0.1</span>)</pre>
+    <pre class="usage"><span class='fu'>read_shape</span><span class='op'>(</span><span class='va'>shp_path</span>, simplify <span class='op'>=</span> <span class='cn'>TRUE</span>, keep <span class='op'>=</span> <span class='fl'>0.1</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -162,12 +162,10 @@ using rmapshaper, keeping all shapes.</p></td>
     <p>an sf data frame, with a column of non null geometries</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='co'># Download resource from sugarbag site</span>
-<span class='co'># https://srkobakian.github.io/sugarbag/articles/abs-data.html</span>
-<span class='co'># Find the location of extracted shape data</span>
-<span class='kw'>shape</span> <span class='op'>&lt;-</span> <span class='fu'>read_shape</span>(shp_path = <span class='fu'><a href='https://rdrr.io/r/base/file.choose.html'>file.choose</a></span>())
-}
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='co'># Find the location of shape data</span>
+<span class='va'>shape</span> <span class='op'>&lt;-</span> <span class='fu'>read_shape</span><span class='op'>(</span>shp_path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/file.choose.html'>file.choose</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
 
 </div></pre>
   </div>

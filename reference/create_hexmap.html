@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Create a tesselated hexagon map from a set of polygons — create_hexmap • sugarbag</title>
+<title>Create a tessellated hexagon map from a set of polygons — create_hexmap • sugarbag</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,9 +46,9 @@
 
 
 
-<meta property="og:title" content="Create a tesselated hexagon map from a set of polygons — create_hexmap" />
+<meta property="og:title" content="Create a tessellated hexagon map from a set of polygons — create_hexmap" />
 <meta property="og:description" content="Allocates each polygon in a shape file to a grid point to create a map of
-tesselated hexagons. The spatial relationships of areas are preserved while
+tessellated hexagons. The spatial relationships of areas are preserved while
 the geographic shape of each area is lost." />
 <meta property="og:image" content="/logo.png" />
 
@@ -82,7 +82,7 @@ the geographic shape of each area is lost." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sugarbag</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2.999</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.3</span>
       </span>
     </div>
 
@@ -130,29 +130,29 @@ the geographic shape of each area is lost." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Create a tesselated hexagon map from a set of polygons</h1>
+    <h1>Create a tessellated hexagon map from a set of polygons</h1>
     <small class="dont-index">Source: <a href='https://github.com/srkobakian/sugarbag/blob/master/R/create_hexmap.R'><code>R/create_hexmap.R</code></a></small>
     <div class="hidden name"><code>create_hexmap.Rd</code></div>
     </div>
 
     <div class="ref-description">
     <p>Allocates each polygon in a shape file to a grid point to create a map of
-tesselated hexagons. The spatial relationships of areas are preserved while
+tessellated hexagons. The spatial relationships of areas are preserved while
 the geographic shape of each area is lost.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>create_hexmap</span>(
-  <span class='kw'>shp</span>,
-  <span class='kw'>sf_id</span>,
-  hex_size = <span class='kw'>NULL</span>,
-  buffer_dist = <span class='kw'>NULL</span>,
-  hex_filter = <span class='fl'>10</span>,
-  f_width = <span class='fl'>30</span>,
-  focal_points = <span class='kw'>NULL</span>,
-  order_sf_id = <span class='kw'>NULL</span>,
-  export_shp = <span class='fl'>FALSE</span>,
-  verbose = <span class='fl'>FALSE</span>
-)</pre>
+    <pre class="usage"><span class='fu'>create_hexmap</span><span class='op'>(</span>
+  <span class='va'>shp</span>,
+  <span class='va'>sf_id</span>,
+  hex_size <span class='op'>=</span> <span class='cn'>NULL</span>,
+  buffer_dist <span class='op'>=</span> <span class='cn'>NULL</span>,
+  hex_filter <span class='op'>=</span> <span class='fl'>10</span>,
+  f_width <span class='op'>=</span> <span class='fl'>30</span>,
+  focal_points <span class='op'>=</span> <span class='cn'>NULL</span>,
+  order_sf_id <span class='op'>=</span> <span class='cn'>NULL</span>,
+  export_shp <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  verbose <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -207,12 +207,12 @@ points for each non null geometry passed in the shape file</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>tas_sa2</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>capital_cities</span>)
-<span class='kw'>hexmap</span> <span class='op'>&lt;-</span> <span class='fu'>create_hexmap</span>(
-  shp = <span class='kw'>tas_lga</span>,
-  sf_id = <span class='st'>"LGA_CODE16"</span>,
-  focal_points = <span class='kw'>capital_cities</span>, verbose = <span class='fl'>TRUE</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>tas_sa2</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>capital_cities</span><span class='op'>)</span>
+<span class='va'>hexmap</span> <span class='op'>&lt;-</span> <span class='fu'>create_hexmap</span><span class='op'>(</span>
+  shp <span class='op'>=</span> <span class='va'>tas_lga</span>,
+  sf_id <span class='op'>=</span> <span class='st'>"LGA_CODE16"</span>,
+  focal_points <span class='op'>=</span> <span class='va'>capital_cities</span>, verbose <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='warning'>Warning: st_centroid does not give correct centroids for longitude/latitude data</span></div><div class='output co'>#&gt; <span class='warning'>Warning: st_crs&lt;- : replacing crs does not reproject data; use st_transform for that</span></div><div class='output co'>#&gt; <span class='warning'>Warning: st_crs&lt;- : replacing crs does not reproject data; use st_transform for that</span></div><div class='output co'>#&gt; <span class='message'>Buffer set to 1.224 degrees.</span></div><div class='output co'>#&gt; <span class='message'>Converted hexagon size to 0.1205 degrees.</span></div><div class='output co'>#&gt; <span class='message'>Filter set to 1.2047 degrees.</span></div><div class='output co'>#&gt; <span class='message'>Finding closest point in focal_points data set.</span></div><div class='output co'>#&gt; <span class='message'>Allocating centroids, in order of distance to closest focal point.</span></div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>Filter distance was expanded for  2 area(s).</span></div><div class='input'>
 </div></pre>
