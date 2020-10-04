@@ -7,7 +7,7 @@ reference:
   - '`capital_cities`'
   - '`tas_sa2`'
 - title: Core Functions
-  desc: Functions used to create a tesselated hexagon map
+  desc: Functions used to create a tessellated hexagon map
   contents:
   - '`create_hexmap`'
   - '`create_centroids`'

@@ -1,7 +1,7 @@
-#' Create a tesselated hexagon map from a set of polygons
+#' Create a tessellated hexagon map from a set of polygons
 #'
 #' Allocates each polygon in a shape file to a grid point to create a map of
-#' tesselated hexagons. The spatial relationships of areas are preserved while
+#' tessellated hexagons. The spatial relationships of areas are preserved while
 #' the geographic shape of each area is lost.
 #'
 #' @param shp a shape file, if class is SPDF, will be converted to sf

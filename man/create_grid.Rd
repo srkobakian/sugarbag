@@ -2,7 +2,7 @@
 % Please edit documentation in R/create_grid.R
 \name{create_grid}
 \alias{create_grid}
-\title{Create a grid of evenly spaced points to allow hexagons to tesselate}
+\title{Create a grid of evenly spaced points to allow hexagons to tessellate}
 \usage{
 create_grid(
   centroids,

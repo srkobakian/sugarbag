@@ -84,7 +84,7 @@ centroids <- create_centroids(tas_sa2, sf_id = "SA2_NAME16")
 
 ### Hexagon grid
 
-To tesselate correctly, all the hexagons must be evenly spaced. This
+To tessellate correctly, all the hexagons must be evenly spaced. This
 function creates a grid of possible locations for the polygons.
 
 ``` r

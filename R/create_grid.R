@@ -1,4 +1,4 @@
-#' Create a grid of evenly spaced points to allow hexagons to tesselate
+#' Create a grid of evenly spaced points to allow hexagons to tessellate
 #'
 #' This function takes the output from the create_centroids function, or a
 #' set of centroids in a table with the columns latitude and longitude

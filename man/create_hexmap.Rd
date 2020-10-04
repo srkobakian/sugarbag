@@ -2,7 +2,7 @@
 % Please edit documentation in R/create_hexmap.R
 \name{create_hexmap}
 \alias{create_hexmap}
-\title{Create a tesselated hexagon map from a set of polygons}
+\title{Create a tessellated hexagon map from a set of polygons}
 \usage{
 create_hexmap(
   shp,
@@ -45,7 +45,7 @@ points for each non null geometry passed in the shape file
 }
 \description{
 Allocates each polygon in a shape file to a grid point to create a map of
-tesselated hexagons. The spatial relationships of areas are preserved while
+tessellated hexagons. The spatial relationships of areas are preserved while
 the geographic shape of each area is lost.
 }
 \examples{
