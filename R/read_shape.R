@@ -12,9 +12,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' # Download resource from sugarbag site
-#' # https://srkobakian.github.io/sugarbag/articles/abs-data.html
-#' # Find the location of extracted shape data
+#' # Find the location of shape data
 #' shape <- read_shape(shp_path = file.choose())
 #' }
 #' 
