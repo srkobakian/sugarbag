@@ -44,6 +44,11 @@ allocate <-
   function(centroids, hex_grid, sf_id = names(centroids)[1], hex_size, hex_filter, focal_points = NULL, order_sf_id = NULL, width = 30, verbose) {
     
     # If there are focal points
+    if (!(any(grepl("lon", colnames(focal_points))))) {
+      return(message("Missing longitude column in focal points data set. Please provide a data set with longitude and latitude columns."))
+    } else if (!(any(grepl("lat", colnames(focal_points))))) {
+      return(message("Missing latitude column in focal points data set. Please provide a data set with longitude and latitude columns."))
+    }
     
     # consider focal point distance - if they were provided
     if (!is.null(focal_points)) {

@@ -17,6 +17,13 @@
 #' closest_focal_point(centroids[1, ], capital_cities)
 closest_focal_point <- function(centroid, focal_points) {
   
+  if (!(any(grepl("lon", colnames(focal_points))))) {
+    return(message("Missing longitude column in focal points data set. Please provide a data set with longitude and latitude columns."))
+  } else if (!(any(grepl("lat", colnames(focal_points))))) {
+    return(message("Missing latitude column in focal points data set. Please provide a data set with longitude and latitude columns."))
+  }
+  
+  
   if ("long" %in% colnames(focal_points)) {
     colnames(focal_points)[which(colnames(focal_points) == "long")] <- "longitude"
   }

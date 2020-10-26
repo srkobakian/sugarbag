@@ -30,6 +30,9 @@
 #'   focal_points = capital_cities, verbose = TRUE)
 #' 
 create_hexmap <- function(shp, sf_id, hex_size = NULL, buffer_dist = NULL, hex_filter = 10, f_width = 30, focal_points = NULL, order_sf_id = NULL, export_shp = FALSE, verbose = FALSE) {
+  
+  # Initial checks before beginning the algorithm:
+  # Check type of shape input
   if (!is.null(shp)) {
     if ("SpatialPolygonsDataFrame" %in% class(shp)) {
       shp_sf <- sf::st_as_sf(shp)
@@ -49,9 +52,15 @@ create_hexmap <- function(shp, sf_id, hex_size = NULL, buffer_dist = NULL, hex_f
 
   sf::st_agr(shp_sf) <- "constant"
 
-
-  ###########################################################################
-  # First make sure all levels have been dropped if not being used
+  # Check focal points are in long lat coords
+  
+  if (!(any(grepl("lon", colnames(focal_points))))) {
+    return(message("Missing longitude column in focal points data set. Please provide a data set with longitude and latitude columns."))
+  } else if (!(any(grepl("lat", colnames(focal_points))))) {
+    return(message("Missing latitude column in focal points data set. Please provide a data set with longitude and latitude columns."))
+  }
+  
+  # Make sure all levels have been dropped if not being used
   # Check to be sure column exists
   if (!(sf_id %in% colnames(shp_sf))) {
     return(message("sf_id does not exist in this data set."))
@@ -66,6 +75,7 @@ create_hexmap <- function(shp, sf_id, hex_size = NULL, buffer_dist = NULL, hex_f
   }
 
 
+  ###########################################################################
   # Derive centroids from geometry column, do something about warning message
   centroids <- create_centroids(shp_sf = shp_sf, sf_id = sf_id, verbose = FALSE)
 
