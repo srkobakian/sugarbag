@@ -21,6 +21,7 @@ library(dplyr)
 library(tidyr)
 library(tibble)
 library(ggplot2)
+library(sf)
 ```
 
 
@@ -33,8 +34,18 @@ Tasmania is the southern-most state of Australia, it has one large land mass and
 We will use the Australian Bureau of Statistics' ESRI shape files to build our map.
 
 The set has been filtered for only Tasmanian areas.
-The data set of Tasmanian Statistical Areas at level two has been provided as a package data set, `?tas_sa2`.
+The data set of Tasmanian Statistical Areas at level two has been provided in the `sugarbag` package.
 
+Alternatively the data can be created from the set of Australian areas using the following code:
+
+
+```
+library(absmapsdata)
+absmapsdata::sa22011 %>%
+  filter(state_name_2011 == "Tasmania") %>% 
+  # convert to long lat
+  st_transform(., crs = "+proj=longlat +ellps=GRS80")
+```
 
 ### Centroids
 
