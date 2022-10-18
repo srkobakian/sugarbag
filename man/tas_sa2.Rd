@@ -7,23 +7,23 @@
 \format{
 A simple features data frame with 99 rows and 15 variables:
 \describe{
-\item{SA2_MAIN16}{complete code of the Statistical Area}
-\item{SA2_5DIG16}{simple code for the Statistical Area}
-\item{SA2_NAME16}{name of the Statistical Area}
-\item{SA3_CODE16}{code for the SA3 containing the Statistical Area}
-\item{SA3_NAME16}{name of the SA3 containing the Statistical Area}
-\item{SA4_CODE16}{code for the SA4 containing the Statistical Area}
-\item{SA4_NAME16}{name of the SA4 containing the Statistical Area}
-\item{GCC_CODE16}{code for the Greater Capital City region containing
+\item{sa2_main_2016}{complete code of the Statistical Area}
+\item{sa2_5dig_2016}{simple code for the Statistical Area}
+\item{sa2_name_2016}{name of the Statistical Area}
+\item{sa3_code_2016}{code for the SA3 containing the Statistical Area}
+\item{sa3_name_2016}{name of the SA3 containing the Statistical Area}
+\item{sa4_code_2016}{code for the SA4 containing the Statistical Area}
+\item{sa4_name_2016}{name of the SA4 containing the Statistical Area}
+\item{gcc_code_2016}{code for the Greater Capital City region containing
 the Statistical Area}
-\item{GCC_NAME16}{name of the Greater Capital City region containing
+\item{gcc_name_2016}{name of the Greater Capital City region containing
 the Statistical Area}
-\item{STE_CODE16}{code for the state containing the Statistical Area}
-\item{STE_NAME16}{name of the state containing the Statistical Area}
-\item{AREASQKM16}{area contained in the polygon}
+\item{ste_code_2016}{code for the state containing the Statistical Area}
+\item{ste_name_2016}{name of the state containing the Statistical Area}
+\item{areasqkm_2016}{area contained in the polygon}
 \item{id}{distinguishes SA2 regions}
 \item{population}{amount of people living within the region}
-\item{SA2_CODE16}{code of the Statistical Area}
+\item{sa2_code_2016}{code of the Statistical Area}
 }
 }
 \usage{

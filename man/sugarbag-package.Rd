@@ -6,14 +6,9 @@
 \alias{sugarbag-package}
 \title{sugarbag: Create Tessellated Hexagon Maps}
 \description{
-\if{html}{\figure{logo.png}{options: align='right' alt='logo' width='120'}}
+\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
-Create a hexagon tile map display from spatial polygons. Each 
-    polygon is represented by a hexagon tile, placed as close to it's original
-    centroid as possible, with a focus on maintaining spatial relationship to
-    a focal point. Developed to aid visualisation and analysis of spatial 
-    distributions across Australia, which can be challenging due to the 
-    concentration of the population on the coast and wide open interior.
+Create a hexagon tile map display from spatial polygons. Each polygon is represented by a hexagon tile, placed as close to it's original centroid as possible, with a focus on maintaining spatial relationship to a focal point. Developed to aid visualisation and analysis of spatial distributions across Australia, which can be challenging due to the concentration of the population on the coast and wide open interior.
 }
 \seealso{
 Useful links:

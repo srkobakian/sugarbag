@@ -7,11 +7,11 @@
 \format{
 A simple features data frame with 39 rows and 6 variables:
 \describe{
-\item{LGA_CODE16}{code for the Local Government Area}
-\item{LGA_NAME16}{name of the Local Government Area}
-\item{STE_CODE16}{code for the state containing the Local Government Area}
-\item{STE_NAME16}{name of the state containing the Local Government Area}
-\item{AREA_SQKM}{area contained in the polygon}
+\item{lga_code_2016}{code for the Local Government Area}
+\item{lga_name_2016}{name of the Local Government Area}
+\item{ste_code_2016}{code for the state containing the Local Government Area}
+\item{ste_name_2016}{name of the state containing the Local Government Area}
+\item{areasqkm_2016}{area contained in the polygon}
 \item{geometry}{describes where on Earth the polygon is located}
 }
 }

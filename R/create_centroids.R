@@ -11,7 +11,7 @@
 #' @export
 #'
 #' @examples
-#' centroids <- create_centroids(tas_lga, "LGA_CODE16")
+#' centroids <- create_centroids(tas_lga, "lga_code_16")
 create_centroids <- function(shp_sf, sf_id, largest = TRUE, verbose = FALSE) {
   if (verbose) {
     message("Deriving polygon centroids")

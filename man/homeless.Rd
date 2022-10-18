@@ -8,7 +8,7 @@
 A data frame with 545 rows and 2 variables:
 \describe{
 \item{homeless}{amount of homeless people}
-\item{SA2_NAME16}{name of the Statistical Area at Level 2}
+\item{sa2_name_2016}{name of the Statistical Area at Level 2}
 }
 }
 \usage{

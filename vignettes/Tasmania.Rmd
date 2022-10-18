@@ -40,9 +40,9 @@ Alternatively the data can be created from the set of Australian areas using the
 
 
 ```
-library(absmapsdata)
-absmapsdata::sa22011 %>%
-  filter(state_name_2011 == "Tasmania") %>% 
+library(strayr)
+strayr::sa22016 %>%
+  filter(state_name_2016 == "Tasmania") %>% 
   # convert to long lat
   st_transform(., crs = "+proj=longlat +ellps=GRS80")
 ```
@@ -53,7 +53,7 @@ The function `create_centroids` finds the central points of the polygons provide
 
 ```{r centroids}
 # Find the longitude and latitude centroid for each region or area
-centroids <- create_centroids(tas_sa2, sf_id = "SA2_NAME16")
+centroids <- create_centroids(tas_sa2, sf_id = "sa2_name_2016")
 ```
 
 ### Hexagon grid
@@ -77,7 +77,7 @@ The `allocate` function requires two inputs, the centroids and the grid.
 # Allocate the centroids to the hexagon grid
 # We have the same amount of rows, as individual regions
 hex_allocated <- allocate(centroids = centroids,
-                          sf_id = "SA2_NAME16",
+                          sf_id = "sa2_name_2016",
                           hex_grid = grid,
                           hex_size = 0.2, # same size used in create_grid
                           hex_filter = 10,
@@ -94,16 +94,16 @@ For animations to move between geography and hexagons the `sf_id` must match, th
 
 ```{r ggplot}
 hexagons <- hex_allocated %>%
-  fortify_hexagon(hex_size = 0.2, sf_id = "SA2_NAME16") %>%
+  fortify_hexagon(hex_size = 0.2, sf_id = "sa2_name_2016") %>%
   left_join(., tas_sa2) %>% 
   mutate(poly_type = "hex")
 
 polygons <- fortify_sfc(tas_sa2) %>% 
   mutate(poly_type = "geo")
 
-ggplot(mapping = aes(fill = SA4_NAME16)) +
-  geom_polygon(data = polygons, aes(x=long, lat, group = interaction(SA2_NAME16,polygon)), alpha = 0.4) +
-  geom_polygon(data = hexagons, aes(x=long, lat, group = interaction(SA2_NAME16))) + scale_fill_viridis_d()
+ggplot(mapping = aes(fill = sa4_name_2016)) +
+  geom_polygon(data = polygons, aes(x=long, lat, group = interaction(sa2_name_2016,polygon)), alpha = 0.4) +
+  geom_polygon(data = hexagons, aes(x=long, lat, group = interaction(sa2_name_2016))) + scale_fill_viridis_d()
 ```
 
 
@@ -111,17 +111,16 @@ ggplot(mapping = aes(fill = SA4_NAME16)) +
 
 ```{r prepareanimation}
 hexagon_points <- hexagons %>% 
-  select(SA4_NAME16, SA2_NAME16, 	
-SA2_NAME16, long, lat, poly_type) %>% 
-  left_join(polygons %>% distinct(SA2_NAME16, polygon), by = "SA2_NAME16")
+  select(sa4_name_2016, sa2_name_2016, 	
+sa2_name_2016, long, lat, poly_type) %>% 
+  left_join(polygons %>% distinct(sa2_name_2016, polygon), by = "sa2_name_2016")
 polygon_points <- polygons %>% 
-  select(SA4_NAME16, SA2_NAME16, 	
-SA2_NAME16, long, lat, polygon, poly_type)
+  select(sa4_name_2016, sa2_name_2016, long, lat, polygon, poly_type)
 animate_tas <- bind_rows(hexagon_points, polygon_points) %>% left_join(homeless)
 
 animate_tas %>% 
-  ggplot(aes(x=long, y=lat, group = interaction(polygon, SA2_NAME16))) +
-  geom_polygon(aes(fill = SA4_NAME16)) +
+  ggplot(aes(x=long, y=lat, group = interaction(polygon, sa2_name_2016))) +
+  geom_polygon(aes(fill = sa4_name_2016)) +
   geom_polygon(data = polygon_points %>% select(-poly_type), fill = "grey40", alpha = 0.05) + 
   coord_equal() + 
   theme_void() + 
@@ -131,12 +130,20 @@ animate_tas %>%
   scale_fill_viridis_d()
 ```
 
+Creating an animation requires additional packages.
+
+Consider installing:
+- the `transformr` package to tween (go between) polygons
+- the `gifski` package for gif output
+- the `ava` package for video output
+
 ```{r createanimation, eval = FALSE}
 library(gganimate)
+library(transformr)
 
 animation <- animate_tas %>% 
-  ggplot(aes(x=long, y=lat, group = interaction(polygon, SA2_NAME16))) +
-  geom_polygon(aes(fill = SA4_NAME16)) +
+  ggplot(aes(x=long, y=lat, group = interaction(polygon, sa2_name_2016))) +
+  geom_polygon(aes(fill = sa4_name_2016)) +
   geom_polygon(data = polygon_points %>% select(-poly_type), fill = "grey40", alpha = 0.05) + 
   coord_equal() + 
   theme_void() + 
