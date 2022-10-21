@@ -9,13 +9,13 @@
 #'
 #' @examples
 #' # Create centroids set
-#' centroids <- create_centroids(tas_lga, "LGA_CODE16")
+#' centroids <- create_centroids(tas_lga, "lga_code_2016")
 #' # Create hexagon location grid
 #' grid <- create_grid(centroids = centroids, hex_size = 0.2, buffer_dist = 1.2)
 #' # Allocate polygon centroids to hexagon grid points
 #' allocated <- allocate(
 #'   centroids = centroids,
-#'   sf_id = "LGA_CODE16",
+#'   sf_id = "lga_code_2016",
 #'   hex_grid = grid,
 #'   hex_size = 0.2, # same size used in create_grid
 #'   hex_filter = 1,
@@ -24,7 +24,7 @@
 #'   verbose = TRUE
 #' )
 #' # same column used in create_centroids
-#' fortify_hexagon(data = allocated, sf_id = "LGA_CODE16", hex_size = 0.2)
+#' fortify_hexagon(data = allocated, sf_id = "lga_code_2016", hex_size = 0.2)
 fortify_hexagon <- function(data, sf_id, hex_size) {
   
   

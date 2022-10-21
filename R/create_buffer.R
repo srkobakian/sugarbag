@@ -14,7 +14,7 @@
 #' @return data frame of hexagon centroids
 #'
 #' @examples
-#' lga_centroids <- create_centroids(sugarbag::tas_lga, "LGA_CODE16")
+#' lga_centroids <- create_centroids(sugarbag::tas_lga, "lga_code_2016")
 #' lga_grid <- create_grid(lga_centroids, hex_size = 0.2, buffer_dist = 1.2)
 #' 
 create_buffer <- function(centroids, grid, hex_size, buffer_dist, verbose = FALSE) {

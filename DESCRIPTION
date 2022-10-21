@@ -32,6 +32,5 @@ Suggests:
     knitr,
     pkgdown,
     rmarkdown,
-    spData,
     testthat (>= 2.1.0)
 VignetteBuilder: knitr

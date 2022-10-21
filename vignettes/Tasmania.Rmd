@@ -116,7 +116,9 @@ sa2_name_2016, long, lat, poly_type) %>%
   left_join(polygons %>% distinct(sa2_name_2016, polygon), by = "sa2_name_2016")
 polygon_points <- polygons %>% 
   select(sa4_name_2016, sa2_name_2016, long, lat, polygon, poly_type)
-animate_tas <- bind_rows(hexagon_points, polygon_points) %>% left_join(homeless)
+
+animate_tas <- bind_rows(hexagon_points, polygon_points) %>%
+  left_join(homeless, by = "sa2_name_2016")
 
 animate_tas %>% 
   ggplot(aes(x=long, y=lat, group = interaction(polygon, sa2_name_2016))) +
