@@ -1,3 +1,7 @@
+# sugarbag 0.1.4
+
+* Update source of data files and documentation to html5
+
 # sugarbag 0.1.3
 
 * Refactor for the dplyr update to version 1.0.2

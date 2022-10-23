@@ -20,7 +20,7 @@ point. Return the name of the focal point, and the angle between focal point and
 }
 \examples{
 # Create a set of polygon centroids
-centroids <- create_centroids(tas_sa2, "SA2_5DIG16")
+centroids <- create_centroids(tas_sa2, "sa2_5dig_2016")
 
 # Find the closest capital city for the first centroid
 closest_focal_point(centroids[1, ], capital_cities)

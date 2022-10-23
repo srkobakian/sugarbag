@@ -45,7 +45,7 @@ spanning the longitudes and latitudes in the expanded bounding box.
 }
 \examples{
 # Create centroids set
-centroids <- create_centroids(tas_lga, sf_id = "LGA_CODE16")
+centroids <- create_centroids(tas_lga, sf_id = "lga_code_2016")
 # Create hexagon location grid
 data(capital_cities)
 grid <- create_grid(centroids = centroids, hex_size = 0.2, buffer_dist = 1.2)
@@ -60,6 +60,6 @@ hex_allocated <- allocate(
 )
 # same column used in create_centroids
 # create a set of hexagon points for plotting
-fort_hex <- fortify_hexagon(data = hex_allocated, sf_id = "LGA_CODE16", hex_size = 0.2)
+fort_hex <- fortify_hexagon(data = hex_allocated, sf_id = "lga_code_2016", hex_size = 0.2)
 # plot the hexagons
 }
