@@ -27,7 +27,7 @@ longitudes and latitudes to create points for each polygon to be allocated
 to that will tessellate into hexagons.
 }
 \examples{
-lga_centroids <- create_centroids(sugarbag::tas_lga, "LGA_CODE16")
+lga_centroids <- create_centroids(sugarbag::tas_lga, "lga_code_2016")
 lga_grid <- create_grid(lga_centroids, hex_size = 0.2, buffer_dist = 1.2)
 
 }
