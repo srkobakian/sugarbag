@@ -58,6 +58,20 @@
 #' }
 "tas_lga"
 
+#' The hexagon centres for polygons of Tasmanian Local Government Areas in 2016.
+#'
+#' A tibble dataset containing the processed data for all Australian LGAs in
+#' 2016. Each point corresponds to hexagon centre.
+#'
+#' @format A simple features data frame with 39 rows and 6 variables:
+#' \describe{
+#'   \item{lga_code_2016}{code for the Local Government Area}
+#'   \item{longitude, latitude}{polygon centroid}
+#'   \item{points, focal_longitude, focal_latitude, focal_dist, focal_angle}{Focal point (capital city) information used for each polygon/hexagon}
+#'   \item{rownumber}{row number, in case it can be useful}
+#'   \item{hex_long, hex_lat, hex_id}{hexagon centre and id}
+#' }
+"tas_lga_hexctr"
 
 #' The amount of homeless people in each Statistical Area at Level 2 in 2016.
 #'

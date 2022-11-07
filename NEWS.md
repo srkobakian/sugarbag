@@ -1,3 +1,7 @@
+# sugarbag 0.1.5
+
+* Update examples to run on win in <5s
+
 # sugarbag 0.1.4
 
 * Update source of data files and documentation to html5

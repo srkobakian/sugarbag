@@ -22,12 +22,16 @@
 #'
 #' @examples
 #' 
-#' data(tas_sa2)
+#' data(tas_lga)
+#' # Smaller set for faster example
+#' tas_lga_sub <- tas_lga[1:10,] 
 #' data(capital_cities)
 #' hexmap <- create_hexmap(
-#'   shp = tas_lga,
+#'   shp = tas_lga_sub,
 #'   sf_id = "lga_code_2016",
-#'   focal_points = capital_cities, verbose = TRUE)
+#'   hex_filter = 3,
+#'   focal_points = capital_cities, 
+#'   verbose = TRUE)
 #' 
 create_hexmap <- function(shp, sf_id, hex_size = NULL, buffer_dist = NULL, hex_filter = 10, f_width = 30, focal_points = NULL, order_sf_id = NULL, export_shp = FALSE, verbose = FALSE) {
   

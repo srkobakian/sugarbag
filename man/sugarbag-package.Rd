@@ -19,11 +19,11 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Stephanie Kobakian \email{stephanie.kobakian@gmail.com}
+\strong{Maintainer}: Dianne Cook \email{dicook@monash.edu} [thesis advisor]
 
 Authors:
 \itemize{
-  \item Dianne Cook [thesis advisor]
+  \item Stephanie Kobakian
 }
 
 }

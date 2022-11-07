@@ -50,11 +50,15 @@ the geographic shape of each area is lost.
 }
 \examples{
 
-data(tas_sa2)
+data(tas_lga)
+# Smaller set for faster example
+tas_lga_sub <- tas_lga[1:10,] 
 data(capital_cities)
 hexmap <- create_hexmap(
-  shp = tas_lga,
+  shp = tas_lga_sub,
   sf_id = "lga_code_2016",
-  focal_points = capital_cities, verbose = TRUE)
+  hex_filter = 3,
+  focal_points = capital_cities, 
+  verbose = TRUE)
 
 }
