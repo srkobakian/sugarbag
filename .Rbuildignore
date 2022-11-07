@@ -13,4 +13,4 @@ docs/*
 ^cran-comments\.md$
 ^CRAN-RELEASE$
 ^CRAN-SUBMISSION$
-inst/sticker
+inst/sticker$
