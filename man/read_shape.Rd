@@ -21,8 +21,8 @@ an sf data frame, with a column of non null geometries
 read_shape
 }
 \examples{
-\dontrun{
-# Find the location of shape data
+\donttest{
+# Example of how a shape file is read
 shape <- read_shape(shp_path = file.choose())
 }
 

@@ -11,8 +11,8 @@
 #' @export
 #'
 #' @examples
-#' \dontrun{
-#' # Find the location of shape data
+#' \donttest{
+#' # Example of how a shape file is read
 #' shape <- read_shape(shp_path = file.choose())
 #' }
 #' 
@@ -33,7 +33,7 @@ read_shape <- function(shp_path, simplify = TRUE, keep = 0.1) {
     if (extn == "shp") {
       shp <- tryCatch(
         expr = sf::st_read(shp_path),
-        error = function(e) print("Argument for shp could not be read as sf object.")
+        error = function(e) message("Argument for shp could not be read as sf object.")
       )
       shp_obs <- nrow(shp)
       # Simplify polygons to have less detail

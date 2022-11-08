@@ -1,3 +1,8 @@
+# sugarbag 0.1.6
+
+* Changed one print statement to message, at request of CRAN
+* Removed dontrun example
+
 # sugarbag 0.1.5
 
 * Update examples to run on win in <5s

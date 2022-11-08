@@ -12,7 +12,7 @@ find_lat_group <- function(data, hull_points, buffer_dist) {
 
   # when latitude is within convex hull
   if (NROW(lat_hull) > 0) {
-    print("Found match")
+    message("Found match")
     # algebra to find long for minimum:
     # ensure very small gradients do not affect divisions
     min_long <- lat_hull[which.min(lat_hull$latitude), ] %>%
