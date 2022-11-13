@@ -6,6 +6,10 @@ reference:
   contents:
   - '`capital_cities`'
   - '`tas_sa2`'
+  - '`fp19`'
+  - '`homeless`'
+  - '`tas_lga`'
+  - '`tas_lga_hexctr`'
 - title: Core Functions
   desc: Functions used to create a tessellated hexagon map
   contents:
@@ -14,13 +18,14 @@ reference:
   - '`closest_focal_point`'
   - '`create_grid`'
   - '`allocate`'
+  - '`create_buffer`'
+  - '`filter_grid_points`'
 - title: Helper Functions
   desc: Functions used to manipulate data
   contents:
   - '`read_shape`'
   - '`fortify_hexagon`'
   - '`fortify_sfc`'
-
 
 navbar:
   type: default

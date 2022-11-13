@@ -6,25 +6,34 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Create Tessellated Hexagon Maps • sugarbag</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
+<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="apple-touch-icon.png">
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="apple-touch-icon-60x60.png">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="bootstrap-toc.css">
+<script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><meta property="og:title" content="Create Tessellated Hexagon Maps">
-<meta property="og:description" content="Create a hexagon tilegram from spatial polygons. Each polygon is
-    represented by a hexagon tile, placed as close to it's original centroid
-    as possible, with a focus on maintaining spatial relationship to a focal
-    point. Developed to aid visualisation and analysis of spatial distributions
-    across Australia, which can be challenging due to the concentration of the
-    population on the coast and wide open interior.">
+<meta property="og:description" content="Create a hexagon tile map display from spatial polygons. Each 
+    polygon is represented by a hexagon tile, placed as close to it's original
+    centroid as possible, with a focus on maintaining spatial relationship to
+    a focal point. Developed to aid visualisation and analysis of spatial 
+    distributions across Australia, which can be challenging due to the 
+    concentration of the population on the coast and wide open interior.">
 <meta property="og:image" content="/logo.png">
-<meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
-<body>
-    <div class="container template-article">
+<body data-spy="scroll" data-target="#toc">
+    
+
+    <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
@@ -36,7 +45,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">sugarbag</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.6</span>
       </span>
     </div>
 
@@ -46,7 +55,7 @@
   <a href="reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Vignettes
      
     <span class="caret"></span>
@@ -80,170 +89,164 @@
 <!--/.navbar -->
 
       
-      </header><div class="row">
-  <div class="col-md-9 contents">
-    
 
-    
-    
-<!-- README.md is generated from this README.Rmd. Please edit this file -->
-<div id="sugarbag" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#sugarbag" class="anchor"></a>sugarbag <img src="reference/figures/logo.png" align="right" height="138.5">
+      </header><div class="row">
+  <div class="contents col-md-9">
+<div class="section level1">
+<div class="page-header"><h1 id="sugarbag-">sugarbag <img src="reference/figures/logo.png" align="right" height="138.5"><a class="anchor" aria-label="anchor" href="#sugarbag-"></a>
 </h1></div>
 
-<p>The <strong>sugarbag</strong> package creates tessellated hexagon maps for visualising geo-spatial data. Hexagons of equal size are positioned to best preserve relationships between individual areas and the closest focal point, and minimise distance from their actual location. This method allows all regions to be compared on the same visual scale, and provides an alternative to cartograms.</p>
+<p>The <strong>sugarbag</strong> package creates tessellated hexagon maps for visualising geo-spatial data. Hexagons of equal size are positioned to best preserve relationships between individual areas and the closest focal point, and minimise distance from their actual location. This method provides an alternative to cartograms that allows all regions to be compared on the same visual scale.</p>
 <p>Maps containing regions with a few small and densely populated areas are extremely distorted in cartograms. An example of this is a population cartogram of Australia, which distorts the map into an unrecognisable shape. The technique implemented in this package is particularly useful for these regions.</p>
-<div id="installation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h2>
-<p>You can install the released version of sugarbag from <a href="https://CRAN.R-project.org">CRAN</a> with:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="co"># install.packages("sugarbag")</span></a></code></pre></div>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
+<p>You can install the CRAN release version of sugarbag from <a href="https://CRAN.R-project.org" class="external-link">CRAN</a> with:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># install.packages("sugarbag")</span></span></code></pre></div>
 <p>You can install the development version from GitHub using:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="co"># install.packages("remotes")</span></a>
-<a class="sourceLine" id="cb2-2" title="2"><span class="co"># remotes::install_github("srkobakian/sugarbag")</span></a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
+<span><span class="co"># remotes::install_github("srkobakian/sugarbag")</span></span></code></pre></div>
 </div>
-<div id="getting-started" class="section level2">
-<h2 class="hasAnchor">
-<a href="#getting-started" class="anchor"></a>Getting started</h2>
-<p>Refer to pkgdown site: <a href="https://srkobakian.github.io/sugarbag/" class="uri">https://srkobakian.github.io/sugarbag/</a></p>
-<p>We will use the <code>eechidna</code> package for Australian electorates and election data.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(sugarbag)</a>
-<a class="sourceLine" id="cb3-2" title="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(eechidna)</a></code></pre></div>
-<p>The create_centroids function may have been used to find centroid for each area. Instead we use the eechidna package. This has been derived already and is stored in nat_data16.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="co"># Find the longitude and latitude centroid for each region or area</span></a>
-<a class="sourceLine" id="cb4-2" title="2">centroids &lt;-<span class="st"> </span>nat_data16 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(elect_div, <span class="dt">longitude =</span> long_c, <span class="dt">latitude =</span> lat_c)</a></code></pre></div>
-<p>The <code>sugarbag</code> package operates by creating a grid of possible hexagons to allocate electorates. The buffer extends the grid beyond the geographical space, this is especially useful for densely populated coastal areas or cities, such as Brisbane and Sydney.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="co"># Create a grid of hexagons to allocate centroids</span></a>
-<a class="sourceLine" id="cb5-2" title="2">grid &lt;-<span class="st"> </span><span class="kw"><a href="reference/create_grid.html">create_grid</a></span>(<span class="dt">centroids =</span> centroids, <span class="dt">hex_size =</span> <span class="fl">0.9</span>, <span class="dt">buffer_dist =</span> <span class="dv">5</span>)</a></code></pre></div>
-<p>The two key pieces, the centroids and the grid can be used by the <code>allocate</code> function.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="co"># Allocate the centroids to the hexagon grid</span></a>
-<a class="sourceLine" id="cb6-2" title="2"><span class="co"># We have the same amount of rows, as individual regions</span></a>
-<a class="sourceLine" id="cb6-3" title="3">hex_allocated &lt;-<span class="st"> </span><span class="kw"><a href="reference/allocate.html">allocate</a></span>(<span class="dt">centroids =</span> centroids,</a>
-<a class="sourceLine" id="cb6-4" title="4">  <span class="dt">sf_id =</span> <span class="st">"elect_div"</span>,</a>
-<a class="sourceLine" id="cb6-5" title="5">  <span class="dt">hex_grid =</span> grid,</a>
-<a class="sourceLine" id="cb6-6" title="6">  <span class="dt">hex_size =</span> <span class="fl">0.9</span>, <span class="co"># same size used in create_grid</span></a>
-<a class="sourceLine" id="cb6-7" title="7">  <span class="dt">hex_filter =</span> <span class="dv">10</span>,</a>
-<a class="sourceLine" id="cb6-8" title="8">  <span class="dt">focal_points =</span> capital_cities,</a>
-<a class="sourceLine" id="cb6-9" title="9">  <span class="dt">width =</span> <span class="dv">30</span>, <span class="dt">verbose =</span> <span class="ot">TRUE</span>) <span class="co"># same column used in create_centroids</span></a></code></pre></div>
-<p>New England was located quite far from the focal point. Due to this it was placed in an unfortunate position. We can find where we would like to place it by finding neighbouring electorates and looking at their hexagon locations.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="co"># Move hexagons if not placed in desirable hexagon tile</span></a>
-<a class="sourceLine" id="cb7-2" title="2">hex_allocated &lt;-<span class="st"> </span>hex_allocated <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">hex_long =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/ifelse">ifelse</a></span>(elect_div <span class="op">==</span><span class="st"> "NEW ENGLAND"</span>, <span class="fl">150.6779</span> <span class="op">+</span><span class="st"> </span><span class="fl">0.45</span>, hex_long),</a>
-<a class="sourceLine" id="cb7-3" title="3">  <span class="dt">hex_lat =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/ifelse">ifelse</a></span>(elect_div <span class="op">==</span><span class="st"> "NEW ENGLAND"</span>, <span class="fl">-30.31636</span> <span class="fl">+0.9</span>, hex_lat))</a></code></pre></div>
+<div class="section level2">
+<h2 id="getting-started">Getting started<a class="anchor" aria-label="anchor" href="#getting-started"></a>
+</h2>
+</div>
+<div class="section level2">
+<h2 id="creating-a-hexagon-map-of-tasmania">Creating a hexagon map of Tasmania<a class="anchor" aria-label="anchor" href="#creating-a-hexagon-map-of-tasmania"></a>
+</h2>
+<p>Tasmania is the southern-most state of Australia, it has one large land mass and several smaller islands.</p>
+<div class="section level3">
+<h3 id="data">Data<a class="anchor" aria-label="anchor" href="#data"></a>
+</h3>
+<p>We will use the Australian Bureau of Statistics’ ESRI shape files to build our map.</p>
+<p>The set has been filtered for only Tasmanian areas. The data set of Tasmanian Statistical Areas at level two has been provided as a package data set, <code><a href="reference/tas_sa2.html">?tas_sa2</a></code>.</p>
+</div>
+<div class="section level3">
+<h3 id="centroids">Centroids<a class="anchor" aria-label="anchor" href="#centroids"></a>
+</h3>
+<p>The function <code>create_centroids</code> finds the central points of the polygons provided as an argument.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://srkobakian.github.io/sugarbag/" class="external-link">sugarbag</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/" class="external-link">tibble</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jrnold/ggthemes" class="external-link">ggthemes</a></span><span class="op">)</span></span>
+<span><span class="co"># Find the longitude and latitude centroid for each region or area</span></span>
+<span><span class="va">centroids</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_centroids.html">create_centroids</a></span><span class="op">(</span><span class="va">tas_lga</span>, <span class="st">"lga_code_2016"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="hexagon-grid">Hexagon grid<a class="anchor" aria-label="anchor" href="#hexagon-grid"></a>
+</h3>
+<p>To tessellate correctly, all the hexagons must be evenly spaced. This function creates a grid of possible locations for the polygons.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">grid</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_grid.html">create_grid</a></span><span class="op">(</span>centroids <span class="op">=</span> <span class="va">centroids</span>, hex_size <span class="op">=</span> <span class="fl">0.2</span>, buffer_dist <span class="op">=</span> <span class="fl">1.2</span><span class="op">)</span></span></code></pre></div>
+<p>The <code>sugarbag</code> package operates by creating a grid of possible hexagons to allocate electorates. The buffer extends the grid beyond the geographical space, this is especially useful for densely populated coastal areas or cities, such as Brisbane and Sydney in this case, Hobart.</p>
+</div>
+<div class="section level3">
+<h3 id="allocate-areas">Allocate areas<a class="anchor" aria-label="anchor" href="#allocate-areas"></a>
+</h3>
+<p>Each polygon centroid will be allocated to the closest available hexagon grid point. The capital cities data set will be used to preserve neighbourly relationships. The <code>allocate</code> function requires two inputs, the centroids and the grid.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Allocate the centroids to the hexagon grid</span></span>
+<span><span class="co"># We have the same amount of rows, as individual regions</span></span>
+<span><span class="va">hex_allocated</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/allocate.html">allocate</a></span><span class="op">(</span></span>
+<span>  centroids <span class="op">=</span> <span class="va">centroids</span>,</span>
+<span>  hex_grid <span class="op">=</span> <span class="va">grid</span>,</span>
+<span>  hex_size <span class="op">=</span> <span class="fl">0.2</span>, <span class="co"># same size used in create_grid</span></span>
+<span>  hex_filter <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>  focal_points <span class="op">=</span> <span class="va">capital_cities</span>,</span>
+<span>  width <span class="op">=</span> <span class="fl">30</span>, </span>
+<span>  verbose <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p>The function <code>fortify_hexagon</code> assists in plotting. We now have 6 points per region, one for each point of a hexagon. Connecting these points will allow actual hexagons to be plotted.</p>
 <p>The additional demographic information or data can now be added. This can be used to allow plots to be coloured by region.</p>
 <p>For animations to move between geography and hexagons the <code>sf_id</code> must match, there also needs to be an identifier to separate the states to animate between for <code>gganimate</code>.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">h1 &lt;-<span class="st"> </span>hex_allocated <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb8-2" title="2"><span class="st">  </span><span class="kw"><a href="reference/fortify_hexagon.html">fortify_hexagon</a></span>(<span class="dt">hex_size =</span> <span class="fl">0.9</span>, <span class="dt">sf_id =</span> <span class="st">"elect_div"</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb8-3" title="3"><span class="st">  </span><span class="kw">left_join</span>(nat_data16, <span class="dt">by =</span> <span class="st">"elect_div"</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">poly_type =</span> <span class="st">"hex"</span>)</a>
-<a class="sourceLine" id="cb8-4" title="4"></a>
-<a class="sourceLine" id="cb8-5" title="5"><span class="co"># When plotting, the polygons are needed, rather than single centroid points.</span></a>
-<a class="sourceLine" id="cb8-6" title="6"><span class="co"># We can apply the same function as above, to find 6 points per centroid</span></a>
-<a class="sourceLine" id="cb8-7" title="7">p1 &lt;-<span class="st"> </span>nat_data16 <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb8-8" title="8"><span class="st">  </span><span class="kw">select</span>(elect_div, <span class="dt">hex_long =</span> long_c, <span class="dt">hex_lat =</span> lat_c) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb8-9" title="9"><span class="st">  </span><span class="kw"><a href="reference/fortify_hexagon.html">fortify_hexagon</a></span>(<span class="dt">hex_size =</span> <span class="fl">0.1</span>, <span class="dt">sf_id =</span> <span class="st">"elect_div"</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb8-10" title="10"><span class="st">  </span><span class="kw">left_join</span>(nat_data16, <span class="dt">by =</span> <span class="st">"elect_div"</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb8-11" title="11"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">poly_type =</span> <span class="st">"geo"</span>)</a>
-<a class="sourceLine" id="cb8-12" title="12"></a>
-<a class="sourceLine" id="cb8-13" title="13">hex_anim &lt;-<span class="st"> </span>h1 <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb8-14" title="14"><span class="st">  </span><span class="kw">select</span>(state, elect_div, long, lat, <span class="dt">id =</span> id.x, poly_type, focal_dist) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb8-15" title="15"><span class="st">  </span><span class="kw">left_join</span>(p1 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">distinct</span>(elect_div, polygon), <span class="dt">by =</span> <span class="st">"elect_div"</span>)</a>
-<a class="sourceLine" id="cb8-16" title="16"><span class="co">#&gt; Warning: Trying to compute distinct() for variables not found in the data:</span></a>
-<a class="sourceLine" id="cb8-17" title="17"><span class="co">#&gt; - `polygon`</span></a>
-<a class="sourceLine" id="cb8-18" title="18"><span class="co">#&gt; This is an error, but only a warning is raised for compatibility reasons.</span></a>
-<a class="sourceLine" id="cb8-19" title="19"><span class="co">#&gt; The following variables will be used:</span></a>
-<a class="sourceLine" id="cb8-20" title="20"><span class="co">#&gt; - elect_div</span></a>
-<a class="sourceLine" id="cb8-21" title="21">geo_anim &lt;-<span class="st"> </span>p1 <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb8-22" title="22"><span class="st">  </span><span class="kw">select</span>(elect_div, long, lat, poly_type)</a>
-<a class="sourceLine" id="cb8-23" title="23">anim_aus &lt;-<span class="st"> </span><span class="kw">bind_rows</span>(hex_anim, geo_anim)</a>
-<a class="sourceLine" id="cb8-24" title="24"></a>
-<a class="sourceLine" id="cb8-25" title="25"><span class="co"># Join election data from 2016</span></a>
-<a class="sourceLine" id="cb8-26" title="26">anim_aus &lt;-<span class="st"> </span>anim_aus <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb8-27" title="27"><span class="st">  </span><span class="kw">left_join</span>(fp16 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/filter">filter</a></span>(Elected <span class="op">==</span><span class="st"> "Y"</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(<span class="dt">elect_div =</span> DivisionNm, PartyAb, PartyNm, Percent), <span class="dt">by =</span> <span class="st">"elect_div"</span>)</a></code></pre></div>
-<p>Here we show the two sets of areas they can be plotted separately using <code>geom_facet</code>.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1">auscolours &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(</a>
-<a class="sourceLine" id="cb9-2" title="2">  <span class="st">"ALP"</span> =<span class="st"> "#DE3533"</span>,</a>
-<a class="sourceLine" id="cb9-3" title="3">  <span class="st">"LNP"</span> =<span class="st"> "#080CAB"</span>,</a>
-<a class="sourceLine" id="cb9-4" title="4">  <span class="st">"KAP"</span> =<span class="st"> "#b50204"</span>,</a>
-<a class="sourceLine" id="cb9-5" title="5">  <span class="st">"GRN"</span> =<span class="st"> "#10C25B"</span>,</a>
-<a class="sourceLine" id="cb9-6" title="6">  <span class="st">"XEN"</span> =<span class="st"> "#ff6300"</span>,</a>
-<a class="sourceLine" id="cb9-7" title="7">  <span class="st">"LNP"</span> =<span class="st"> "#0047AB"</span>,</a>
-<a class="sourceLine" id="cb9-8" title="8">  <span class="st">"IND"</span> =<span class="st"> "#307560"</span>)</a>
-<a class="sourceLine" id="cb9-9" title="9"></a>
-<a class="sourceLine" id="cb9-10" title="10">anim_aus <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb9-11" title="11"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>long, <span class="dt">y=</span>lat, <span class="dt">group =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/interaction">interaction</a></span>(elect_div))) <span class="op">+</span></a>
-<a class="sourceLine" id="cb9-12" title="12"><span class="st">  </span><span class="kw">geom_polygon</span>(<span class="kw">aes</span>(<span class="dt">x=</span>long, <span class="dt">y=</span>lat, <span class="dt">group =</span> group),<span class="dt">fill =</span> <span class="st">"grey"</span>, <span class="dt">alpha =</span> <span class="fl">0.3</span>, <span class="dt">data=</span> nat_map16) <span class="op">+</span></a>
-<a class="sourceLine" id="cb9-13" title="13"><span class="st">  </span><span class="kw">geom_polygon</span>(<span class="kw">aes</span>(<span class="dt">fill =</span> PartyAb)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb9-14" title="14"><span class="st">  </span><span class="kw">coord_equal</span>() <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb9-15" title="15"><span class="st">  </span><span class="kw">theme_void</span>() <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb9-16" title="16"><span class="st">  </span><span class="kw">scale_fill_manual</span>(<span class="dt">values =</span> auscolours) <span class="op">+</span></a>
-<a class="sourceLine" id="cb9-17" title="17"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>poly_type)</a></code></pre></div>
-<p><img src="reference/figures/README-plot_facet-1.png" width="100%"></p>
-<p>We can move between the two plots using the <code>transition_states</code> function from the <code>gganimate</code> package.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(gganimate)</a>
-<a class="sourceLine" id="cb10-2" title="2">anim &lt;-<span class="st"> </span>anim_aus <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb10-3" title="3"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>long, <span class="dt">y=</span>lat, <span class="dt">group =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/interaction">interaction</a></span>(elect_div))) <span class="op">+</span></a>
-<a class="sourceLine" id="cb10-4" title="4"><span class="st">  </span><span class="kw">geom_polygon</span>(<span class="kw">aes</span>(<span class="dt">x=</span>long, <span class="dt">y=</span>lat, <span class="dt">group =</span> group),<span class="dt">fill =</span> <span class="st">"grey"</span>, <span class="dt">alpha =</span> <span class="fl">0.3</span>, <span class="dt">data=</span> nat_map16) <span class="op">+</span></a>
-<a class="sourceLine" id="cb10-5" title="5"><span class="st">  </span><span class="kw">geom_polygon</span>(<span class="kw">aes</span>(<span class="dt">fill =</span> PartyAb)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb10-6" title="6"><span class="st">  </span><span class="kw">coord_equal</span>() <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb10-7" title="7"><span class="st">  </span><span class="kw">theme_void</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb10-8" title="8"><span class="st">  </span><span class="kw">scale_fill_manual</span>(<span class="dt">values =</span> auscolours) <span class="op">+</span></a>
-<a class="sourceLine" id="cb10-9" title="9"><span class="st">  </span><span class="kw">guides</span>(<span class="dt">fill =</span> <span class="kw">guide_legend</span>(<span class="dt">title =</span> <span class="ot">NULL</span>)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb10-10" title="10"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">"bottom"</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb10-11" title="11"><span class="st">  </span><span class="kw">transition_states</span>(poly_type)</a>
-<a class="sourceLine" id="cb10-12" title="12"><span class="kw">animate</span>(anim, <span class="dt">duration =</span> <span class="dv">6</span>, <span class="dt">nframes =</span> <span class="dv">60</span>)</a></code></pre></div>
-<p><img src="reference/figures/README-animated-1.gif" width="100%"></p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">hexagons</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/fortify_hexagon.html">fortify_hexagon</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">hex_allocated</span>, sf_id <span class="op">=</span> <span class="st">"lga_code_2016"</span>, hex_size <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">polygons</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/fortify_sfc.html">fortify_sfc</a></span><span class="op">(</span><span class="va">tas_lga</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>poly_type <span class="op">=</span> <span class="st">"geo"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="va">lga_code_2016</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_polygon.html" class="external-link">geom_polygon</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">polygons</span>, </span>
+<span>               <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">long</span>, <span class="va">lat</span>, </span>
+<span>    group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/interaction.html" class="external-link">interaction</a></span><span class="op">(</span><span class="va">lga_code_2016</span>, <span class="va">polygon</span><span class="op">)</span><span class="op">)</span>, </span>
+<span>               alpha <span class="op">=</span> <span class="fl">0.4</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_polygon.html" class="external-link">geom_polygon</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">hexagons</span>, </span>
+<span>               <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">long</span>, <span class="va">lat</span>, </span>
+<span>    group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/interaction.html" class="external-link">interaction</a></span><span class="op">(</span><span class="va">lga_code_2016</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_fill_viridis_d</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggthemes/man/theme_map.html" class="external-link">theme_map</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span>, aspect.ratio <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-4-1.png" width="100%"></p>
+</div>
 </div>
 </div>
   </div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2>Links</h2>
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=sugarbag">https://​cloud.r-project.org/​package=sugarbag</a>
-</li>
-<li>Browse source code at <br><a href="https://github.com/srkobakian/sugarbag">https://​github.com/​srkobakian/​sugarbag</a>
-</li>
+<li><a href="https://cloud.r-project.org/package=sugarbag" class="external-link">View on CRAN</a></li>
+<li><a href="https://github.com/srkobakian/sugarbag/" class="external-link">Browse source code</a></li>
 </ul>
 </div>
+
 <div class="license">
-<h2>License</h2>
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li><a href="LICENSE.html">Full license</a></li>
-<li><small><a href="https://opensource.org/licenses/mit-license.php">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
+<li><small><a href="https://opensource.org/licenses/mit-license.php" class="external-link">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
 </ul>
 </div>
+
+
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
+<ul class="list-unstyled">
+<li><a href="authors.html#citation">Citing sugarbag</a></li>
+</ul>
+</div>
+
 <div class="developers">
-<h2>Developers</h2>
+<h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li>Stephanie Kobakian <br><small class="roles"> Author, maintainer </small>  </li>
-<li>Dianne Cook <br><small class="roles"> Author, thesis advisor </small>  </li>
+<li>Dianne Cook <br><small class="roles"> Author, maintainer, thesis advisor </small>  </li>
+<li>Stephanie Kobakian <br><small class="roles"> Author </small>  </li>
 </ul>
 </div>
 
-      <div class="dev-status">
-<h2>Dev status</h2>
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://travis-ci.org/srkobakian/sugarbag"><img src="https://travis-ci.org/srkobakian/sugarbag.svg?branch=master" alt="Travis-CI Build Status"></a></li>
-<li><a href="https://cran.r-project.org/package=sugarbag"><img src="http://www.r-pkg.org/badges/version/sugarbag" alt="CRAN_Status_Badge"></a></li>
-<li><a href="https://cran.r-project.org/package=sugarbag"><img src="http://cranlogs.r-pkg.org/badges/sugarbag?color=brightgreen" alt="Downloads"></a></li>
+<li><a href="https://cran.r-project.org/package=sugarbag" class="external-link"><img src="http://www.r-pkg.org/badges/version/sugarbag" alt="CRAN_Status_Badge"></a></li>
+<li><a href="https://cran.r-project.org/package=sugarbag" class="external-link"><img src="http://cranlogs.r-pkg.org/badges/sugarbag?color=brightgreen" alt="Downloads"></a></li>
 </ul>
 </div>
-</div>
 
+  </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by Stephanie Kobakian, Dianne Cook.</p>
+  <p></p>
+<p>Developed by Dianne Cook, Stephanie Kobakian.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
+
       </footer>
 </div>
+
+  
+
 
   
 

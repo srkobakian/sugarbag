@@ -130,7 +130,7 @@ ggplot(mapping = aes(fill = lga_code_2016)) +
     group = interaction(lga_code_2016))) +
   scale_fill_viridis_d() +
   theme_map() +
-  theme(legend.position = "none")
+  theme(legend.position = "none", aspect.ratio = 1)
 ```
 
 <img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" />
