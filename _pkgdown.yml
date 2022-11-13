@@ -34,10 +34,8 @@ navbar:
     href: reference/index.html
   - text: Vignettes
     menu:
-    - text: ABS Data
-      href: articles/abs-data.html
     - text: Tasmania
-      href: articles/tasmania.html
+      href: articles/Tasmania.html
   - text: News
     href: news/index.html
   right:
