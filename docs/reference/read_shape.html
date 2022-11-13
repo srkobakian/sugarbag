@@ -32,10 +32,7 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
-      <a href="../articles/abs-data.html">ABS Data</a>
-    </li>
-    <li>
-      <a href="../articles/tasmania.html">Tasmania</a>
+      <a href="../articles/Tasmania.html">Tasmania</a>
     </li>
   </ul></li>
 <li>
@@ -96,7 +93,7 @@ using rmapshaper, keeping all shapes.</p></dd>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="co"># Example of how a shape file is read</span></span></span>
 <span class="r-in"><span><span class="va">shape</span> <span class="op">&lt;-</span> <span class="fu">read_shape</span><span class="op">(</span>shp_path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.choose.html" class="external-link">file.choose</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in file.path(shp_path):</span> unable to translate ' &lt;f8&gt;&lt;8a&gt;' to UTF-8</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in file.path(shp_path):</span> unable to translate ' (&lt;96&gt;' to UTF-8</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
