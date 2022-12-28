@@ -18,9 +18,10 @@ Depends:
     dplyr (>= 1.0.0)
 Imports: 
     geosphere (>= 1.5),
+    ggplot2,
     progress (>= 1.2.2),
     purrr (>= 0.3.4),
-    rlang  (>= 1.0.4),
+    rlang (>= 1.0.4),
     rmapshaper (>= 0.4.6),
     sf (>= 1.0-8),
     tibble (>= 3.1.7),
@@ -28,7 +29,6 @@ Imports:
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.1
 Suggests: 
-    ggplot2 (>= 3.3.6),
     knitr,
     pkgdown,
     rmarkdown,
