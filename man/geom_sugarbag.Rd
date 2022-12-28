@@ -16,11 +16,7 @@ geom_sugarbag(
 geom_sugarbag
 }
 \examples{
-
-tas_lga \%>\% 
-  ggplot(aes(fill = lga_name_2016)) +
-  geom_sf(alpha = 0.1) +
-  geom_sugarbag(aes(geometry = geometry)) +
-  theme(legend.position = "none")
-
+\donttest{
+library(ggplot2)
+}
 }

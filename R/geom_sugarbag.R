@@ -1,19 +1,22 @@
 #' @examples 
-#' 
-#' tas_lga %>% 
-#'   ggplot(aes(fill = lga_name_2016)) +
-#'   geom_sf(alpha = 0.1) +
-#'   geom_sugarbag(aes(geometry = geometry)) +
-#'   theme(legend.position = "none")
-#' 
-#' @importFrom ggplot2 ggproto aes Stat
+#' \donttest{
+#' library(ggplot2)
+#  tas_lga %>%
+#   ggplot(aes(fill = lga_name_2016)) +
+#   geom_sf(alpha = 0.1) +
+#   geom_sugarbag(aes(geometry = geometry)) +
+#   theme(legend.position = "none")
+#' }
+#' @import ggplot2
+#' @export
 #' @title geom_sugarbag
+
 geom_sugarbag <- function(mapping = NULL,
                           data = NULL,
                           stat = "sugarbag",
                           position = "identity",
                           ...) {
-  ggplot2::layer(
+  layer(
     data = data,
     mapping = mapping,
     stat = stat,
@@ -24,16 +27,16 @@ geom_sugarbag <- function(mapping = NULL,
 }
 
 
-StatSugarbag <- ggplot2::ggproto("StatSugarbag",
+StatSugarbag <- ggproto("StatSugarbag",
                         Stat,
                         compute_group = function(data, scales) {
-                          
+
                         },
                         compute_panel = function(data, scales) {
                           data <- sf::st_as_sf(data)
                           out <- make_sugarbag_df(data)
                           out %>%
-                            select(-group) %>% 
+                            select(-group) %>%
                             rename(x = long,
                                    y = lat,
                                    group = sf_id)
@@ -58,7 +61,7 @@ stat_sugarbag <- function(mapping = NULL,
                           show.legend = NA,
                           inherit.aes = TRUE,
                           ...) {
-  ggplot2::layer(
+  layer(
     stat = StatSugarbag,
     data = data,
     mapping = mapping,
@@ -70,16 +73,16 @@ stat_sugarbag <- function(mapping = NULL,
   )
 }
 
-GeomSugarbag <- ggplot2::ggproto(
+GeomSugarbag <- ggproto(
   "GeomSugarbag",
-  ggplot2::Geom,
+  Geom,
   setup_data = function(data, params) {
-    ggplot2::GeomPolygon$setup_data(data, params)
+    GeomPolygon$setup_data(data, params)
   },
   draw_group = function(data,
                         panel_params,
                         coord) {
-    ggplot2::GeomPolygon$draw_panel(
+    GeomPolygon$draw_panel(
       data,
       panel_params,
       coord
@@ -87,7 +90,7 @@ GeomSugarbag <- ggplot2::ggproto(
   },
   draw_key = ggplot2::draw_key_polygon,
   default_aes = aes(
-    fill = ggplot2::GeomPolygon$default_aes$fill,
+    fill = GeomPolygon$default_aes$fill,
     size = 0.2,
     linewidth = 0.2,
     linetype = 1,
@@ -108,10 +111,8 @@ make_sugarbag_df <- function(shp,
   grid <- create_grid(centroids = centroids, hex_size = hex_size, buffer_dist = 1.2)
 
   # NEED TO REPLACE WITH infer_focal_points()
-  focal_points <- capital_cities
-
-  # focal_points <- tibble(longitude = stats::median(centroids$longitude),
-  #                        latitude = stats::median(centroids$latitude))
+  focal_points <- tibble(longitude = stats::median(centroids$longitude),
+                         latitude = stats::median(centroids$latitude))
 
   hex_allocated <- allocate(centroids = centroids,
                             sf_id = "sf_id",
