@@ -1,11 +1,11 @@
 #' @examples 
 #' \donttest{
 #' library(ggplot2)
-#  tas_lga %>%
-#   ggplot(aes(fill = lga_name_2016)) +
-#   geom_sf(alpha = 0.1) +
-#   geom_sugarbag(aes(geometry = geometry)) +
-#   theme(legend.position = "none")
+#'  tas_lga %>%
+#'   ggplot(aes(fill = lga_name_2016)) +
+#'   geom_sf(alpha = 0.1) +
+#'   geom_sugarbag(aes(geometry = geometry)) +
+#'   theme(legend.position = "none")
 #' }
 #' @import ggplot2
 #' @export
@@ -111,8 +111,20 @@ make_sugarbag_df <- function(shp,
   grid <- create_grid(centroids = centroids, hex_size = hex_size, buffer_dist = 1.2)
 
   # NEED TO REPLACE WITH infer_focal_points()
-  focal_points <- tibble(longitude = stats::median(centroids$longitude),
-                         latitude = stats::median(centroids$latitude))
+  focal_points <- tibble::tribble(
+                        ~points,  ~longitude,    ~latitude,
+                    "Melbourne", 144.9750162, -37.82003131,
+                     "Canberra", 149.1290262, -35.28302855,
+                       "Sydney", 151.1851798, -33.92001097,
+                       "Darwin", 130.8500386, -12.42535398,
+                     "Brisbane", 153.0350927, -27.45503091,
+                     "Adelaide", 138.6000048, -34.93498777,
+                       "Hobart", 147.2950297, -42.85000853,
+                        "Perth", 115.8399987, -31.95501463
+                    )
+
+  # focal_points <- tibble(longitude = stats::median(centroids$longitude),
+  #                        latitude = stats::median(centroids$latitude))
 
   hex_allocated <- allocate(centroids = centroids,
                             sf_id = "sf_id",
