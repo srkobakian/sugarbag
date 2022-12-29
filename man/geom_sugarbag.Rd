@@ -9,11 +9,70 @@ geom_sugarbag(
   data = NULL,
   stat = "sugarbag",
   position = "identity",
+  hex_size = 0.2,
+  na.rm = FALSE,
   ...
 )
 }
+\arguments{
+\item{mapping}{Set of aesthetic mappings created by \code{\link[ggplot2:aes]{aes()}}. If specified and
+\code{inherit.aes = TRUE} (the default), it is combined with the default mapping
+at the top level of the plot. You must supply \code{mapping} if there is no plot
+mapping.}
+
+\item{data}{The data to be displayed in this layer. There are three
+options:
+
+If \code{NULL}, the default, the data is inherited from the plot
+data as specified in the call to \code{\link[ggplot2:ggplot]{ggplot()}}.
+
+A \code{data.frame}, or other object, will override the plot
+data. All objects will be fortified to produce a data frame. See
+\code{\link[ggplot2:fortify]{fortify()}} for which variables will be created.
+
+A \code{function} will be called with a single argument,
+the plot data. The return value must be a \code{data.frame}, and
+will be used as the layer data. A \code{function} can be created
+from a \code{formula} (e.g. \code{~ head(.x, 10)}).}
+
+\item{stat}{The statistical transformation to use on the data for this
+layer, either as a \code{ggproto} \code{Geom} subclass or as a string naming the
+stat stripped of the \code{stat_} prefix (e.g. \code{"count"} rather than
+\code{"stat_count"})}
+
+\item{position}{Position adjustment, either as a string naming the adjustment
+(e.g. \code{"jitter"} to use \code{position_jitter}), or the result of a call to a
+position adjustment function. Use the latter if you need to change the
+settings of the adjustment.}
+
+\item{hex_size}{Default is 0.2. Units are degrees, corresponding to
+the diameter of the hexagons. See \code{?allocate}.}
+
+\item{na.rm}{If \code{FALSE}, the default, missing values are removed with
+a warning. If \code{TRUE}, missing values are silently removed.}
+
+\item{...}{Other arguments passed on to \code{\link[ggplot2:layer]{layer()}}. These are
+often aesthetics, used to set an aesthetic to a fixed value, like
+\code{colour = "red"} or \code{size = 3}. They may also be parameters
+to the paired geom/stat.}
+}
 \description{
-geom_sugarbag
+\code{geom_sugarbag()} provides a convenient way to create tesselated
+hexagon maps using the sugarbag algorithm.
+}
+\details{
+Create a sugarbag hex map
+
+The sugarbag algorithm creates a hexagon tile map from spatial
+polygons. It represents each polygon with a hexagon, which is placed
+close to the polygon's centroid while also maintaining its spatial
+relationship to a focal point.
+
+If \code{geom_sugarbag()} is used to make a map of Australia, the capital cities
+will be used as focal points. For non-Australian maps, a single focal point
+will be inferred from the data, as the centroid with the smallest total
+distance to its three nearest neighbours. To specify focal points manually,
+construct your hexagon grid manually -- see \code{?allocate}.
 }
 \examples{
 \donttest{
@@ -24,4 +83,7 @@ library(ggplot2)
   geom_sugarbag(aes(geometry = geometry)) +
   theme(legend.position = "none")
 }
+}
+\seealso{
+allocate, ggplot2::geom_polygon
 }
