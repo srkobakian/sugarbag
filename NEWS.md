@@ -1,3 +1,7 @@
+# sugarbag 0.1.7
+
+* `geom_sugarbag()` added to streamline the sugarbag process.
+
 # sugarbag 0.1.6
 
 * Changed one print statement to message, at request of CRAN

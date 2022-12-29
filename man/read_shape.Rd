@@ -23,7 +23,9 @@ read_shape
 \examples{
 \donttest{
 # Example of how a shape file is read
+if (interactive()) {
 shape <- read_shape(shp_path = file.choose())
+}
 }
 
 }
