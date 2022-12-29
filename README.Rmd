@@ -36,36 +36,29 @@ for these regions.
 You can install the CRAN release version of sugarbag from [CRAN](https://CRAN.R-project.org) with:
 
 ```{r install, eval = FALSE}
-# install.packages("sugarbag")
+install.packages("sugarbag")
 ```
 
 You can install the development version from GitHub using:
 
 ```{r github, eval = FALSE}
-# install.packages("remotes")
-# remotes::install_github("srkobakian/sugarbag")
+install.packages("remotes")
+remotes::install_github("srkobakian/sugarbag")
 ```
 
 ## Getting started
 
-## Creating a hexagon map of Tasmania
+There are two ways of creating hexagon maps using sugarbag: 
 
-Tasmania is the southern-most state of Australia, it has one large land
-mass and several smaller islands.
+1. Use `geom_sugarbag()`; OR
+2. Assemble the map manually.
 
-### Data
+Both methods are outlined below. `geom_sugarbag()` is easier but less customisable than assembling the map manually.
 
-We will use the Australian Bureau of Statistics’ ESRI shape files to
-build our map.
+We show how to create a map of Tasmania using each method. Tasmania is the southern-most state of Australia, consisting of one large land
+mass and several smaller islands. We will use the Australian Bureau of Statistics’ ESRI shape files to build our map. The shapefile has been filtered to contain only Tasmania. 
 
-The set has been filtered for only Tasmanian areas. The data set of
-Tasmanian Statistical Areas at level two has been provided as a package
-data set, `?tas_sa2`.
-
-### Centroids
-
-The function `create_centroids` finds the central points of the polygons
-provided as an argument.
+The package contains these shapefiles of Tasmania - `tas_lga` for local government areas, and `tas_sa2` for ABS Statistical Area Level 2 - for example purposes. 
 
 ```{r}
 library(sugarbag)
@@ -74,11 +67,50 @@ library(tidyr)
 library(tibble)
 library(ggplot2)
 library(ggthemes)
+```
+
+### Making a map with `geom_sugarbag()`
+
+The `geom_sugarbag()` function provides a simplified way to make sugarbag tesselated hexagon maps. Here's an example:
+
+```{r}
+tas_lga %>%
+  ggplot(aes(fill = lga_code_2016)) +
+  geom_sf(alpha = 0.4, linewidth = 0) +
+  geom_sugarbag(aes(geometry = geometry)) +
+  scale_fill_viridis_d() +
+  theme_map() +
+  theme(legend.position = "none", aspect.ratio = 1)
+```
+
+Note that we first create a standard `geom_sf()` layer. This displays the actual polygons in the data, over which we lay the hexagons using `geom_sugarbag()`. 
+
+All you need for `geom_sugarbag()` is an SF dataframe - a dataframe of class "sf" that contains a geometry column that describes polygons. `geom_sugarbag()` will handle the process of converting those polygons to hexagons and placing them in the appropriate place. 
+
+### Making a manual sugarbag map
+
+`geom_sugarbag()` (above) provides a streamlined way of making hexagon maps. But it is less configurable than making the sugarbag maps manually.
+
+To make a sugarbag map manually, there are four key steps:
+
+1. Calculate the centroid of each polygon in your data;
+2. Create a grid of possible locations for the hexagons to be placed on your map;
+3. Allocate each polygon to one of the possible hexagon locations;
+4. Visualise the results, typically using `geom_polygon()`.
+
+These steps are outlined below.
+
+#### Calculate centroids from polygons
+
+The function `create_centroids` finds the central points of the polygons
+provided as an argument.
+
+```{r}
 # Find the longitude and latitude centroid for each region or area
 centroids <- create_centroids(tas_lga, "lga_code_2016")
 ```
 
-### Hexagon grid
+#### Create grid of possible hexagon locations
 
 To tessellate correctly, all the hexagons must be evenly spaced. This
 function creates a grid of possible locations for the polygons.
@@ -93,7 +125,7 @@ geographical space, this is especially useful for densely populated
 coastal areas or cities, such as Brisbane and Sydney in this case,
 Hobart.
 
-### Allocate areas
+#### Allocate polygon areas to hexagon locations
 
 Each polygon centroid will be allocated to the closest available hexagon
 grid point. The capital cities data set will be used to preserve
@@ -121,10 +153,7 @@ will allow actual hexagons to be plotted.
 The additional demographic information or data can now be added. This
 can be used to allow plots to be coloured by region.
 
-For animations to move between geography and hexagons the `sf_id` must
-match, there also needs to be an identifier to separate the states to
-animate between for `gganimate`.
-
+#### Visualise
 ```{r}
 hexagons <- fortify_hexagon(data = hex_allocated, sf_id = "lga_code_2016", hex_size = 0.2)
 
@@ -143,3 +172,7 @@ ggplot(mapping = aes(fill = lga_code_2016)) +
   theme_map() +
   theme(legend.position = "none", aspect.ratio = 1)
 ```
+
+For animations to move between geography and hexagons the `sf_id` must
+match, there also needs to be an identifier to separate the states to
+animate between for `gganimate`.

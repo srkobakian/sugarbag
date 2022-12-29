@@ -13,7 +13,9 @@
 #' @examples
 #' \donttest{
 #' # Example of how a shape file is read
+#' if (interactive()) {
 #' shape <- read_shape(shp_path = file.choose())
+#' }
 #' }
 #' 
 read_shape <- function(shp_path, simplify = TRUE, keep = 0.1) {
