@@ -45,7 +45,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">sugarbag</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.7</span>
       </span>
     </div>
 
@@ -100,53 +100,80 @@
 </h2>
 <p>You can install the CRAN release version of sugarbag from <a href="https://CRAN.R-project.org" class="external-link">CRAN</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># install.packages("sugarbag")</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"sugarbag"</span><span class="op">)</span></span></code></pre></div>
 <p>You can install the development version from GitHub using:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
-<span><span class="co"># remotes::install_github("srkobakian/sugarbag")</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span></span>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"srkobakian/sugarbag"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="getting-started">Getting started<a class="anchor" aria-label="anchor" href="#getting-started"></a>
 </h2>
-</div>
-<div class="section level2">
-<h2 id="creating-a-hexagon-map-of-tasmania">Creating a hexagon map of Tasmania<a class="anchor" aria-label="anchor" href="#creating-a-hexagon-map-of-tasmania"></a>
-</h2>
-<p>Tasmania is the southern-most state of Australia, it has one large land mass and several smaller islands.</p>
-<div class="section level3">
-<h3 id="data">Data<a class="anchor" aria-label="anchor" href="#data"></a>
-</h3>
-<p>We will use the Australian Bureau of Statistics’ ESRI shape files to build our map.</p>
-<p>The set has been filtered for only Tasmanian areas. The data set of Tasmanian Statistical Areas at level two has been provided as a package data set, <code><a href="reference/tas_sa2.html">?tas_sa2</a></code>.</p>
-</div>
-<div class="section level3">
-<h3 id="centroids">Centroids<a class="anchor" aria-label="anchor" href="#centroids"></a>
-</h3>
-<p>The function <code>create_centroids</code> finds the central points of the polygons provided as an argument.</p>
+<p>There are two ways of creating hexagon maps using sugarbag:</p>
+<ol style="list-style-type: decimal">
+<li>Use <code><a href="reference/geom_sugarbag.html">geom_sugarbag()</a></code>; OR</li>
+<li>Assemble the map manually.</li>
+</ol>
+<p>Both methods are outlined below. <code><a href="reference/geom_sugarbag.html">geom_sugarbag()</a></code> is easier but less customisable than assembling the map manually.</p>
+<p>We show how to create a map of Tasmania using each method. Tasmania is the southern-most state of Australia, consisting of one large land mass and several smaller islands. We will use the Australian Bureau of Statistics’ ESRI shape files to build our map. The shapefile has been filtered to contain only Tasmania.</p>
+<p>The package contains these shapefiles of Tasmania - <code>tas_lga</code> for local government areas, and <code>tas_sa2</code> for ABS Statistical Area Level 2 - for example purposes.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://srkobakian.github.io/sugarbag/" class="external-link">sugarbag</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/" class="external-link">tibble</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jrnold/ggthemes" class="external-link">ggthemes</a></span><span class="op">)</span></span>
-<span><span class="co"># Find the longitude and latitude centroid for each region or area</span></span>
-<span><span class="va">centroids</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_centroids.html">create_centroids</a></span><span class="op">(</span><span class="va">tas_lga</span>, <span class="st">"lga_code_2016"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jrnold/ggthemes" class="external-link">ggthemes</a></span><span class="op">)</span></span></code></pre></div>
+<div class="section level3">
+<h3 id="making-a-map-with-geom_sugarbag">Making a map with <code>geom_sugarbag()</code>
+<a class="anchor" aria-label="anchor" href="#making-a-map-with-geom_sugarbag"></a>
+</h3>
+<p>The <code><a href="reference/geom_sugarbag.html">geom_sugarbag()</a></code> function provides a simplified way to make sugarbag tesselated hexagon maps. Here’s an example:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tas_lga</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="va">lga_code_2016</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.4</span>, linewidth <span class="op">=</span> <span class="fl">0</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="reference/geom_sugarbag.html">geom_sugarbag</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>geometry <span class="op">=</span> <span class="va">geometry</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_fill_viridis_d</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggthemes/man/theme_map.html" class="external-link">theme_map</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span>, aspect.ratio <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-2-1.png" width="100%"></p>
+<p>Note that we first create a standard <code><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf()</a></code> layer. This displays the actual polygons in the data, over which we lay the hexagons using <code><a href="reference/geom_sugarbag.html">geom_sugarbag()</a></code>.</p>
+<p>All you need for <code><a href="reference/geom_sugarbag.html">geom_sugarbag()</a></code> is an SF dataframe - a dataframe of class “sf” that contains a geometry column that describes polygons. <code><a href="reference/geom_sugarbag.html">geom_sugarbag()</a></code> will handle the process of converting those polygons to hexagons and placing them in the appropriate place.</p>
 </div>
 <div class="section level3">
-<h3 id="hexagon-grid">Hexagon grid<a class="anchor" aria-label="anchor" href="#hexagon-grid"></a>
+<h3 id="making-a-manual-sugarbag-map">Making a manual sugarbag map<a class="anchor" aria-label="anchor" href="#making-a-manual-sugarbag-map"></a>
 </h3>
+<p><code><a href="reference/geom_sugarbag.html">geom_sugarbag()</a></code> (above) provides a streamlined way of making hexagon maps. But it is less configurable than making the sugarbag maps manually.</p>
+<p>To make a sugarbag map manually, there are four key steps:</p>
+<ol style="list-style-type: decimal">
+<li>Calculate the centroid of each polygon in your data;</li>
+<li>Create a grid of possible locations for the hexagons to be placed on your map;</li>
+<li>Allocate each polygon to one of the possible hexagon locations;</li>
+<li>Visualise the results, typically using <code><a href="https://ggplot2.tidyverse.org/reference/geom_polygon.html" class="external-link">geom_polygon()</a></code>.</li>
+</ol>
+<p>These steps are outlined below.</p>
+<div class="section level4">
+<h4 id="calculate-centroids-from-polygons">Calculate centroids from polygons<a class="anchor" aria-label="anchor" href="#calculate-centroids-from-polygons"></a>
+</h4>
+<p>The function <code>create_centroids</code> finds the central points of the polygons provided as an argument.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Find the longitude and latitude centroid for each region or area</span></span>
+<span><span class="va">centroids</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_centroids.html">create_centroids</a></span><span class="op">(</span><span class="va">tas_lga</span>, <span class="st">"lga_code_2016"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level4">
+<h4 id="create-grid-of-possible-hexagon-locations">Create grid of possible hexagon locations<a class="anchor" aria-label="anchor" href="#create-grid-of-possible-hexagon-locations"></a>
+</h4>
 <p>To tessellate correctly, all the hexagons must be evenly spaced. This function creates a grid of possible locations for the polygons.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">grid</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_grid.html">create_grid</a></span><span class="op">(</span>centroids <span class="op">=</span> <span class="va">centroids</span>, hex_size <span class="op">=</span> <span class="fl">0.2</span>, buffer_dist <span class="op">=</span> <span class="fl">1.2</span><span class="op">)</span></span></code></pre></div>
 <p>The <code>sugarbag</code> package operates by creating a grid of possible hexagons to allocate electorates. The buffer extends the grid beyond the geographical space, this is especially useful for densely populated coastal areas or cities, such as Brisbane and Sydney in this case, Hobart.</p>
 </div>
-<div class="section level3">
-<h3 id="allocate-areas">Allocate areas<a class="anchor" aria-label="anchor" href="#allocate-areas"></a>
-</h3>
+<div class="section level4">
+<h4 id="allocate-polygon-areas-to-hexagon-locations">Allocate polygon areas to hexagon locations<a class="anchor" aria-label="anchor" href="#allocate-polygon-areas-to-hexagon-locations"></a>
+</h4>
 <p>Each polygon centroid will be allocated to the closest available hexagon grid point. The capital cities data set will be used to preserve neighbourly relationships. The <code>allocate</code> function requires two inputs, the centroids and the grid.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Allocate the centroids to the hexagon grid</span></span>
 <span><span class="co"># We have the same amount of rows, as individual regions</span></span>
 <span><span class="va">hex_allocated</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/allocate.html">allocate</a></span><span class="op">(</span></span>
@@ -160,8 +187,11 @@
 <span><span class="op">)</span></span></code></pre></div>
 <p>The function <code>fortify_hexagon</code> assists in plotting. We now have 6 points per region, one for each point of a hexagon. Connecting these points will allow actual hexagons to be plotted.</p>
 <p>The additional demographic information or data can now be added. This can be used to allow plots to be coloured by region.</p>
-<p>For animations to move between geography and hexagons the <code>sf_id</code> must match, there also needs to be an identifier to separate the states to animate between for <code>gganimate</code>.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+</div>
+<div class="section level4">
+<h4 id="visualise">Visualise<a class="anchor" aria-label="anchor" href="#visualise"></a>
+</h4>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">hexagons</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/fortify_hexagon.html">fortify_hexagon</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">hex_allocated</span>, sf_id <span class="op">=</span> <span class="st">"lga_code_2016"</span>, hex_size <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">polygons</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/fortify_sfc.html">fortify_sfc</a></span><span class="op">(</span><span class="va">tas_lga</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
@@ -178,7 +208,9 @@
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_fill_viridis_d</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/pkg/ggthemes/man/theme_map.html" class="external-link">theme_map</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span>, aspect.ratio <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-4-1.png" width="100%"></p>
+<p><img src="reference/figures/README-unnamed-chunk-6-1.png" width="100%"></p>
+<p>For animations to move between geography and hexagons the <code>sf_id</code> must match, there also needs to be an identifier to separate the states to animate between for <code>gganimate</code>.</p>
+</div>
 </div>
 </div>
 </div>

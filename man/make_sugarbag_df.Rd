@@ -20,3 +20,4 @@ Create a dataframe of hexagon locations for use in
 geom_sugarbag(). This function is an opinionated wrapper around
 various other functions in the sugarbag package.
 }
+\keyword{internal}

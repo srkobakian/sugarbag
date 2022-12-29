@@ -49,3 +49,4 @@ centroids <- tibble::tribble(
 # infer_focal_points(centroids)
 }
 }
+\keyword{internal}

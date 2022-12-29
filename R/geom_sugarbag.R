@@ -151,7 +151,7 @@ GeomSugarbag <- ggproto(
 #' @param shp A shapefile of class `"sf"`
 #' @param hex_size Default 0.2. See `?allocate`
 #' @param hex_width Default 50. See `?allocate` (argument `width`)
-#' 
+#' @keywords internal
 make_sugarbag_df <- function(shp,
                              hex_size = 0.2,
                              hex_width = 50) {
@@ -215,6 +215,7 @@ make_sugarbag_df <- function(shp,
 #' The 'focal point' coordinate is defined as the
 #' coordinate with the smallest total distance between it and its
 #' three closest other coordinates.
+#' @keywords internal
 #' @examples 
 #' \donttest{
 #' centroids <- tibble::tribble(
