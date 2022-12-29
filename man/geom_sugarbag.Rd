@@ -77,11 +77,22 @@ construct your hexagon grid manually -- see \code{?allocate}.
 \examples{
 \donttest{
 library(ggplot2)
+# Map of Tasmanian local govt areas using built-in data
  tas_lga \%>\%
   ggplot(aes(fill = lga_name_2016)) +
   geom_sf(alpha = 0.1) +
   geom_sugarbag(aes(geometry = geometry)) +
   theme(legend.position = "none")
+  
+# Map of SIDS data from North Carolina
+if (requireNamespace("sf", quietly = TRUE)) {
+nc <- sf::st_read(system.file("shape/nc.shp", package = "sf"), quiet = TRUE)
+
+ggplot(nc,
+  aes(fill = AREA)) +
+  geom_sf(alpha = 0.1) +
+  geom_sugarbag(aes(geometry = geometry))
+}
 }
 }
 \seealso{
