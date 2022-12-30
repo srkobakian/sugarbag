@@ -58,9 +58,9 @@ geom_sugarbag <- function(mapping = NULL,
     position = position,
     params = list(
       hex_size = hex_size,
-      na.rm = na.rm
-    ),
-    ...
+      na.rm = na.rm,
+      ...
+    )
   )
 }
 
@@ -150,11 +150,11 @@ GeomSugarbag <- ggproto(
 #' 
 #' @param shp A shapefile of class `"sf"`
 #' @param hex_size Default 0.2. See `?allocate`
-#' @param hex_width Default 50. See `?allocate` (argument `width`)
+#' @param hex_width Default 90. See `?allocate` (argument `width`)
 #' @keywords internal
 make_sugarbag_df <- function(shp,
                              hex_size = 0.2,
-                             hex_width = 50) {
+                             hex_width = 90) {
   shp <- shp %>%
     mutate(sf_id = as.character(row_number()))
 
@@ -162,7 +162,6 @@ make_sugarbag_df <- function(shp,
 
   grid <- create_grid(centroids = centroids, hex_size = hex_size, buffer_dist = 1.2)
 
-  # NEED TO REPLACE WITH infer_focal_points()
   aus_caps <- tibble::tribble(
                         ~points,  ~longitude,    ~latitude,
                     "Melbourne", 144.9750162, -37.82003131,
@@ -187,15 +186,23 @@ make_sugarbag_df <- function(shp,
     focal_points <- infer_focal_points(centroids)
   }
 
-  hex_allocated <- allocate(centroids = centroids,
+  safely_allocate <- purrr::safely(allocate)
+  
+  hex_allocated <- suppressMessages(safely_allocate(centroids = centroids,
                             sf_id = "sf_id",
                             hex_grid = grid,
                             hex_size = hex_size,
                             hex_filter = 10,
                             focal_points = focal_points,
                             width = hex_width,
-                            verbose = FALSE)
+                            verbose = FALSE))
 
+  if (!is.null(hex_allocated$error)) {
+    stop("Could not create your hex map. Try reducing `hex_size`.")
+  }
+  
+  hex_allocated <- hex_allocated$result
+  
   hexagons <- hex_allocated %>%
     fortify_hexagon(hex_size = hex_size, sf_id = "sf_id") %>%
     left_join(., shp, by = "sf_id") %>%

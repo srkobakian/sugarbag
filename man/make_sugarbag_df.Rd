@@ -6,14 +6,14 @@
 geom_sugarbag(). This function is an opinionated wrapper around
 various other functions in the sugarbag package.}
 \usage{
-make_sugarbag_df(shp, hex_size = 0.2, hex_width = 50)
+make_sugarbag_df(shp, hex_size = 0.2, hex_width = 90)
 }
 \arguments{
 \item{shp}{A shapefile of class \code{"sf"}}
 
 \item{hex_size}{Default 0.2. See \code{?allocate}}
 
-\item{hex_width}{Default 50. See \code{?allocate} (argument \code{width})}
+\item{hex_width}{Default 90. See \code{?allocate} (argument \code{width})}
 }
 \description{
 Create a dataframe of hexagon locations for use in
