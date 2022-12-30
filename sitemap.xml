@@ -58,10 +58,19 @@
     <loc>/reference/fp19.html</loc>
   </url>
   <url>
+    <loc>/reference/geom_sugarbag.html</loc>
+  </url>
+  <url>
     <loc>/reference/homeless.html</loc>
   </url>
   <url>
     <loc>/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>/reference/infer_focal_points.html</loc>
+  </url>
+  <url>
+    <loc>/reference/make_sugarbag_df.html</loc>
   </url>
   <url>
     <loc>/reference/read_shape.html</loc>
