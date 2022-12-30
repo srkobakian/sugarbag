@@ -13,6 +13,7 @@ reference:
 - title: Core Functions
   desc: Functions used to create a tessellated hexagon map
   contents:
+  - '`geom_sugarbag`'
   - '`create_hexmap`'
   - '`create_centroids`'
   - '`closest_focal_point`'
