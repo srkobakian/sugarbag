@@ -137,7 +137,7 @@ df_france <- df_france %>%
 
 centroids <- create_centroids(df_france, "sf_id")
 grid <- create_grid(centroids,
-                    hex_size = 0.2, 
+                    hex_size = 0.3, 
                     buffer_dist = 1.2)
 
 french_focal_points <- tibble::tribble(
@@ -153,14 +153,14 @@ hex_allocated <- allocate(
   centroids = centroids,
   hex_grid = grid,
   sf_id = "sf_id",
-  hex_size = 0.2, # same size used in create_grid
+  hex_size = 0.3, # same size used in create_grid
   hex_filter = 3,
   focal_points = french_focal_points,
   width = 30, 
   verbose = TRUE
 )
 
-hexagons <- fortify_hexagon(data = hex_allocated, sf_id = "sf_id", hex_size = 0.2) %>% 
+hexagons <- fortify_hexagon(data = hex_allocated, sf_id = "sf_id", hex_size = 0.3) %>% 
   separate(sf_id, c("id_dept", "id_circ"), remove = FALSE) %>% 
   left_join(df_2022, by = c("id_dept", "id_circ"))
 
@@ -175,6 +175,19 @@ ggplot() +
                colour="white", size=0.1) +
   scale_fill_viridis_d() +
   theme_map() +
-  theme(legend.position = "none", aspect.ratio = 1) #+ 
+  theme(legend.position = "none", aspect.ratio = 0.8) #+ 
   #coord_map(projection="mercator")
   #coord_map(projection="rectangular", lat0=10)
+
+#plotly::ggplotly()
+
+# Check grid
+ggplot() +
+  geom_sf(data=df_france, 
+          colour = "white",
+          fill = "grey90") +
+  geom_point(data = grid, 
+               aes(x=hex_long, hex_lat), alpha=0.5, size=0.1) +
+  scale_fill_viridis_d() +
+  theme_map() +
+  theme(legend.position = "none", aspect.ratio = 1)
