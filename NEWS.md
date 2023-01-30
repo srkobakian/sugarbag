@@ -1,3 +1,7 @@
+# sugarbag 0.1.8
+
+* Bug fix for when focal_points = NULL
+
 # sugarbag 0.1.7
 
 * `geom_sugarbag()` added to streamline the sugarbag process.
