@@ -1,8 +1,11 @@
 Package: sugarbag
 Title: Create Tessellated Hexagon Maps
 Version: 0.1.8
-Authors@R: c(person("Dianne", "Cook", email = "dicook@monash.edu", role = c("aut", "cre", "ths")),
-             person("Stephanie", "Kobakian", role = c("aut")))
+Authors@R: c(person("Dianne", "Cook", email = "dicook@monash.edu", role = c("aut", "cre", "ths"),
+           comment = c(ORCID = "0000-0002-3813-7155")),
+             person("Stephanie", "Kobakian", role = c("aut"),
+           comment = c(ORCID = "0000-0002-4616-0048")),
+             person("Matt", "Cowgill", role = c("ctb")))
 Description: Create a hexagon tile map display from spatial polygons. Each 
     polygon is represented by a hexagon tile, placed as close to it's original
     centroid as possible, with a focus on maintaining spatial relationship to
@@ -27,7 +30,7 @@ Imports:
     tibble (>= 3.1.7),
     tidyr (>= 1.2.0)
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.3
 Suggests: 
     knitr,
     pkgdown,

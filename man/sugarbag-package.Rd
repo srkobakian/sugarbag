@@ -19,11 +19,16 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Dianne Cook \email{dicook@monash.edu} [thesis advisor]
+\strong{Maintainer}: Dianne Cook \email{dicook@monash.edu} (\href{https://orcid.org/0000-0002-3813-7155}{ORCID}) [thesis advisor]
 
 Authors:
 \itemize{
-  \item Stephanie Kobakian
+  \item Stephanie Kobakian (\href{https://orcid.org/0000-0002-4616-0048}{ORCID})
+}
+
+Other contributors:
+\itemize{
+  \item Matt Cowgill [contributor]
 }
 
 }
