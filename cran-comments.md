@@ -1,10 +1,9 @@
-## New submission
+## Verion 0.1.9
 
-Package was archived from CRAN on 2022-10-03
-
-Note that there is no reference as yet, because the paper has not been accepted for the R Journal. The acceptance is waiting for the package to be available on CRAN.
+Fixes required by CRAN, see https://cran.r-project.org/web/checks/check_results_sugarbag.html
 
 ## Test environments
+
 * local OS X install, R 4.2.1
 * ubuntu 14.04 (on travis-ci), R 4.2.1
 * R-hub default list of CRAN checkers

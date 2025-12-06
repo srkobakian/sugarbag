@@ -1,8 +1,19 @@
-citHeader("To cite sugarbag in publications, please use:")
+citHeader("Please cite this package as:")
 
-citEntry(entry = "misc",
-  author = "Stephanie Kobakian and Dianne Cook",
-  title = "sugarbag: Create Hexagon Tile Maps",
-  year = "2019",
+bibentry(
+  bibtype = "article",
+  author = "Stephanie Kobakian and Dianne Cook and Earl Duncan",
+  title = "A Hexagon Tile Map Algorithm for Displaying Spatial Data",
+  journal = "The R Journal",
+  year = "2023",
+  note = "https://doi.org/10.32614/RJ-2023-021",
+  doi = "10.32614/RJ-2023-021",
+  volume = "15",
+  issue = "1",
+  issn = "2073-4859",
+  pages = "6-16",
   url = "https://srkobakian.github.io/sugarbag/", 
-  textVersion = "Kobakian, S and Cook D (2019). sugarbag: Create Hexagon Tile Maps. https://srkobakian.github.io/sugarbag/")
+  textVersion = paste("Kobakian, S, Cook D and Duncan, E (2023).",
+    "A Hexagon Tile Map Algorithm for Displaying Spatial Data.",
+    "The R Journal", "15(1):6-16", "https://srkobakian.github.io/sugarbag/")
+)
