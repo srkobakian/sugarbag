@@ -1,6 +1,8 @@
 # sugarbag 0.1.9
 
 * Removed dependency on rmapshapr because this package is not available on one platform on CRAN. This means that read_shape() is not available any more. It only used sf::st_read and then did the map thinning. People can do this manually.
+* Fixed CITATION
+* Fixed incorrect use of \itemize
 
 # sugarbag 0.1.8
 

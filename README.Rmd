@@ -48,13 +48,6 @@ remotes::install_github("srkobakian/sugarbag")
 
 ## Getting started
 
-There are two ways of creating hexagon maps using sugarbag: 
-
-1. Use `geom_sugarbag()`; OR
-2. Assemble the map manually.
-
-Both methods are outlined below. `geom_sugarbag()` is easier but less customisable than assembling the map manually.
-
 We show how to create a map of Tasmania using each method. Tasmania is the southern-most state of Australia, consisting of one large land
 mass and several smaller islands. We will use the Australian Bureau of Statistics’ ESRI shape files to build our map. The shapefile has been filtered to contain only Tasmania. 
 
