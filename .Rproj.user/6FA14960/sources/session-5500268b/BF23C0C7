@@ -1,0 +1,26 @@
+{
+    "id": "BF23C0C7",
+    "path": "~/Rpackages/sugarbag/README.Rmd",
+    "project_path": "README.Rmd",
+    "type": "r_markdown",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1765001402793.0,
+    "source_on_save": false,
+    "relative_order": 3,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "53,77",
+        "scrollLine": "51"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1765003252,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1765003252645,
+    "read_only": false,
+    "read_only_alternatives": []
+}
