@@ -1,7 +1,6 @@
-pandoc: 2.19.2
-pkgdown: 2.0.6
+pandoc: 3.6.3
+pkgdown: 2.1.3
 pkgdown_sha: ~
 articles:
   Tasmania: Tasmania.html
-last_built: 2022-12-29T07:07Z
-
+last_built: 2025-12-06T06:19Z

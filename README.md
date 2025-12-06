@@ -64,39 +64,16 @@ library(ggplot2)
 library(ggthemes)
 ```
 
-### Making a map with `geom_sugarbag()`
+More generally, shapefiles can be read into R using `sf::st_read()`.
+Most shapefiles provided by government websites benefit by being
+**thinned** to simplify them for easy drawing. You don’t need exacting
+detail for data analysis. The best way to accomplish this is using the
+[rmapshaper](https://github.com/ateucher/rmapshaper) `ms_simplify`
+function. (It’s better than the `sf` version.)
 
-The `geom_sugarbag()` function provides a simplified way to make
-sugarbag tesselated hexagon maps. Here’s an example:
+### Making a hexagon tile map
 
-``` r
-tas_lga %>%
-  ggplot(aes(fill = lga_code_2016)) +
-  geom_sf(alpha = 0.4, linewidth = 0) +
-  geom_sugarbag(aes(geometry = geometry)) +
-  scale_fill_viridis_d() +
-  theme_map() +
-  theme(legend.position = "none", aspect.ratio = 1)
-```
-
-<img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />
-
-Note that we first create a standard `geom_sf()` layer. This displays
-the actual polygons in the data, over which we lay the hexagons using
-`geom_sugarbag()`.
-
-All you need for `geom_sugarbag()` is an SF dataframe - a dataframe of
-class “sf” that contains a geometry column that describes polygons.
-`geom_sugarbag()` will handle the process of converting those polygons
-to hexagons and placing them in the appropriate place.
-
-### Making a manual sugarbag map
-
-`geom_sugarbag()` (above) provides a streamlined way of making hexagon
-maps. But it is less configurable than making the sugarbag maps
-manually.
-
-To make a sugarbag map manually, there are four key steps:
+To make a hexagon tile map, there are four key steps:
 
 1.  Calculate the centroid of each polygon in your data;
 2.  Create a grid of possible locations for the hexagons to be placed on
@@ -180,7 +157,7 @@ ggplot(mapping = aes(fill = lga_code_2016)) +
   theme(legend.position = "none", aspect.ratio = 1)
 ```
 
-<img src="man/figures/README-unnamed-chunk-6-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
 
 For animations to move between geography and hexagons the `sf_id` must
 match, there also needs to be an identifier to separate the states to

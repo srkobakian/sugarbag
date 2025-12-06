@@ -24,7 +24,6 @@ reference:
 - title: Helper Functions
   desc: Functions used to manipulate data
   contents:
-  - '`read_shape`'
   - '`fortify_hexagon`'
   - '`fortify_sfc`'
 
