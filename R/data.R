@@ -95,19 +95,24 @@
 #' @format A data frame with the following variables:
 #' \describe{
 #'     \item{StateAb}{Abbreviation for state name}
-#'     \item{UniqueID}{numeric identifier that links the electoral division
+#'     \item{DivisionID}{numeric identifier that links the electoral division
 #'     with Census and other election datasets.}
 #'     \item{DivisionNm}{Electoral division name}
-#'     \item{BallotPosition}{Candidate's position on the ballot}
 #'     \item{CandidateID}{Candidate ID}
 #'     \item{Surname}{Candidate surname}
 #'     \item{GivenNm}{Candidate given name}
-#'     \item{PartyAb}{Abbreviation for political party name}
-#'     \item{PartyNm}{Political party name}
+#'     \item{BallotPosition}{Candidate's position on the ballot}
 #'     \item{Elected}{Whether the candidate was elected (Y/N)}
 #'     \item{HistoricElected}{Whether the candidate is the incumbent member}
+#'     \item{PartyAb}{Abbreviation for political party name}
+#'     \item{PartyNm}{Political party name}
 #'     \item{OrdinaryVotes}{Number of ordinary votes cast at the electorate
 #'      for the candidate}
-#'     \item{Percent}{Percentage of ordinary votes for the candidate }    
+#'     \item{AbsentVotes}{Number of absentee votes}
+#'     \item{ProvisionalVotes}{Number of provisional votes}
+#'     \item{PrePollVotes}{Number of pre-poll votes}
+#'     \item{PostalVotes}{Number of postal votes}
+#'     \item{TotalVotes}{Number of total votes}
+#'     \item{Swing}{% swing for or away from party}
 #'     }
 "fp19"

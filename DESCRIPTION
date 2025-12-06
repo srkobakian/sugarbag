@@ -21,7 +21,6 @@ Depends:
     dplyr (>= 1.0.0)
 Imports: 
     geosphere (>= 1.5),
-    ggplot2,
     progress (>= 1.2.2),
     purrr (>= 0.3.4),
     rlang (>= 1.0.4),
@@ -33,6 +32,7 @@ RoxygenNote: 7.3.3
 Suggests: 
     knitr,
     pkgdown,
+    ggplot2,
     rmarkdown,
     testthat (>= 2.1.0)
 VignetteBuilder: knitr
