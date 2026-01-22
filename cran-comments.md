@@ -1,6 +1,6 @@
 ## Verion 0.1.10
 
-Fix to be compilant with new release of dplyr
+Fix to be compliant with new release of dplyr
 
 ## R CMD check results
 
@@ -15,5 +15,5 @@ R version 4.5.2 (2025-10-31)
 
 Tests using rhub on ubuntu-latest, macos, windows, see 
 
-https://github.com/srkobakian/sugarbag/actions/runs/19985738029 and
-https://github.com/srkobakian/sugarbag/actions/runs/19985171249
+https://github.com/srkobakian/sugarbag/actions/runs/21053073735 and
+https://github.com/srkobakian/sugarbag/actions/runs/21051301861
